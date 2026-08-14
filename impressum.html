@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum & Datenschutz — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav {
+      background: #f5f2ec;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover { color: #1a2332; }
+
+    .hero {
+      padding: 72px 48px 56px;
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; color: #1a2332; }
+
+    .content { max-width: 720px; margin: 0 auto; padding: 64px 48px 96px; }
+
+    .section { margin-bottom: 56px; }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: #1a2332;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid #d4ccc0;
+    }
+    .section h3 {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      color: #1a2332;
+      margin: 24px 0 8px;
+    }
+    .section p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #4a5568;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .section a { color: #8fa8b8; text-decoration: none; }
+    .section a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1.5px solid #d4ccc0;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(26,35,50,.4);
+    }
+    footer a { color: rgba(26,35,50,.4); text-decoration: none; }
+    footer a:hover { color: #1a2332; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      nav::after { left: 20px; right: 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 48px 20px 40px; }
+      .hero::after { left: 20px; right: 20px; }
+      .hero h1 { font-size: 32px; }
+      .content { padding: 40px 20px 64px; }
+      footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A-Z</a>
+    <a href="about.html">About</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow">Rechtliches</p>
+  <h1>Impressum &amp;<br><em style="font-style:italic;color:#8fa8b8;">Datenschutz</em></h1>
+</div>
+
+<div class="content">
+
+  <!-- IMPRESSUM -->
+  <div class="section">
+    <h2>Impressum</h2>
+
+    <h3>Angaben gemäß § 5 TMG</h3>
+    <p>
+      Leon Radanovic<br>
+      Am Kloppenheimer Rain 42<br>
+      65232 Taunusstein
+    </p>
+
+    <h3>Kontakt</h3>
+    <p>E-Mail: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a></p>
+
+    <h3>Inhaltlich Verantwortlicher</h3>
+    <p>Leon Radanovic (Anschrift wie oben)</p>
+
+    <h3>Haftungsausschluss</h3>
+    <p>Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Die auf dieser Website veröffentlichten Rezepte und Ernährungshinweise ersetzen keine medizinische oder ernährungswissenschaftliche Beratung.</p>
+  </div>
+
+  <!-- DATENSCHUTZ -->
+  <div class="section">
+    <h2>Datenschutzerklärung</h2>
+
+    <h3>1. Verantwortlicher</h3>
+    <p>
+      Leon Radanovic<br>
+      Am Kloppenheimer Rain 42, 65232 Taunusstein<br>
+      E-Mail: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a>
+    </p>
+
+    <h3>2. Hosting</h3>
+    <p>Diese Website wird gehostet bei Netlify, Inc., 44 Montgomery Street, Suite 300, San Francisco, CA 94104, USA. Beim Aufruf der Website werden automatisch Verbindungsdaten (IP-Adresse, Zeitpunkt, aufgerufene Seite) im Server-Log erfasst. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Website). Weitere Informationen: <a href="https://www.netlify.com/privacy/" target="_blank">netlify.com/privacy</a>.</p>
+
+    <h3>3. Google Analytics</h3>
+    <p>Diese Website nutzt Google Analytics, einen Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Google Analytics verwendet Cookies, die eine Analyse der Benutzung der Website ermöglichen. Die dadurch erzeugten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert.</p>
+    <p>Die IP-Anonymisierung ist aktiviert, sodass deine IP-Adresse innerhalb der EU gekürzt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Du kannst der Datenerfassung widersprechen, indem du das <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-Out-Browser-Add-on</a> installierst. Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.</p>
+
+    <h3>4. Lokale Datenspeicherung</h3>
+    <p>Diese Website verwendet localStorage und sessionStorage deines Browsers, um Rezepte und Favoriten lokal zu speichern. Diese Daten verlassen deinen Browser nicht und werden nicht an Dritte weitergegeben.</p>
+
+    <h3>5. Deine Rechte</h3>
+    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner personenbezogenen Daten sowie ein Widerspruchsrecht. Wende dich dafür an: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a>.</p>
+    <p>Du hast zudem das Recht, dich bei einer Datenschutzbehörde zu beschweren, z. B. beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit.</p>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 HighQualityFoods</span>
+  <a href="impressum.html">Impressum & Datenschutz</a>
+</footer>
+
+</body>
+</html>

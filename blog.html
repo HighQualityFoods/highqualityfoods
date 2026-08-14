@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="description" content="HighQualityFoods - Rezept Blog, hier findest du Inspiration zum Thema clean eating mit leckeren Gerichten. Die Mahlzeiten sind alle selbst von meiner Mom zubereitet. Viel Spaß beim nachkochen :)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    /* ── Nav ── */
+    nav {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover, .nav-links a.active { color: #1a2332; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+    .btn-admin {
+      background: none;
+      border: 1.5px solid rgba(26,35,50,.25);
+      color: rgba(26,35,50,.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-admin:hover { border-color: #1a2332; color: #1a2332; }
+    .btn-admin.active { background: #1a2332; color: #e8dfd0; border-color: #1a2332; }
+
+    .admin-banner {
+      display: none;
+      background: #1a2332;
+      color: #e8dfd0;
+      padding: 10px 48px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-banner.show { display: flex; }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
+    .hamburger i { font-size: 22px; line-height: 1; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 64px 48px 48px;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .hero-left .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .hero-left h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; line-height: 1.2; }
+    .hero-left h1 em { color: #8fa8b8; font-style: italic; }
+    .hero-sub { color: rgba(26,35,50,.45); font-size: 15px; font-weight: 300; margin-top: 10px; }
+    .btn-new-post {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: #1a2332;
+      color: #e8dfd0;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s;
+      flex-shrink: 0;
+    }
+    .btn-new-post:hover { opacity: .85; }
+    body.admin-mode .btn-new-post { display: flex; }
+
+    /* ── Post list ── */
+    .posts-wrap { max-width: 820px; margin: 0 auto; padding: 56px 48px 80px; }
+
+    .post-card {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 32px;
+      align-items: start;
+      padding: 36px 0;
+      border-bottom: 1px solid #e0d9ce;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .post-card:first-child { padding-top: 0; }
+    .post-card:last-child { border-bottom: none; }
+    .post-card:hover { opacity: .75; }
+
+    .post-meta-row { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+    .post-date { color: #8fa8b8; font-size: 12px; letter-spacing: 1px; }
+    .post-tag {
+      background: #f0ece5;
+      color: #6b7f8f;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #1a2332;
+      margin-bottom: 12px;
+    }
+    .post-excerpt {
+      color: rgba(26,35,50,.55);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .post-read-more {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #1a2332;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .post-img {
+      width: 260px;
+      height: 180px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #eae3d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: #c8c0b4;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .post-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Admin card actions */
+    .post-card-actions {
+      display: none;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    body.admin-mode .post-card-actions { display: flex; }
+    body.admin-mode .post-card { cursor: default; }
+    body.admin-mode .post-card:hover { opacity: 1; }
+
+    .btn-edit-post {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 1.5px solid #1a2332;
+      color: #1a2332;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .btn-edit-post:hover { background: #1a2332; color: #e8dfd0; }
+    .btn-del-post {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: 1.5px solid #e8c4c0;
+      color: #c0392b;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .btn-del-post:hover { background: #c0392b; border-color: #c0392b; color: #fff; }
+
+    /* ── Full post view ── */
+    .post-detail { max-width: 700px; margin: 0 auto; padding: 56px 48px 80px; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #8fa8b8;
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 36px;
+      transition: color .15s;
+    }
+    .back-link:hover { color: #1a2332; }
+
+    .detail-cover {
+      width: 100%;
+      height: 340px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #eae3d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      color: #c8c0b4;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .detail-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+    .detail-eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+    .detail-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .detail-meta { display: flex; gap: 16px; align-items: center; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid #e0d9ce; }
+    .detail-date { color: #8fa8b8; font-size: 13px; }
+    .detail-body { font-size: 16px; line-height: 1.9; font-weight: 300; color: #2a3547; }
+    .detail-body p { margin-bottom: 20px; }
+    .detail-body h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 500; color: #1a2332; margin: 36px 0 14px; }
+    .detail-body h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: #1a2332; margin: 28px 0 10px; }
+    .detail-body ul, .detail-body ol { padding-left: 24px; margin-bottom: 20px; }
+    .detail-body li { margin-bottom: 6px; }
+    .detail-body strong { font-weight: 500; color: #1a2332; }
+    .detail-body em { font-style: italic; color: #4a5568; }
+    .detail-body blockquote {
+      border-left: 3px solid #8fa8b8;
+      padding: 12px 20px;
+      margin: 24px 0;
+      color: #6b7f8f;
+      font-style: italic;
+      background: #fff;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .detail-admin-actions { display: none; gap: 10px; margin-top: 24px; }
+    body.admin-mode .detail-admin-actions { display: flex; }
+    .share-bar { display: flex; align-items: center; gap: 10px; margin-top: 40px; padding-top: 24px; border-top: 1px solid #e0d9ce; flex-wrap: wrap; }
+    .share-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #8fa8b8; margin-right: 4px; }
+    .share-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid #d4cdc3; color: #4a5568; font-size: 13px; font-family: 'Inter', sans-serif; padding: 7px 14px; border-radius: 2px; cursor: pointer; transition: all .15s; }
+    .share-btn:hover { background: #1a2332; border-color: #1a2332; color: #e8dfd0; }
+    .share-native { padding: 7px 10px; }
+
+    /* ── Editor modal ── */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,35,50,.5); z-index: 200; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px; }
+    .overlay.open { display: flex; }
+    .editor-modal {
+      background: #fff;
+      border-radius: 6px;
+      width: 100%;
+      max-width: 760px;
+      box-shadow: 0 20px 60px rgba(26,35,50,.2);
+      margin: auto;
+    }
+    .editor-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 28px;
+      border-bottom: 1px solid #e0d9ce;
+    }
+    .editor-hdr h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; }
+    .modal-close { background: none; border: none; cursor: pointer; color: rgba(26,35,50,.4); font-size: 20px; }
+
+    .editor-body { padding: 28px; display: flex; flex-direction: column; gap: 20px; }
+
+    .field-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: #8fa8b8; display: block; margin-bottom: 8px; }
+    .field-input, .field-textarea, .field-select {
+      width: 100%;
+      border: 1.5px solid #e0d9ce;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1a2332;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: #1a2332; }
+    .field-textarea { resize: vertical; min-height: 300px; line-height: 1.7; }
+    .field-title { font-size: 20px; font-family: 'Playfair Display', serif; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Toolbar */
+    .editor-toolbar {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      background: #f8f5f0;
+      border: 1.5px solid #e0d9ce;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+    }
+    .tb-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: #1a2332;
+      font-family: 'Inter', sans-serif;
+      transition: background .12s;
+    }
+    .tb-btn:hover { background: #e8dfd0; }
+    .tb-sep { width: 1px; background: #e0d9ce; margin: 2px 4px; }
+    .editor-toolbar + .field-textarea { border-radius: 0 0 4px 4px; }
+
+    /* Cover image upload */
+    .cover-upload-area {
+      border: 2px dashed #e0d9ce;
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s;
+      position: relative;
+    }
+    .cover-upload-area:hover { border-color: #1a2332; }
+    .cover-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .cover-preview { width: 100%; max-height: 180px; object-fit: cover; border-radius: 4px; display: none; }
+    .cover-placeholder { color: #8fa8b8; font-size: 13px; }
+    .cover-placeholder i { font-size: 28px; display: block; margin-bottom: 6px; }
+
+    .editor-footer {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 20px 28px;
+      border-top: 1px solid #e0d9ce;
+    }
+    .btn-primary { background: #1a2332; color: #e8dfd0; border: none; border-radius: 4px; padding: 10px 24px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary { background: none; border: 1.5px solid #e0d9ce; color: #1a2332; border-radius: 4px; padding: 10px 20px; font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; }
+    .btn-secondary:hover { border-color: #1a2332; }
+
+    /* Login modal */
+    .login-modal { background: #fff; border-radius: 4px; width: 100%; max-width: 380px; box-shadow: 0 16px 48px rgba(26,35,50,.18); padding: 32px; margin: auto; }
+    .login-modal h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+    .login-field { width: 100%; border: 1.5px solid #e0d9ce; border-radius: 4px; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1a2332; outline: none; transition: border-color .15s; }
+    .login-field:focus { border-color: #1a2332; }
+    .login-error { color: #c0392b; font-size: 12px; margin-top: 8px; display: none; }
+    .login-error.show { display: block; }
+    .login-actions { display: flex; gap: 10px; margin-top: 16px; }
+
+    /* Recipe CTA block */
+    /* Recipe filter chips at bottom of post */
+    .filter-cta {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid #e0d9ce;
+    }
+    .filter-cta-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8fa8b8;
+      margin-bottom: 14px;
+    }
+    .filter-cta-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #fff;
+      border: 1.5px solid #1a2332;
+      color: #1a2332;
+      border-radius: 4px;
+      padding: 10px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      text-decoration: none;
+      transition: background .12s, color .12s;
+      cursor: pointer;
+    }
+    .filter-chip:hover { background: #1a2332; color: #e8dfd0; }
+    .filter-chip i { font-size: 15px; }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 100px 48px; }
+    .empty-state h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 12px; }
+    .empty-state p { color: #8fa8b8; font-size: 15px; margin-bottom: 24px; }
+
+    footer { background: #f5f2ec; padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; border-top: none; }
+    footer::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+      top: 0;
+    }
+    .footer-copy { color: rgba(26,35,50,.4); font-size: 12px; }
+
+    @media (max-width: 700px) {
+      nav, footer, .admin-banner { padding-left: 20px; padding-right: 20px; }
+      nav::after { left: 20px; right: 20px; }
+      footer::before { left: 20px; right: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .nav-links, .nav-tag { display: none !important; }
+      .hamburger { display: block; }
+      .hero { flex-direction: column; align-items: flex-start; padding: 36px 20px 28px; }
+      .hero::after { left: 20px; right: 20px; }
+      .hero-left h1 { font-size: 28px; }
+      .posts-wrap, .post-detail { padding-left: 20px; padding-right: 20px; }
+      .post-card { grid-template-columns: 1fr; }
+      .post-img { width: 100%; height: 180px; }
+      .field-row { grid-template-columns: 1fr; }
+      .detail-title { font-size: 24px; }
+      .overlay { padding: 10px; }
+      .modal-wide { max-height: 95vh; }
+      .detail-cover { height: 200px; }
+      .filter-cta { padding: 16px 20px; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+  </style>
+  <script>(function(){var d=JSON.parse(window.store.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-HXETZ7G0E4");
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="lexikon.html">A–Z</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="btn-admin" id="admin-btn" onclick="handleAdminBtn()">Admin</button>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z Lexikon</a>
+  <a href="about.html">About</a>
+</div>
+
+<div class="admin-banner" id="admin-banner">
+  <i class="ti ti-shield-check"></i>
+  Admin-Modus — Blogbeiträge schreiben, bearbeiten und löschen
+</div>
+
+<div id="page-root"></div>
+
+<!-- Editor modal -->
+<div class="overlay" id="editor-overlay">
+  <div class="editor-modal">
+    <div class="editor-hdr">
+      <h2 id="editor-title-label">Neuer Beitrag</h2>
+      <button class="modal-close" onclick="closeEditor()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="editor-body">
+      <div>
+        <label class="field-label">Titel</label>
+        <input class="field-input field-title" id="f-title" placeholder="Titel des Beitrags…">
+      </div>
+
+      <div class="field-row">
+        <div>
+          <label class="field-label">Kategorie / Tag</label>
+          <input class="field-input" id="f-tag" placeholder="z.B. Ernährung, Tipps…">
+        </div>
+        <div>
+          <label class="field-label">Datum</label>
+          <input class="field-input" id="f-date" type="date">
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Titelbild (optional)</label>
+        <div class="cover-upload-area" onclick="document.getElementById('f-img-file').click()">
+          <input type="file" id="f-img-file" accept="image/*" onchange="handleCoverUpload(event)" onclick="event.stopPropagation()">
+          <img class="cover-preview" id="cover-preview">
+          <div class="cover-placeholder" id="cover-placeholder">
+            <i class="ti ti-photo"></i>
+            Bild auswählen oder hier ablegen
+          </div>
+        </div>
+        <button id="cover-remove-btn" onclick="removeCover()" style="display:none;margin-top:8px;background:none;border:none;color:#c0392b;font-size:12px;cursor:pointer;"><i class="ti ti-trash"></i> Titelbild entfernen</button>
+      </div>
+
+      <div>
+        <label class="field-label">Inhalt</label>
+        <div class="editor-toolbar">
+          <button class="tb-btn" onclick="tbWrap('**','**')" title="Fett"><b>B</b></button>
+          <button class="tb-btn" onclick="tbWrap('*','*')" title="Kursiv"><i>I</i></button>
+          <div class="tb-sep"></div>
+          <button class="tb-btn" onclick="tbLine('## ')" title="Überschrift">H2</button>
+          <button class="tb-btn" onclick="tbLine('### ')" title="Unterüberschrift">H3</button>
+          <div class="tb-sep"></div>
+          <button class="tb-btn" onclick="tbLine('- ')" title="Aufzählung">— Liste</button>
+          <button class="tb-btn" onclick="tbLine('> ')" title="Zitat">„ Zitat</button>
+          <div class="tb-sep"></div>
+          <button class="tb-btn" onclick="tbNewPara()" title="Neuer Absatz">¶</button>
+        </div>
+        <textarea class="field-textarea" id="f-content" placeholder="Schreibe deinen Beitrag…&#10;&#10;Verwende ## für Überschriften, **fett**, *kursiv*, - für Listen, > für Zitate."></textarea>
+      </div>
+
+      <div>
+        <label class="field-label">Vorschautext (wird in der Übersicht angezeigt)</label>
+        <textarea class="field-textarea" id="f-excerpt" style="min-height:80px;" placeholder="Kurze Zusammenfassung für die Übersicht…"></textarea>
+      </div>
+
+      <div style="border-top:1.5px solid #1a2332;padding-top:20px;margin-top:4px;">
+        <label class="field-label" style="color:#1a2332;">Rezept-Filter am Ende des Beitrags</label>
+        <p style="font-size:12px;color:#8fa8b8;margin-bottom:14px;">Wähle einen oder mehrere Filter — Leser sehen klickbare Chips am Ende des Beitrags und landen direkt auf der gefilterten Rezeptseite.</p>
+        <div id="filter-chips" style="display:flex;flex-wrap:wrap;gap:8px;min-height:36px;"></div>
+        <div id="cta-preview" style="display:none;margin-top:16px;padding:14px 16px;background:#f8f5f0;border:1px solid #e0d9ce;border-radius:4px;">
+          <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#8fa8b8;margin-bottom:10px;">Vorschau für Leser</div>
+          <div id="cta-preview-chips" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="editor-footer">
+      <button class="btn-secondary" onclick="closeEditor()">Abbrechen</button>
+      <button class="btn-primary" onclick="savePost()"><i class="ti ti-check"></i> Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login modal -->
+<div class="overlay" id="login-overlay">
+  <div class="login-modal">
+    <h2>Admin-Login</h2>
+    <input class="login-field" type="password" id="login-pw" placeholder="Passwort"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-error" id="login-error">Falsches Passwort.</div>
+    <div class="login-actions">
+      <button class="btn-primary" onclick="doLogin()">Anmelden</button>
+      <button class="btn-secondary" onclick="closeLogin()">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+</footer>
+
+<script>
+  const ADMIN_PW = 'orlen12.11HQF';
+  let isAdmin = false;
+  let editingId = null;
+  let coverDataUrl = null;
+
+  /* ── Storage ── */
+  function loadPosts() {
+    try {
+      const saved = window.store.getItem('hqf_posts');
+      if (saved) { const p = JSON.parse(saved); if (Array.isArray(p) && p.length) return p; }
+    } catch(e) { try { window.store.removeItem('hqf_posts'); } catch(e2) {} }
+    if (window.HQF_SEED && window.HQF_SEED.hqf_posts && window.HQF_SEED.hqf_posts.length)
+      return window.HQF_SEED.hqf_posts;
+    return [];
+  }
+  function savePosts(posts) {
+    window.store.setItem('hqf_posts', JSON.stringify(posts));
+    db.save('hqf_posts');
+  }
+
+  /* ── Routing ── */
+  function getPostId() {
+    return new URLSearchParams(location.search).get('id');
+  }
+
+  /* ── Admin auth ── */
+  function handleAdminBtn() { isAdmin ? logoutAdmin() : openLogin(); }
+  function openLogin() {
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-error').classList.remove('show');
+    document.getElementById('login-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('login-pw').focus(), 50);
+  }
+  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
+  function doLogin() {
+    if (document.getElementById('login-pw').value === ADMIN_PW) {
+      isAdmin = true;
+      closeLogin();
+      document.body.classList.add('admin-mode');
+      document.getElementById('admin-btn').classList.add('active');
+      document.getElementById('admin-btn').textContent = 'Abmelden';
+      document.getElementById('admin-banner').classList.add('show');
+      render();
+    } else {
+      document.getElementById('login-error').classList.add('show');
+    }
+  }
+  function logoutAdmin() {
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('admin-btn').classList.remove('active');
+    document.getElementById('admin-btn').textContent = 'Admin';
+    document.getElementById('admin-banner').classList.remove('show');
+    render();
+  }
+
+  /* ── Render ── */
+  function render() {
+    const pid = getPostId();
+    if (pid) { renderDetail(pid); } else { renderList(); }
+  }
+
+  function renderList() {
+    const posts = loadPosts().sort((a, b) => new Date(b.date) - new Date(a.date));
+    const root = document.getElementById('page-root');
+    document.title = 'Blog — HighQualityFoods';
+
+    root.innerHTML = `
+      <div class="hero">
+        <div class="hero-left">
+          <div class="eyebrow">Gedanken & Geschichten</div>
+          <h1>Der <em>Blog</em></h1>
+          <p class="hero-sub">${posts.length} Beitrag${posts.length !== 1 ? 'e' : ''}</p>
+        </div>
+        <button class="btn-new-post" onclick="openEditor()"><i class="ti ti-plus"></i> Neuer Beitrag</button>
+      </div>
+      <div class="posts-wrap">
+        ${posts.length === 0 ? `
+          <div class="empty-state">
+            <h2>Noch keine Beiträge</h2>
+            <p>${isAdmin ? 'Klicke auf „Neuer Beitrag" um loszulegen.' : 'Demnächst gibt es hier neue Beiträge.'}</p>
+          </div>` :
+          posts.map(p => postCardHTML(p)).join('')
+        }
+      </div>`;
+  }
+
+  function postCardHTML(p) {
+    const dateStr = p.date ? new Date(p.date + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    return `
+      <div class="post-card" onclick="if(!event.target.closest('.post-card-actions'))goToPost(${p.id})">
+        <div class="post-text">
+          <div class="post-meta-row">
+            <span class="post-date">${dateStr}</span>
+            ${p.tag ? `<span class="post-tag">${p.tag}</span>` : ''}
+          </div>
+          <div class="post-title">${p.title}</div>
+          <div class="post-excerpt">${p.excerpt || ''}</div>
+          <div class="post-read-more">Weiterlesen <i class="ti ti-arrow-right"></i></div>
+          <div class="post-card-actions">
+            <button class="btn-edit-post" onclick="openEditor(${p.id})"><i class="ti ti-pencil"></i> Bearbeiten</button>
+            <button class="btn-del-post" onclick="deletePost(${p.id})"><i class="ti ti-trash"></i> Löschen</button>
+          </div>
+        </div>
+        <div class="post-img">
+          ${p.img ? `<img src="${p.img}" alt="${p.title}">` : '<i class="ti ti-article" style="font-size:40px;color:#c8c0b4;"></i>'}
+        </div>
+      </div>`;
+  }
+
+  function goToPost(id) { location.href = 'blog.html?id=' + id; }
+
+  function renderDetail(pid) {
+    const posts = loadPosts();
+    const p = posts.find(x => x.id === parseInt(pid));
+    const root = document.getElementById('page-root');
+
+    if (!p) {
+      root.innerHTML = `<div class="post-detail"><a href="blog.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Beiträge</a><div class="empty-state"><h2>Beitrag nicht gefunden</h2></div></div>`;
+      return;
+    }
+    document.title = p.title + ' — HighQualityFoods';
+    const dateStr = p.date ? new Date(p.date + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+
+    root.innerHTML = `
+      <div class="post-detail">
+        <a href="blog.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Beiträge</a>
+        ${p.img ? `<div class="detail-cover"><img src="${p.img}" alt="${p.title}"></div>` : ''}
+        ${p.tag ? `<div class="detail-eyebrow">${p.tag}</div>` : ''}
+        <h1 class="detail-title">${p.title}</h1>
+        <div class="detail-meta">
+          <span class="detail-date">${dateStr}</span>
+        </div>
+        <div class="detail-body">${renderMarkdown(p.content || '')}</div>
+        ${(() => {
+          const filters = p.recipeFilters && p.recipeFilters.length ? p.recipeFilters : (p.recipeFilter ? [p.recipeFilter] : []);
+          if (!filters.length) return '';
+          return `<div class="filter-cta">
+            <div class="filter-cta-label">Passende Rezepte</div>
+            <div class="filter-cta-chips">
+              ${filters.map(f => `
+                <a href="rezepte.html?filter=${encodeURIComponent(f)}" class="filter-chip">
+                  <i class="ti ti-chef-hat"></i>${f}
+                </a>`).join('')}
+            </div>
+          </div>`;
+        })()}
+        <div class="share-bar">
+          <span class="share-label">Teilen</span>
+          <button class="share-btn" onclick="shareWhatsApp('${p.title.replace(/'/g,"\\'")}')" title="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </button>
+          <button class="share-btn" onclick="copyPostLink(this)" title="Link kopieren">
+            <i class="ti ti-link" aria-hidden="true"></i> Link kopieren
+          </button>
+          <button class="share-btn share-native" onclick="nativeShare('${p.title.replace(/'/g,"\\'")}', '${p.excerpt ? p.excerpt.replace(/'/g,"\\'") : ''}')" title="Mehr">
+            <i class="ti ti-dots" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="detail-admin-actions">
+          <button class="btn-edit-post" onclick="openEditor(${p.id})"><i class="ti ti-pencil"></i> Beitrag bearbeiten</button>
+          <button class="btn-del-post" onclick="deletePost(${p.id}, true)"><i class="ti ti-trash"></i> Löschen</button>
+        </div>
+      </div>`;
+  }
+
+  /* ── Markdown renderer ── */
+  function renderMarkdown(text) {
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+
+    lines.forEach(line => {
+      if (line.startsWith('## ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<h2>${inlineFormat(line.slice(3))}</h2>`;
+      } else if (line.startsWith('### ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<h3>${inlineFormat(line.slice(4))}</h3>`;
+      } else if (line.startsWith('> ')) {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<blockquote>${inlineFormat(line.slice(2))}</blockquote>`;
+      } else if (line.startsWith('- ')) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${inlineFormat(line.slice(2))}</li>`;
+      } else if (line.trim() === '') {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += '';
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        html += `<p>${inlineFormat(line)}</p>`;
+      }
+    });
+    if (inList) html += '</ul>';
+    return html;
+  }
+
+  function inlineFormat(s) {
+    return s
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>');
+  }
+
+  /* ── Editor ── */
+  function openEditor(id) {
+    editingId = id || null;
+    coverDataUrl = null;
+
+    document.getElementById('cover-preview').style.display = 'none';
+    document.getElementById('cover-placeholder').style.display = '';
+    document.getElementById('cover-remove-btn').style.display = 'none';
+
+    if (id) {
+      const p = loadPosts().find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('editor-title-label').textContent = 'Beitrag bearbeiten';
+      document.getElementById('f-title').value = p.title || '';
+      document.getElementById('f-tag').value = p.tag || '';
+      document.getElementById('f-date').value = p.date || '';
+      document.getElementById('f-content').value = p.content || '';
+      document.getElementById('f-excerpt').value = p.excerpt || '';
+      if (p.img) {
+        coverDataUrl = p.img;
+        const prev = document.getElementById('cover-preview');
+        prev.src = p.img;
+        prev.style.display = 'block';
+        document.getElementById('cover-placeholder').style.display = 'none';
+        document.getElementById('cover-remove-btn').style.display = '';
+      }
+    } else {
+      document.getElementById('editor-title-label').textContent = 'Neuer Beitrag';
+      document.getElementById('f-title').value = '';
+      document.getElementById('f-tag').value = '';
+      document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('f-content').value = '';
+      document.getElementById('f-excerpt').value = '';
+    }
+
+    const _post = editingId ? loadPosts().find(x => x.id === editingId) : null;
+    const _rf = _post ? (_post.recipeFilters || (_post.recipeFilter ? [_post.recipeFilter] : [])) : [];
+    selectedFilters = [..._rf];
+    renderEditorFilterChips();
+    document.getElementById('editor-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('f-title').focus(), 50);
+  }
+
+  function closeEditor() { document.getElementById('editor-overlay').classList.remove('open'); }
+
+  function savePost() {
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) { document.getElementById('f-title').focus(); return; }
+
+    const posts = loadPosts();
+    const now = Date.now();
+
+    const data = {
+      id: editingId || now,
+      title,
+      tag: document.getElementById('f-tag').value.trim(),
+      date: document.getElementById('f-date').value,
+      content: document.getElementById('f-content').value,
+      excerpt: document.getElementById('f-excerpt').value.trim(),
+      img: coverDataUrl || null,
+      recipeFilters: [...selectedFilters],
+    };
+
+    if (editingId) {
+      const idx = posts.findIndex(p => p.id === editingId);
+      if (idx !== -1) posts[idx] = data;
+    } else {
+      posts.push(data);
+    }
+
+    savePosts(posts);
+    closeEditor();
+    if (getPostId()) {
+      renderDetail(data.id);
+    } else {
+      renderList();
+    }
+  }
+
+  function deletePost(id, goBack) {
+    if (!confirm('Beitrag wirklich löschen?')) return;
+    const posts = loadPosts().filter(p => p.id !== id);
+    savePosts(posts);
+    if (goBack) { location.href = 'blog.html'; } else { renderList(); }
+  }
+
+  /* ── Cover image ── */
+  async function handleCoverUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const area = document.querySelector('.cover-upload-area');
+    area.style.opacity = '0.5'; area.style.pointerEvents = 'none';
+    try {
+      const blob = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX = 1200;
+            let w = img.width, h = img.height;
+            if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            canvas.toBlob(b => resolve(b), 'image/jpeg', 0.82);
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+      const filename = Date.now() + '-' + Math.random().toString(36).slice(2) + '.jpg';
+      const res = await fetch(`${window.SUPABASE_URL}/storage/v1/object/image/${filename}`, {
+        method: 'POST',
+        headers: { apikey: window.SUPABASE_KEY, Authorization: `Bearer ${window.SUPABASE_KEY}`, 'Content-Type': 'image/jpeg' },
+        body: blob
+      });
+      if (!res.ok) throw new Error(await res.text());
+      coverDataUrl = `${window.SUPABASE_URL}/storage/v1/object/public/image/${filename}`;
+      const prev = document.getElementById('cover-preview');
+      prev.src = coverDataUrl; prev.style.display = 'block';
+      document.getElementById('cover-placeholder').style.display = 'none';
+      document.getElementById('cover-remove-btn').style.display = '';
+    } catch(err) {
+      console.error('[cover upload]', err);
+      alert('Bild-Upload fehlgeschlagen.');
+    } finally {
+      area.style.opacity = ''; area.style.pointerEvents = '';
+    }
+  }
+
+  function removeCover() {
+    coverDataUrl = null;
+    document.getElementById('cover-preview').style.display = 'none';
+    document.getElementById('cover-placeholder').style.display = '';
+    document.getElementById('cover-remove-btn').style.display = 'none';
+    document.getElementById('f-img-file').value = '';
+  }
+
+  /* ── Toolbar helpers ── */
+  function tbWrap(before, after) {
+    const ta = document.getElementById('f-content');
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const sel = ta.value.slice(s, e) || 'Text';
+    ta.value = ta.value.slice(0, s) + before + sel + after + ta.value.slice(e);
+    ta.focus();
+    ta.selectionStart = s + before.length;
+    ta.selectionEnd = s + before.length + sel.length;
+  }
+
+  function tbLine(prefix) {
+    const ta = document.getElementById('f-content');
+    const s = ta.selectionStart;
+    const lineStart = ta.value.lastIndexOf('\n', s - 1) + 1;
+    ta.value = ta.value.slice(0, lineStart) + prefix + ta.value.slice(lineStart);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = s + prefix.length;
+  }
+
+  function tbNewPara() {
+    const ta = document.getElementById('f-content');
+    const s = ta.selectionStart;
+    ta.value = ta.value.slice(0, s) + '\n\n' + ta.value.slice(s);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = s + 2;
+  }
+
+  /* ── Recipe filter chips (multi-select) ── */
+  let selectedFilters = [];
+
+  function allRecipeFilters() {
+    const BASE = ['Salat', 'Hauptgericht', 'Gegrilltes', '5-10 Minuten'];
+    const custom = JSON.parse(window.store.getItem('hqf_filters') || '[]');
+    const recipes = JSON.parse(window.store.getItem('hqf_recipes') || '[]');
+    const cats = [...new Set(recipes.map(r => r.category).filter(Boolean))];
+    return [...new Set([...BASE, ...custom, ...cats])];
+  }
+
+  function renderEditorFilterChips() {
+    const filters = allRecipeFilters();
+    document.getElementById('filter-chips').innerHTML = filters.map(f => {
+      const active = selectedFilters.includes(f);
+      return `<button type="button" onclick="toggleEditorFilter('${f.replace(/'/g,"\\'")}')" style="
+        background:${active ? '#1a2332' : '#f0ece5'};
+        color:${active ? '#e8dfd0' : '#6b7f8f'};
+        border:1.5px solid ${active ? '#1a2332' : '#e0d9ce'};
+        border-radius:4px;padding:7px 14px;font-size:12px;
+        cursor:pointer;font-family:Inter,sans-serif;transition:all .12s;">
+        ${active ? '<i class="ti ti-check" style="font-size:12px;"></i> ' : ''}${f}
+      </button>`;
+    }).join('');
+    renderCtaPreview();
+  }
+
+  function toggleEditorFilter(name) {
+    const idx = selectedFilters.indexOf(name);
+    if (idx === -1) selectedFilters.push(name);
+    else selectedFilters.splice(idx, 1);
+    renderEditorFilterChips();
+  }
+
+  function renderCtaPreview() {
+    const preview = document.getElementById('cta-preview');
+    const previewChips = document.getElementById('cta-preview-chips');
+    if (selectedFilters.length === 0) {
+      preview.style.display = 'none';
+    } else {
+      preview.style.display = 'block';
+      previewChips.innerHTML = selectedFilters.map(f =>
+        `<span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #1a2332;
+          color:#1a2332;border-radius:4px;padding:8px 16px;font-size:12px;font-family:Inter,sans-serif;">
+          <i class="ti ti-chef-hat" style="font-size:14px;"></i>${f}
+        </span>`
+      ).join('');
+    }
+  }
+
+  /* ── Keyboard & overlay close ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeEditor(); closeLogin(); }
+  });
+  document.getElementById('login-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLogin(); });
+  document.getElementById('editor-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditor(); });
+
+  render();
+  (async () => {
+    await db.sync('hqf_posts');
+    await db.sync('hqf_filters');
+    render();
+  })();
+
+  function shareWhatsApp(title) {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(title + ' — HighQualityFoods\n');
+    window.open('https://wa.me/?text=' + text + url, '_blank');
+  }
+
+  function copyPostLink(btn) {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="ti ti-check"></i> Kopiert!';
+      btn.style.background = '#1a2332';
+      btn.style.color = '#e8dfd0';
+      btn.style.borderColor = '#1a2332';
+      setTimeout(() => { btn.innerHTML = orig; btn.style = ''; }, 2000);
+    });
+  }
+
+  function nativeShare(title, excerpt) {
+    if (navigator.share) {
+      navigator.share({ title: title, text: excerpt || title, url: window.location.href });
+    } else {
+      copyPostLink(document.querySelector('.share-native'));
+    }
+  }
+</script>
+</body>
+</html>

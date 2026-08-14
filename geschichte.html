@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover, .nav-links a.active { color: #1a2332; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+    .admin-badge { background: transparent; border: 1px solid #1a2332; color: #1a2332; font-size: 10px; letter-spacing: 1.5px; padding: 5px 10px; border-radius: 2px; text-transform: uppercase; }
+    .btn-edit { background: #1a2332; border: none; color: #e8dfd0; padding: 8px 16px; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: .6px; cursor: pointer; border-radius: 2px; display: flex; align-items: center; gap: 6px; }
+    .btn-logout { background: transparent; border: 1px solid rgba(26,35,50,.3); color: rgba(26,35,50,.6); padding: 7px 14px; font-size: 12px; font-family: 'Inter', sans-serif; cursor: pointer; border-radius: 2px; }
+
+    .hero {
+      background: #f5f2ec;
+      padding: 72px 48px 64px;
+      border-bottom: 1px solid rgba(26,35,50,.1);
+    }
+    .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; color: #1a2332; line-height: 1.2; max-width: 580px; }
+
+    .content { max-width: 720px; margin: 0 auto; padding: 72px 48px; }
+
+    .intro-block { display: grid; grid-template-columns: 120px 1fr; gap: 48px; align-items: start; margin-bottom: 64px; }
+    .avatar { width: 120px; height: 120px; border-radius: 50%; background: #1a2332; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 40px; color: #8fa8b8; flex-shrink: 0; }
+    .intro-text h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: #1a2332; margin-bottom: 6px; font-weight: 500; }
+    .intro-text p { color: #4a5568; font-size: 16px; line-height: 1.9; font-weight: 300; }
+
+    .cta-block { background: transparent; border: none; padding: 56px 48px; text-align: center; margin-top: 0; }
+    .cta-block h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: #1a2332; margin-bottom: 12px; font-weight: 500; }
+    .cta-block p { color: rgba(26,35,50,.5); font-size: 15px; margin-bottom: 28px; font-weight: 300; }
+    .cta-btn { background: #1a2332; border: none; color: #e8dfd0; padding: 13px 32px; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: .8px; cursor: pointer; border-radius: 2px; text-decoration: none; display: inline-block; }
+
+    footer {
+      position: relative; background: #f5f2ec; padding: 20px 48px; display: flex; justify-content: space-between; align-items: center; border-top: none; margin-top: 80px; }
+    footer::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+      top: 0;
+    }
+    .footer-copy { color: rgba(26,35,50,.4); font-size: 12px; }
+    .footer-admin-btn { background: none; border: none; color: rgba(26,35,50,.25); font-size: 11px; cursor: pointer; font-family: 'Inter', sans-serif; }
+
+    /* Overlays */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,35,50,.45); z-index: 200; align-items: center; justify-content: center; }
+    .overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 4px; width: 100%; max-width: 480px; box-shadow: 0 16px 48px rgba(26,35,50,.18); }
+    .modal-wide { max-width: 640px; }
+    .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e0d9ce; }
+    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; }
+    .modal-close { background: none; border: none; cursor: pointer; color: rgba(26,35,50,.4); font-size: 20px; }
+    .modal-body { padding: 28px; }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-size: 12px; font-weight: 500; color: #8fa8b8; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .fg input[type="password"], .fg textarea { width: 100%; padding: 10px 14px; border: 1.5px solid #e0d9ce; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; }
+    .fg input[type="password"]:focus, .fg textarea:focus { border-color: #1a2332; }
+    .fg textarea { resize: vertical; min-height: 160px; line-height: 1.7; }
+    .err { display: none; color: #c05050; font-size: 13px; margin-top: 6px; }
+    .btn-primary-full { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 12px; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: .6px; cursor: pointer; border-radius: 2px; }
+    .modal-ftr { padding: 16px 24px; border-top: 1px solid #f0ece5; display: flex; justify-content: flex-end; gap: 10px; }
+    .btn-save { background: #1a2332; color: #e8dfd0; border: none; padding: 10px 24px; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; cursor: pointer; border-radius: 2px; }
+    .btn-cancel { background: transparent; border: 1px solid #e0d9ce; color: #1a2332; padding: 10px 20px; font-size: 13px; font-family: 'Inter', sans-serif; cursor: pointer; border-radius: 2px; }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
+    .hamburger i { font-size: 22px; line-height: 1; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+    @media (max-width: 640px) {
+      nav, .content, footer, .hero { padding-left: 20px; padding-right: 20px; }
+      nav::after { left: 20px; right: 20px; }
+      footer::before { left: 20px; right: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .hero { padding: 40px 20px 36px !important; }
+      .hero h1 { font-size: 30px; }
+      .content { padding: 40px 20px !important; }
+      .intro-block { grid-template-columns: 1fr; gap: 24px; }
+      .avatar { margin: 0 auto; }
+      .cta-block { padding: 36px 20px !important; }
+      .nav-links, .nav-tag { display: none !important; }
+      .hamburger { display: block; }
+      .overlay { padding: 10px; }
+    }
+  </style>
+  <script>(function(){var d=JSON.parse(localStorage.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A–Z</a>
+    <a href="about.html" class="active">About</a>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z</a>
+  <a href="about.html">About</a>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Wer steckt dahinter</div>
+  <h1>About</h1>
+</div>
+
+<div class="content">
+  <div class="intro-block">
+    <div class="avatar">L</div>
+    <div class="intro-text">
+      <h2>Hey, ich bin Leon.</h2>
+      <p id="about-text"></p>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <h3>Viel Spaß beim Kochen!</h3>
+    <p>Stöber durch die Rezepte und lass dich inspirieren.</p>
+    <a href="rezepte.html" class="cta-btn">ZU DEN REZEPTEN</a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht.</span>
+  <button class="footer-admin-btn" id="footer-admin-btn" onclick="openLogin()">Admin</button>
+</footer>
+
+<!-- Login Modal -->
+<div class="overlay" id="login-overlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>Admin-Login</h2>
+      <button class="modal-close" onclick="closeLogin()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="touchid-section" style="display:none; text-align:center; margin-bottom:20px;">
+        <button class="btn-primary-full" onclick="doTouchIDLogin()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.243 2 7 4.243 7 7v5c0 2.757 2.243 5 5 5s5-2.243 5-5V7c0-2.757-2.243-5-5-5z"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Mit Touch ID einloggen
+        </button>
+        <div id="touchid-err" style="display:none; color:#c05050; font-size:13px; margin-top:10px;">Touch ID fehlgeschlagen.</div>
+        <div style="margin:16px 0; color:rgba(26,35,50,.3); font-size:12px;">— oder mit Passwort —</div>
+      </div>
+      <div class="fg">
+        <label>Passwort</label>
+        <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+        <div class="err" id="pw-err">Falsches Passwort.</div>
+      </div>
+      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
+    </div>
+  </div>
+</div>
+
+<!-- About Text Editor Modal -->
+<div class="overlay" id="about-editor-overlay">
+  <div class="modal modal-wide">
+    <div class="modal-hdr">
+      <h2>About-Text bearbeiten</h2>
+      <button class="modal-close" onclick="closeAboutEditor()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <label>Text</label>
+        <textarea id="about-editor-input" placeholder="Schreib hier deinen About-Text…"></textarea>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-cancel" onclick="closeAboutEditor()">Abbrechen</button>
+      <button class="btn-save" onclick="saveAboutText()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ADMIN_PASSWORD = 'orlen12.11HQF';
+  const WEBAUTHN_KEY = 'hqf_webauthn_cred';
+  const DEFAULT_TEXT = 'Mein Name ist Leon und ich mache es kurz und knapp. Meine Mom macht sehr gesundes und vor allem leckeres Essen und ich möchte den Rezepten eine Plattform geben und mein Glück teilen. Hier findest du einfache, gesunde, süße, salzige und natürlich sehr leckere Rezepte. Ob Frühstück, Mittag- oder Abendessen oder einen Snack zwischendurch. Das wars schon, viel Spaß beim Zubereiten :)';
+
+  let isAdmin = false;
+
+  // ── Render about text ──
+  function renderAbout() {
+    const text = localStorage.getItem('hqf_about') || DEFAULT_TEXT;
+    document.getElementById('about-text').textContent = text;
+  }
+
+  // ── Nav ──
+  function updateNav() {
+    const n = document.getElementById('nav-right');
+    if (isAdmin) {
+      n.innerHTML = `
+        <span class="admin-badge">Admin</span>
+        <button class="btn-edit" onclick="openAboutEditor()"><i class="ti ti-edit"></i> Text bearbeiten</button>
+        <button class="btn-logout" onclick="logout()">Abmelden</button>
+        <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
+      document.getElementById('footer-admin-btn').style.display = 'none';
+    } else {
+      n.innerHTML = `<span class="nav-tag">Rezept-Blog</span><button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
+      document.getElementById('footer-admin-btn').style.display = 'block';
+    }
+  }
+
+  // ── Auth ──
+  function hasWebAuthn() { return window.PublicKeyCredential && typeof window.PublicKeyCredential === 'function'; }
+  function storedCredId() { return localStorage.getItem(WEBAUTHN_KEY); }
+
+  async function doTouchIDLogin() {
+    const credIdB64 = storedCredId();
+    if (!credIdB64 || !hasWebAuthn()) return;
+    document.getElementById('touchid-err').style.display = 'none';
+    try {
+      const credId = Uint8Array.from(atob(credIdB64), c => c.charCodeAt(0));
+      await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), allowCredentials: [{ type: 'public-key', id: credId }], userVerification: 'required', timeout: 60000 } });
+      isAdmin = true; closeLogin(); updateNav();
+    } catch(e) { document.getElementById('touchid-err').style.display = 'block'; }
+  }
+
+  function openLogin() {
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-err').style.display = 'none';
+    const tid = document.getElementById('touchid-section');
+    if (hasWebAuthn() && storedCredId()) { tid.style.display = 'block'; setTimeout(() => doTouchIDLogin(), 100); }
+    else { tid.style.display = 'none'; }
+    document.getElementById('login-overlay').classList.add('open');
+    if (!storedCredId()) setTimeout(() => document.getElementById('pw-input').focus(), 60);
+  }
+  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
+
+  function doLogin() {
+    if (document.getElementById('pw-input').value === ADMIN_PASSWORD) {
+      isAdmin = true; closeLogin(); updateNav();
+    } else {
+      document.getElementById('pw-err').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+  function logout() { isAdmin = false; updateNav(); }
+
+  // ── About editor ──
+  function openAboutEditor() {
+    const text = localStorage.getItem('hqf_about') || DEFAULT_TEXT;
+    document.getElementById('about-editor-input').value = text;
+    document.getElementById('about-editor-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('about-editor-input').focus(), 60);
+  }
+  function closeAboutEditor() { document.getElementById('about-editor-overlay').classList.remove('open'); }
+  function saveAboutText() {
+    const text = document.getElementById('about-editor-input').value.trim();
+    if (!text) return;
+    localStorage.setItem('hqf_about', text);
+    renderAbout();
+    closeAboutEditor();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLogin(); closeAboutEditor(); } });
+
+  renderAbout();
+  updateNav();
+</script>
+</body>
+</html>

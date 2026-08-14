@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="description" content="HighQualityFoods - Rezept Blog, hier findest du Inspiration zum Thema clean eating mit leckeren Gerichten. Die Mahlzeiten sind alle selbst von meiner Mom zubereitet. Viel Spaß beim nachkochen :)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HighQualityFoods — Rezept-Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=DM+Sans:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f2ec;
+      color: #1a2332;
+      min-height: 100vh;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #1a2332;
+      letter-spacing: .3px;
+      text-decoration: none;
+    }
+    .logo span { color: #8fa8b8; }
+    #nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; font-weight: 400; transition: color .15s; }
+    .nav-links a:hover { color: #1a2332; }
+    .admin-badge {
+      background: transparent;
+      border: 1px solid #1a2332;
+      color: #1a2332;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      padding: 5px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .btn-add {
+      background: #1a2332;
+      border: none;
+      color: #e8dfd0;
+      padding: 9px 20px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: .8px;
+      cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid rgba(26,35,50,.25);
+      color: rgba(26,35,50,.55);
+      padding: 8px 14px;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: .5px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: #f5f2ec;
+      padding: 64px 48px 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .hero-text { max-width: 540px; margin: 0 auto; }
+    .hero-stack {
+      position: relative;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 56px;
+    }
+    .stack-card {
+      position: absolute;
+      width: 250px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.35s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .stack-card:hover {
+      transform: translateY(-16px) rotate(0deg) scale(1.07) !important;
+      z-index: 10 !important;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+    }
+    .stack-card:nth-child(1) { transform: rotate(-9deg) translate(-72px, 14px); z-index: 1; }
+    .stack-card:nth-child(2) { transform: rotate(0deg)  translate(0px, -8px);   z-index: 3; }
+    .stack-card:nth-child(3) { transform: rotate(8deg)  translate(72px, 14px);  z-index: 2; }
+    .stack-card:nth-child(1) .stack-card-body,
+    .stack-card:nth-child(3) .stack-card-body { visibility: hidden; }
+    .stack-card:nth-child(1):hover .stack-card-body,
+    .stack-card:nth-child(3):hover .stack-card-body { visibility: visible; }
+    .stack-card-img {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+    .stack-card-img.c1 { background: #eae3d6; }
+    .stack-card-img.c2 { background: #dde6ec; }
+    .stack-card-img.c3 { background: #e4ebe4; }
+    .stack-card-body { padding: 14px; border-top: 2px solid #1a2332; }
+    .stack-card-cat {
+      color: #8fa8b8;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .stack-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      color: #1a2332;
+      line-height: 1.35;
+    }
+    .eyebrow {
+      color: #8fa8b8;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 500;
+      color: #1a2332;
+      line-height: 1.2;
+      max-width: 580px;
+      margin-bottom: 18px;
+    }
+    .hero h1 em { color: #8fa8b8; font-style: italic; }
+    .hero p {
+      color: rgba(26,35,50,.5);
+      font-size: 15px;
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    /* ── Main ── */
+    main { padding: 56px 48px; }
+    .search-wrap { position: relative; margin-bottom: 24px; max-width: 420px; }
+    .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8fa8b8; font-size: 16px; pointer-events: none; }
+    .search-input {
+      width: 100%;
+      padding: 11px 16px 11px 40px;
+      border: 1.5px solid #e0d9ce;
+      border-radius: 6px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1a2332;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .search-input::placeholder { color: #b0a898; }
+    .search-input:focus { border-color: #1a2332; }
+
+    /* ── Filter Dropdown ── */
+    .filter-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+    .filter-dropdown-wrap { position: relative; }
+    .filter-dropdown-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1px solid #d4cdc3; color: #4a5568;
+      font-size: 13px; font-family: 'Inter', sans-serif;
+      padding: 8px 16px; border-radius: 2px; cursor: pointer; transition: all .15s;
+      white-space: nowrap;
+    }
+    .filter-dropdown-btn:hover, .filter-dropdown-btn.active {
+      background: #1a2332; border-color: #1a2332; color: #e8dfd0;
+    }
+    .filter-dropdown-btn .chevron { transition: transform .2s; font-size: 14px; }
+    .filter-dropdown-btn.open .chevron { transform: rotate(180deg); }
+    .filter-panel {
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      background: #fff; border: 1px solid #e0d9ce; border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 100; min-width: 240px; padding: 8px 0;
+    }
+    .filter-panel.open { display: block; }
+    .filter-group-label {
+      padding: 10px 16px 4px; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: #8fa8b8; font-weight: 500;
+    }
+    .filter-group-label:not(:first-child) { border-top: 1px solid #f0ece5; margin-top: 4px; }
+    .filter-option {
+      display: block; width: 100%; text-align: left; background: none; border: none;
+      padding: 8px 20px; font-size: 13px; font-family: 'Inter', sans-serif;
+      color: #4a5568; cursor: pointer; transition: background .1s;
+    }
+    .filter-option:hover { background: #f5f2ec; }
+    .filter-option.active { color: #1a2332; font-weight: 500; background: #f0ece5; }
+    .filter-reset-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1a2332; border: 1px solid #1a2332; color: #e8dfd0;
+      font-size: 12px; font-family: 'Inter', sans-serif;
+      padding: 8px 14px; border-radius: 2px; cursor: pointer;
+    }
+    .filter-active-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f0ece5; border: 1px solid #d4cdc3; color: #1a2332;
+      font-size: 12px; font-family: 'Inter', sans-serif;
+      padding: 6px 12px; border-radius: 2px;
+    }
+
+    /* ── Recipe grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e0d9ce;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .15s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card-img {
+      height: 210px;
+      overflow: hidden;
+      position: relative;
+      background: #eae3d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .card:hover .card-img img { transform: scale(1.08); }
+    .card-cat {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: #1a2332;
+      color: #8fa8b8;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .card-body { padding: 22px; }
+    .card-meta { display: flex; gap: 12px; margin-bottom: 10px; align-items: center; }
+    .card-meta span {
+      color: #8fa8b8;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-meta i { font-size: 13px; }
+    .nutr-btn {
+      margin-left: auto;
+      background: none;
+      border: 1.5px solid #c8c0b4;
+      color: #8fa8b8;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s, color .15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .nutr-btn:hover { background: #1a2332; color: #fff; border-color: #1a2332; }
+    .nutr-popup {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      background: #1a2332;
+      color: #e8dfd0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(26,35,50,.25);
+      min-width: 160px;
+    }
+    .nutr-popup.open { display: block; }
+    .nutr-popup-title {
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #8fa8b8;
+      margin-bottom: 10px;
+    }
+    .nutr-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .nutr-row:last-child { border-bottom: none; }
+    .nutr-row span:last-child { font-weight: 600; color: #fff; }
+    .card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #1a2332;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .card-body p {
+      color: #6b7f8f;
+      font-size: 13px;
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      position: relative;
+      padding: 10px 22px;
+      border-top: 1px solid #f0ece5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-footer > div { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill {
+      background: #f0ece5;
+      color: #6b7f8f;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    .card-admin {
+      padding: 10px 16px;
+      border-top: 1px solid #f0ece5;
+      display: flex;
+      gap: 8px;
+    }
+    .card-admin-btn {
+      background: transparent;
+      border: 1px solid #d4cdc3;
+      color: #6b7f8f;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .15s;
+    }
+    .card-admin-btn:hover { background: #1a2332; border-color: #1a2332; color: #e8dfd0; }
+    .card-admin-btn.del:hover { background: #c05050; border-color: #c05050; color: #fff; }
+
+    /* ── Design Panel ── */
+    .design-panel {
+      position: fixed;
+      top: 62px;
+      right: 0;
+      width: 280px;
+      background: #fff;
+      border-left: 2px solid #1a2332;
+      border-bottom: none;
+      border-radius: 0 0 0 8px;
+      padding: 20px;
+      z-index: 200;
+      display: none;
+      box-shadow: -4px 4px 24px rgba(26,35,50,.1);
+    }
+    .design-panel.open { display: block; }
+    .design-panel h4 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8fa8b8; margin-bottom: 12px; margin-top: 16px; }
+    .design-panel h4:first-child { margin-top: 0; }
+    .font-options { display: flex; flex-direction: column; gap: 6px; }
+    .font-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid #e0d9ce;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .15s;
+      background: #f5f2ec;
+    }
+    .font-opt:hover { border-color: #1a2332; }
+    .font-opt.active { border-color: #1a2332; background: #1a2332; color: #e8dfd0; }
+    .font-opt-name { font-size: 13px; }
+    .font-opt-preview { font-size: 17px; line-height: 1; }
+    .size-options { display: flex; gap: 6px; }
+    .size-opt {
+      flex: 1;
+      text-align: center;
+      padding: 7px;
+      border: 1px solid #e0d9ce;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      background: #f5f2ec;
+      transition: all .15s;
+    }
+    .size-opt:hover { border-color: #1a2332; }
+    .size-opt.active { border-color: #1a2332; background: #1a2332; color: #e8dfd0; }
+    .btn-design-toggle {
+      background: transparent;
+      border: 1px solid rgba(26,35,50,.25);
+      color: rgba(26,35,50,.55);
+      padding: 8px 14px;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: .5px;
+    }
+    .btn-design-toggle.active { background: #1a2332; color: #e8dfd0; border-color: #1a2332; }
+
+    .fav-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #c0b8ae;
+      font-size: 14px;
+      padding: 4px 6px;
+      line-height: 1;
+      transition: color .15s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .fav-btn:hover { color: #e07070; }
+    .fav-btn.active { color: #e07070; }
+
+    .fav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid #d4cdc3;
+      color: #6b7f8f;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      padding: 7px 16px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all .15s;
+      margin-bottom: 0;
+    }
+    .fav-tab:hover, .fav-tab.active {
+      background: #1a2332;
+      border-color: #1a2332;
+      color: #e8dfd0;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: .3; }
+    .empty h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #1a2332;
+      margin-bottom: 8px;
+    }
+    .empty p { color: #8fa8b8; font-size: 14px; }
+
+    /* ── Footer ── */
+    footer {
+      background: #f5f2ec;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: none;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+      top: 0;
+    }
+    .footer-copy { color: rgba(26,35,50,.4); font-size: 12px; }
+    #footer-admin-btn {
+      background: transparent;
+      border: none;
+      color: rgba(26,35,50,.18);
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      padding: 6px 0;
+      letter-spacing: .5px;
+      transition: color .2s;
+    }
+    #footer-admin-btn:hover { color: rgba(26,35,50,.5); }
+
+    /* ── Overlays ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,25,35,.78);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .modal-wide {
+      max-width: 620px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .modal-hdr {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px 4px 0 0;
+    }
+    .modal-hdr h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #1a2332;
+      font-weight: 500;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #1a2332;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 2px;
+    }
+    .modal-body { padding: 28px; }
+    .modal-ftr {
+      padding: 18px 28px;
+      border-top: 1px solid #f0ece5;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* ── Form ── */
+    .fg { margin-bottom: 18px; }
+    .fg label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: #1a2332;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .fg input, .fg textarea, .fg select {
+      width: 100%;
+      background: #f5f2ec;
+      border: 1px solid #d4cdc3;
+      color: #1a2332;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      border-radius: 2px;
+      outline: none;
+    }
+    .fg input:focus, .fg textarea:focus { border-color: #8fa8b8; }
+    .fg textarea { resize: vertical; line-height: 1.65; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .img-drop {
+      border: 2px dashed #d4cdc3;
+      border-radius: 4px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      background: #f5f2ec;
+      transition: border-color .15s;
+    }
+    .img-drop:hover { border-color: #8fa8b8; }
+    .img-drop input { display: none; }
+    .img-drop-ph i { font-size: 28px; color: #c8c0b5; display: block; margin-bottom: 6px; }
+    .img-drop-ph span { color: #8fa8b8; font-size: 13px; }
+    #img-prev { width: 100%; height: 170px; object-fit: cover; border-radius: 2px; margin-top: 10px; display: none; }
+
+    .err { color: #c05050; font-size: 12px; margin-top: 6px; display: none; }
+    .info-box {
+      font-size: 12px;
+      color: #8fa8b8;
+      background: #f0ece5;
+      border-left: 3px solid #8fa8b8;
+      padding: 10px 14px;
+      border-radius: 0 2px 2px 0;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    .info-box strong { color: #1a2332; }
+
+    .btn-primary-full {
+      width: 100%;
+      background: #1a2332;
+      border: none;
+      color: #e8dfd0;
+      padding: 13px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 2px;
+      margin-top: 6px;
+    }
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid #d4cdc3;
+      color: #6b7f8f;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .btn-save {
+      background: #1a2332;
+      border: none;
+      color: #e8dfd0;
+      padding: 9px 26px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    /* ── Detail view ── */
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,25,35,.78);
+      z-index: 300;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 24px;
+      overflow-y: auto;
+    }
+    .detail-overlay.open { display: flex; }
+    .detail {
+      background: #fff;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 680px;
+    }
+    .detail-img { width: 100%; height: 460px; object-fit: contain; background: #f5f2ec; display: block; border-radius: 4px 4px 0 0; }
+    .detail-img-ph {
+      width: 100%;
+      height: 280px;
+      background: #eae3d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      opacity: .35;
+      border-radius: 4px 4px 0 0;
+    }
+    .detail-body { padding: 36px; }
+    .detail-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+    .detail-top h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: #1a2332;
+      line-height: 1.25;
+      flex: 1;
+    }
+    .btn-close-detail {
+      background: transparent;
+      border: 1px solid #d4cdc3;
+      color: #6b7f8f;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+      margin-left: 16px;
+      white-space: nowrap;
+    }
+    .detail-meta { display: flex; gap: 20px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #f0ece5; flex-wrap: wrap; }
+    .detail-meta span { color: #8fa8b8; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+    .detail-sec { margin-bottom: 24px; }
+    .detail-sec h4 {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8fa8b8;
+      margin-bottom: 12px;
+    }
+    .detail-sec p { color: #1a2332; font-size: 14px; line-height: 1.9; white-space: pre-wrap; }
+    .detail-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .detail-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #f0ece5;
+    }
+    .act-btn {
+      background: transparent;
+      border: 1px solid #d4cdc3;
+      color: #6b7f8f;
+      padding: 9px 18px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .act-btn.del { border-color: #f0c4c4; color: #c05050; }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
+    .hamburger i { font-size: 22px; line-height: 1; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+    @media (max-width: 640px) {
+      nav, main, footer, .hero { padding-left: 20px; padding-right: 20px; }
+      nav::after { left: 20px; right: 20px; }
+      footer::before { left: 20px; right: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .hero { padding: 32px 20px 24px !important; }
+      .hero::after { left: 20px; right: 20px; }
+      .hero h1 { font-size: 26px !important; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links, .nav-tag { display: none !important; }
+      .hamburger { display: block; }
+      .search-wrap { max-width: 100%; }
+      #kontakt { padding: 56px 20px !important; }
+      #kontakt h2 { font-size: 24px !important; }
+      .detail-body { padding: 20px !important; }
+      .detail-img { height: 240px !important; }
+      .detail-top { flex-direction: column; gap: 12px; }
+      .detail-top h2 { font-size: 22px; }
+      .btn-close-detail { margin-left: 0; align-self: flex-start; }
+      .overlay { padding: 10px; }
+      .detail-actions { flex-wrap: wrap; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+  </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-HXETZ7G0E4");
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html" style="color:#e8dfd0;">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A–Z</a>
+    <a href="about.html">About</a>
+  </div>
+  <div id="nav-right">
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z</a>
+    <a href="about.html">About</a>
+</div>
+
+<div class="design-panel" id="design-panel"></div>
+
+<div class="hero" style="text-align:left; display:block; padding:48px 48px 32px;">
+  <div class="eyebrow">Alle Rezepte</div>
+  <h1 style="font-size:36px; max-width:none;">Unsere <em>Küche</em> für euch</h1>
+</div>
+
+<main>
+  <div class="search-wrap">
+    <i class="ti ti-search"></i>
+    <input class="search-input" id="search-input" type="text" placeholder="Rezept suchen…" oninput="setSearch(this.value)">
+  </div>
+  <div class="filter-bar">
+    <button class="fav-tab" id="fav-tab" onclick="toggleFavView()">
+      <span id="fav-tab-icon">🤍</span> Favoriten
+    </button>
+    <div class="filter-dropdown-wrap" id="filter-dropdown-wrap">
+      <button class="filter-dropdown-btn" id="filter-dropdown-btn" onclick="toggleFilterDropdown()">
+        <i class="ti ti-adjustments-horizontal"></i> Filter <i class="ti ti-chevron-down chevron"></i>
+      </button>
+      <div class="filter-panel" id="filter-panel"></div>
+    </div>
+    <span id="filter-active-display"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<section id="kontakt" style="background:#1a2332; padding:80px 48px; text-align:center; border-top:1px solid rgba(143,168,184,.15);">
+  <div style="max-width:520px; margin:0 auto;">
+    <div style="color:#8fa8b8; font-size:11px; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;">Kontakt</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:500; color:#e8dfd0; line-height:1.25; margin-bottom:16px;">Fragen, Feedback<br>oder einfach Hallo?</h2>
+    <p style="color:rgba(232,223,208,.55); font-size:15px; font-weight:300; line-height:1.8; margin-bottom:40px;">Ich freue mich über jede Nachricht — ob Fragen zu Rezepten, Verbesserungsvorschläge oder einfach um zu sagen dass euch etwas geschmeckt hat.</p>
+    <a href="mailto:kontakt@highqualityfoods.de" style="display:inline-flex; align-items:center; gap:10px; background:#8fa8b8; color:#1a2332; text-decoration:none; padding:14px 32px; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; letter-spacing:.8px; border-radius:2px;">
+      <i class="ti ti-mail" style="font-size:16px;"></i> NACHRICHT SCHREIBEN
+    </a>
+    <div style="margin-top:20px; color:rgba(143,168,184,.5); font-size:13px;">kontakt@highqualityfoods.de</div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+  <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+</footer>
+
+<!-- Login Modal -->
+<div class="overlay" id="login-overlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>Admin-Login</h2>
+      <button class="modal-close" onclick="closeLogin()" aria-label="Schließen"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Touch ID button (shown if registered) -->
+      <div id="touchid-section" style="display:none; text-align:center; margin-bottom:20px;">
+        <button class="btn-primary-full" id="touchid-btn" onclick="doTouchIDLogin()" style="background:#1a2332; display:flex; align-items:center; justify-content:center; gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.243 2 7 4.243 7 7v5c0 2.757 2.243 5 5 5s5-2.243 5-5V7c0-2.757-2.243-5-5-5z"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          Mit Touch ID einloggen
+        </button>
+        <div id="touchid-err" style="display:none; color:#c05050; font-size:13px; margin-top:10px;">Touch ID fehlgeschlagen.</div>
+        <div style="margin:16px 0; color:rgba(26,35,50,.3); font-size:12px; text-align:center;">— oder mit Passwort —</div>
+      </div>
+      <!-- Password fallback -->
+      <div class="fg">
+        <label>Passwort</label>
+        <input type="password" id="pw-input" placeholder="••••••••"
+               onkeydown="if(event.key==='Enter') doLogin()">
+        <div class="err" id="pw-err">Falsches Passwort. Bitte erneut versuchen.</div>
+      </div>
+      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Manager Modal -->
+<div class="overlay" id="filter-manager-overlay">
+  <div class="modal modal-wide" style="max-width:680px;">
+    <div class="modal-hdr">
+      <h2>Filter-Zuordnung</h2>
+      <button class="modal-close" onclick="closeFilterManager()" aria-label="Schließen"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" style="padding:0; overflow-x:auto;">
+      <div id="filter-manager-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Editor Modal -->
+<div class="overlay" id="editor-overlay">
+  <div class="modal modal-wide">
+    <div class="modal-hdr">
+      <h2 id="editor-title">Neues Rezept</h2>
+      <button class="modal-close" onclick="closeEditor()" aria-label="Schließen"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <label>Bild hochladen</label>
+        <div class="img-drop" onclick="document.getElementById('imgFile').click()" role="button" aria-label="Bild auswählen">
+          <input type="file" id="imgFile" accept="image/*" onchange="previewImg(event)">
+          <div id="img-ph" class="img-drop-ph">
+            <i class="ti ti-photo"></i>
+            <span>Klicke um ein Bild auszuwählen (JPG, PNG, WebP)</span>
+          </div>
+          <img id="img-prev" alt="Vorschau">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Rezeptname *</label>
+        <input type="text" id="f-title" placeholder="z.B. Hausgemachte Linsensuppe">
+      </div>
+      <div class="form-row">
+        <div class="fg">
+          <label>Kategorie</label>
+          <select id="f-cat">
+            <option>Suppe</option>
+            <option>Salat</option>
+            <option>Hauptgericht</option>
+            <option>Beilage</option>
+            <option>Dessert</option>
+            <option>Frühstück</option>
+            <option>Gegrilltes</option>
+            <option>5-10 Minuten</option>
+            <option>Snack</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Zubereitungszeit</label>
+          <input type="text" id="f-time" placeholder="z.B. 30 Min.">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fg">
+          <label>Portionen</label>
+          <input type="text" id="f-srv" placeholder="z.B. 4 Personen">
+        </div>
+        <div class="fg">
+          <label>Tags (kommagetrennt)</label>
+          <input type="text" id="f-tags" placeholder="Vegan, Glutenfrei, Saisonal ...">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Kurzbeschreibung</label>
+        <textarea id="f-desc" rows="2" placeholder="Was macht dieses Gericht besonders?"></textarea>
+      </div>
+      <div class="fg">
+        <label>Zutaten</label>
+        <textarea id="f-ing" rows="5" placeholder="200g rote Linsen&#10;1 Zwiebel&#10;3 Knoblauchzehen&#10;..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Zubereitung</label>
+        <textarea id="f-steps" rows="7" placeholder="1. Zwiebeln in Olivenöl glasig dünsten...&#10;2. Knoblauch hinzufügen...&#10;3. ..."></textarea>
+      </div>
+      <div class="fg">
+        <label>Nährwerte <span style="font-weight:300; text-transform:none; letter-spacing:0; color:#b0a898;">(pro Portion, optional)</span></label>
+        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1fr 1fr;">
+          <div>
+            <div style="font-size:11px; color:#8fa8b8; margin-bottom:4px;">Kalorien</div>
+            <input type="text" id="f-kcal" placeholder="z.B. 320 kcal" style="width:100%; padding:8px 10px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:11px; color:#8fa8b8; margin-bottom:4px;">Protein</div>
+            <input type="text" id="f-protein" placeholder="z.B. 18g" style="width:100%; padding:8px 10px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:11px; color:#8fa8b8; margin-bottom:4px;">Kohlenhydrate</div>
+            <input type="text" id="f-carbs" placeholder="z.B. 40g" style="width:100%; padding:8px 10px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:11px; color:#8fa8b8; margin-bottom:4px;">Fett</div>
+            <input type="text" id="f-fat" placeholder="z.B. 12g" style="width:100%; padding:8px 10px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; outline:none;">
+          </div>
+          <div>
+            <div style="font-size:11px; color:#8fa8b8; margin-bottom:4px;">Ballaststoffe</div>
+            <input type="text" id="f-fiber" placeholder="z.B. 6g" style="width:100%; padding:8px 10px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; outline:none;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-cancel" onclick="closeEditor()">Abbrechen</button>
+      <button class="btn-save" onclick="saveRecipe()">Rezept speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Detail Overlay -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail" id="detail-content"></div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────
+  //  PASSWORT HIER ÄNDERN ↓
+  const ADMIN_PASSWORD = 'orlen12.11HQF';
+  // ─────────────────────────────────────────────
+
+  let isAdmin = false;
+  let editId  = null;
+  let imgData = null;
+  let activeFilters = new Set();
+  let searchQuery = '';
+  let showFavsOnly = false;
+
+  function toggleNutr(btn) {
+    const popup = btn.nextElementSibling;
+    const isOpen = popup.classList.contains('open');
+    document.querySelectorAll('.nutr-popup.open').forEach(p => p.classList.remove('open'));
+    if (!isOpen) popup.classList.add('open');
+  }
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nutr-popup.open').forEach(p => p.classList.remove('open'));
+  });
+
+  function loadFavs() {
+    try { return JSON.parse(window.store.getItem('hqf_favs') || '[]'); } catch(e) { return []; }
+  }
+  function saveFavs(arr) { window.store.setItem('hqf_favs', JSON.stringify(arr)); }
+  function isFav(id) { return loadFavs().includes(id); }
+  function toggleFav(id, e) {
+    e.stopPropagation();
+    const favs = loadFavs();
+    const idx = favs.indexOf(id);
+    if (idx === -1) favs.push(id); else favs.splice(idx, 1);
+    saveFavs(favs);
+    render();
+  }
+  function toggleFavView() {
+    showFavsOnly = !showFavsOnly;
+    const tab = document.getElementById('fav-tab');
+    const icon = document.getElementById('fav-tab-icon');
+    tab.classList.toggle('active', showFavsOnly);
+    icon.textContent = showFavsOnly ? '❤️' : '🤍';
+    render();
+  }
+
+  function setSearch(val) {
+    searchQuery = val.toLowerCase();
+    render();
+  }
+
+  // Rezepte werden im Browser-Speicher gespeichert (localStorage)
+  function loadRecipes() {
+    try {
+      const saved = window.store.getItem('hqf_recipes');
+      if (saved) { const r = JSON.parse(saved); if (Array.isArray(r) && r.length) return r; }
+    } catch(e) { try { window.store.removeItem('hqf_recipes'); } catch(e2) {} }
+    if (window.HQF_SEED && window.HQF_SEED.hqf_recipes && window.HQF_SEED.hqf_recipes.length)
+      return window.HQF_SEED.hqf_recipes;
+    return [
+      {
+        id: 1,
+        title: 'Hausgemachte Linsensuppe',
+        category: 'Suppe',
+        time: '45 Min.',
+        servings: '4 Personen',
+        desc: 'Cremig, würzig und unglaublich sättigend — ein Klassiker aus unserer Familienküche.',
+        ingredients: '300g rote Linsen\n1 große Zwiebel\n3 Knoblauchzehen\n2 Karotten\n1 TL Kurkuma\n1 TL Kreuzkümmel\nSalz, Pfeffer, Olivenöl\n1,2L Gemüsebrühe',
+        steps: '1. Zwiebeln fein würfeln und in Olivenöl glasig dünsten.\n2. Knoblauch und Karotten dazugeben, 3 Minuten mitbraten.\n3. Gewürze hinzufügen und kurz rösten.\n4. Linsen und Brühe dazugeben, 20 Minuten köcheln lassen.\n5. Zur Hälfte pürieren, abschmecken und servieren.',
+        tags: ['Vegan', 'Glutenfrei'],
+        img: null
+      },
+      {
+        id: 2,
+        title: 'Mediterraner Ofengemüse-Salat',
+        category: 'Salat',
+        time: '35 Min.',
+        servings: '2 Personen',
+        desc: 'Geröstetes Gemüse trifft auf frische Kräuter und einen Hauch Zitrone.',
+        ingredients: '1 Zucchini\n1 rote Paprika\n200g Kirschtomaten\n1 Aubergine\nFeta, Oliven\nOlivenöl, Zitrone\nOregano, Thymian',
+        steps: '1. Gemüse in Stücke schneiden und auf einem Backblech verteilen.\n2. Mit Olivenöl, Salz und Kräutern würzen.\n3. Bei 200°C 25 Minuten backen bis leicht karamellisiert.\n4. Mit zerbröckeltem Feta und Oliven anrichten.\n5. Mit Zitronensaft beträufeln.',
+        tags: ['Vegetarisch', 'Saisonal'],
+        img: null
+      }
+    ];
+  }
+
+  let recipes = loadRecipes();
+
+  async function saveToStorage() {
+    window.store.setItem('hqf_recipes', JSON.stringify(recipes));
+    await db.save('hqf_recipes');
+  }
+
+  // ── Auth ──
+  // ── Touch ID / WebAuthn ──
+  const WEBAUTHN_KEY = 'hqf_webauthn_cred';
+
+  function hasWebAuthn() {
+    return window.PublicKeyCredential && typeof window.PublicKeyCredential === 'function';
+  }
+
+  function credCookieGet() {
+    const m = document.cookie.match('(?:^|;)\\s*' + WEBAUTHN_KEY + '=([^;]+)');
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function credCookieSet(val) {
+    document.cookie = WEBAUTHN_KEY + '=' + encodeURIComponent(val) + '; max-age=31536000; path=/; SameSite=Strict';
+  }
+
+  function storedCredId() {
+    return credCookieGet() || window.store.getItem(WEBAUTHN_KEY);
+  }
+
+  async function registerTouchID() {
+    if (!hasWebAuthn()) return;
+    try {
+      const cred = await navigator.credentials.create({
+        publicKey: {
+          challenge: crypto.getRandomValues(new Uint8Array(32)),
+          rp: { name: 'HighQualityFoods' },
+          user: { id: new Uint8Array(16), name: 'admin', displayName: 'Admin' },
+          pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+          authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+          timeout: 60000
+        }
+      });
+      const val = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+      credCookieSet(val);
+      window.store.setItem(WEBAUTHN_KEY, val);
+    } catch(e) { /* user declined, no problem */ }
+  }
+
+  async function doTouchIDLogin() {
+    const credIdB64 = storedCredId();
+    if (!credIdB64 || !hasWebAuthn()) return;
+    document.getElementById('touchid-err').style.display = 'none';
+    try {
+      const credId = Uint8Array.from(atob(credIdB64), c => c.charCodeAt(0));
+      await navigator.credentials.get({
+        publicKey: {
+          challenge: crypto.getRandomValues(new Uint8Array(32)),
+          allowCredentials: [{ type: 'public-key', id: credId }],
+          userVerification: 'required',
+          timeout: 60000
+        }
+      });
+      isAdmin = true;
+      closeLogin();
+      updateNav();
+      render();
+    } catch(e) {
+      document.getElementById('touchid-err').style.display = 'block';
+    }
+  }
+
+  function openLogin() {
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-err').style.display = 'none';
+    // Show Touch ID section if registered
+    const tid = document.getElementById('touchid-section');
+    if (hasWebAuthn() && storedCredId()) {
+      tid.style.display = 'block';
+      setTimeout(() => doTouchIDLogin(), 100);
+    } else {
+      tid.style.display = 'none';
+    }
+    document.getElementById('login-overlay').classList.add('open');
+    if (!storedCredId()) setTimeout(() => document.getElementById('pw-input').focus(), 60);
+  }
+  function closeLogin() {
+    document.getElementById('login-overlay').classList.remove('open');
+  }
+  async function doLogin() {
+    if (document.getElementById('pw-input').value === ADMIN_PASSWORD) {
+      isAdmin = true;
+      closeLogin();
+      updateNav();
+      render();
+      // Offer Touch ID registration if not yet set up
+      if (hasWebAuthn() && !storedCredId()) {
+        setTimeout(async () => {
+          if (confirm('Touch ID für zukünftige Logins einrichten?')) {
+            await registerTouchID();
+          }
+        }, 300);
+      }
+    } else {
+      document.getElementById('pw-err').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+  function logout() {
+    isAdmin = false;
+    updateNav();
+    render();
+  }
+
+  function updateNav() {
+    const n = document.getElementById('nav-right');
+    const fb = document.getElementById('footer-admin-btn');
+    if (isAdmin) {
+      n.innerHTML = `
+        <span class="admin-badge">Admin</span>
+        <button class="btn-design-toggle" id="design-toggle-btn" onclick="toggleDesignPanel()">
+          <i class="ti ti-typography"></i> Schrift
+        </button>
+        <button class="btn-design-toggle" onclick="openFilterManager()">
+          <i class="ti ti-tag"></i> Filter
+        </button>
+        <button class="btn-add" onclick="openEditor()">
+          <i class="ti ti-plus"></i> Rezept hinzufügen
+        </button>
+        <button class="btn-logout" onclick="logout()">
+          <i class="ti ti-logout"></i> Abmelden
+        </button>`;
+      fb.style.display = 'none';
+      renderDesignPanel();
+    } else {
+      n.innerHTML = `<span class="nav-tag">Rezept-Blog</span><button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
+      fb.style.display = 'block';
+      document.getElementById('design-panel').classList.remove('open');
+    }
+  }
+
+  // ── Filters & render ──
+  const BASE_FILTERS = ['Salat', 'Hauptgericht', 'Gegrilltes', '5-10 Minuten'];
+  const DEFAULT_GROUPS = ['Tageszeit', 'Schnelligkeit', 'Schwierigkeitsstufe'];
+
+  function loadCustomFilters() {
+    return JSON.parse(window.store.getItem('hqf_filters') || '[]');
+  }
+  function saveCustomFilters(arr) {
+    window.store.setItem('hqf_filters', JSON.stringify(arr));
+    db.save('hqf_filters');
+  }
+  function loadFilterMeta() {
+    return JSON.parse(window.store.getItem('hqf_filter_meta') || '{}');
+  }
+  function saveFilterMeta(obj) {
+    window.store.setItem('hqf_filter_meta', JSON.stringify(obj));
+    db.save('hqf_filter_meta');
+  }
+  function loadFilterGroups() {
+    return JSON.parse(window.store.getItem('hqf_filter_groups') || JSON.stringify(DEFAULT_GROUPS));
+  }
+  function saveFilterGroups(arr) {
+    window.store.setItem('hqf_filter_groups', JSON.stringify(arr));
+    db.save('hqf_filter_groups');
+  }
+
+  function allFilterNames() {
+    const custom = loadCustomFilters();
+    const fromRecipes = recipes.map(r => r.category).filter(Boolean);
+    return [...new Set([...BASE_FILTERS, ...custom, ...fromRecipes])];
+  }
+
+  function toggleFilter(cat) {
+    if (activeFilters.has(cat)) activeFilters.delete(cat);
+    else activeFilters.add(cat);
+    renderFilterPanel();
+    render();
+  }
+
+  function clearFilters() {
+    activeFilters.clear();
+    render();
+  }
+
+  function toggleFilterDropdown() {
+    const btn = document.getElementById('filter-dropdown-btn');
+    const panel = document.getElementById('filter-panel');
+    const isOpen = panel.classList.contains('open');
+    if (isOpen) { closeFilterDropdown(); return; }
+    renderFilterPanel();
+    btn.classList.add('open');
+    panel.classList.add('open');
+  }
+  function closeFilterDropdown() {
+    document.getElementById('filter-dropdown-btn').classList.remove('open');
+    document.getElementById('filter-panel').classList.remove('open');
+  }
+
+  function renderFilterPanel() {
+    const meta = loadFilterMeta();
+    const groups = loadFilterGroups();
+    const names = allFilterNames();
+    const panel = document.getElementById('filter-panel');
+    let html = '';
+    groups.forEach(group => {
+      const inGroup = names.filter(n => meta[n] === group);
+      if (!inGroup.length) return;
+      html += `<div class="filter-group-label">${group}</div>`;
+      inGroup.forEach(n => {
+        const active = activeFilters.has(n);
+        html += `<button class="filter-option${active ? ' active' : ''}" onclick="toggleFilter('${n.replace(/'/g,"\\'")}')">
+          <i class="ti ti-${active ? 'check' : 'circle'}" style="font-size:12px;opacity:${active ? 1 : 0.3};"></i> ${n}
+        </button>`;
+      });
+    });
+    if (!html) html = '<div style="padding:14px 20px;font-size:13px;color:#8fa8b8;">Noch keine Filter zugeordnet.<br>Im Admin-Bereich Filter gruppieren.</div>';
+    panel.innerHTML = html;
+  }
+
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('filter-dropdown-wrap');
+    if (wrap && !wrap.contains(e.target)) closeFilterDropdown();
+  });
+
+  function render() {
+    // Active filter display
+    const disp = document.getElementById('filter-active-display');
+    const btn = document.getElementById('filter-dropdown-btn');
+    if (activeFilters.size > 0) {
+      btn.classList.add('active');
+      disp.innerHTML = [...activeFilters].map(f =>
+        `<span class="filter-active-tag">${f} <button onclick="toggleFilter('${f.replace(/'/g,"\\'")}\')" style="background:none;border:none;cursor:pointer;color:#8fa8b8;padding:0 0 0 4px;font-size:14px;" title="Filter entfernen"><i class="ti ti-x"></i></button></span>`
+      ).join('') + `<button onclick="clearFilters()" style="background:none;border:none;cursor:pointer;color:#8fa8b8;font-size:12px;font-family:'Inter',sans-serif;padding:4px 8px;text-decoration:underline;">Alle zurücksetzen</button>`;
+    } else {
+      btn.classList.remove('active');
+      disp.innerHTML = '';
+    }
+
+    function matchesFilter(r) {
+      if (activeFilters.size > 0) {
+        const matches = [...activeFilters].some(f => {
+          if (f === '5-10 Minuten') {
+            const m = r.time && r.time.match(/(\d+)/);
+            return m && parseInt(m[1]) <= 10;
+          }
+          return r.category === f || (r.filterTags && r.filterTags.includes(f));
+        });
+        if (!matches) return false;
+      }
+      if (searchQuery) {
+        const hay = (r.title + ' ' + r.category + ' ' + (r.desc || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (!hay.includes(searchQuery)) return false;
+      }
+      return true;
+    }
+    let list = recipes.filter(matchesFilter);
+    if (showFavsOnly) { const favs = loadFavs(); list = list.filter(r => favs.includes(r.id)); }
+    const g = document.getElementById('grid');
+
+    if (!list.length) {
+      g.innerHTML = `<div class="empty">
+        <div class="empty-icon">${showFavsOnly ? '🤍' : '🍽'}</div>
+        <h3>${showFavsOnly ? 'Noch keine Favoriten' : 'Noch keine Rezepte'}</h3>
+        <p>${showFavsOnly ? 'Klick das Herz auf einem Rezept um es zu speichern.' : 'Die ersten Rezepte kommen bald.'}</p>
+      </div>`;
+      return;
+    }
+
+    g.innerHTML = list.map(r => `
+      <a class="card" role="article" href="rezept.html?id=${r.id}" onclick="sessionStorage.setItem('hqf_current_recipe', JSON.stringify(recipes.find(x=>x.id===${r.id})||''))">
+        <div class="card-img" style="position:relative;">
+          ${r.img ? `<img src="${r.img}" alt="${r.title}" loading="lazy">` : '🍲'}
+          <div class="card-cat">${r.category}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            ${r.time     ? `<span><i class="ti ti-clock"></i>${r.time}</span>` : ''}
+            ${r.servings ? `<span><i class="ti ti-users"></i>${r.servings}</span>` : ''}
+            ${(r.nutrition?.kcal || r.nutrition?.protein || r.nutrition?.carbs || r.nutrition?.fat || r.nutrition?.fiber) ? `
+            <div style="position:relative;margin-left:auto;" onclick="event.stopPropagation()">
+              <button class="nutr-btn" onclick="toggleNutr(this)" title="Nährwerte">i</button>
+              <div class="nutr-popup">
+                <div class="nutr-popup-title">Nährwerte</div>
+                ${r.nutrition?.kcal    ? `<div class="nutr-row"><span>Kalorien</span><span>${r.nutrition.kcal}</span></div>` : ''}
+                ${r.nutrition?.protein ? `<div class="nutr-row"><span>Protein</span><span>${r.nutrition.protein}</span></div>` : ''}
+                ${r.nutrition?.carbs   ? `<div class="nutr-row"><span>Kohlenhydrate</span><span>${r.nutrition.carbs}</span></div>` : ''}
+                ${r.nutrition?.fat     ? `<div class="nutr-row"><span>Fett</span><span>${r.nutrition.fat}</span></div>` : ''}
+                ${r.nutrition?.fiber   ? `<div class="nutr-row"><span>Ballaststoffe</span><span>${r.nutrition.fiber}</span></div>` : ''}
+              </div>
+            </div>` : ''}
+          </div>
+          <h3>${r.title}</h3>
+          <p>${r.desc || ''}</p>
+        </div>
+        <div class="card-footer">
+          <div>${r.tags && r.tags.length ? r.tags.map(t => `<span class="pill">${t}</span>`).join('') : ''}</div>
+          <button class="fav-btn${isFav(r.id) ? ' active' : ''}" onclick="event.stopPropagation();event.preventDefault();toggleFav(${r.id}, event)" title="Favorit">
+            <i class="ti ti-heart${isFav(r.id) ? '-filled' : ''}"></i>
+          </button>
+        </div>
+        ${isAdmin ? `
+        <div class="card-admin">
+          <button class="card-admin-btn" onclick="event.stopPropagation();event.preventDefault();openEditor(${r.id})"><i class="ti ti-edit"></i> Bearbeiten</button>
+          <button class="card-admin-btn del" onclick="event.stopPropagation();event.preventDefault();deleteRecipe(${r.id})"><i class="ti ti-trash"></i> Löschen</button>
+        </div>` : ''}
+      </a>`).join('');
+  }
+
+  // ── Editor ──
+  function openEditor(id) {
+    editId  = id || null;
+    imgData = null;
+
+    document.getElementById('editor-title').textContent = id ? 'Rezept bearbeiten' : 'Neues Rezept';
+    document.getElementById('imgFile').value = '';
+    document.getElementById('img-prev').style.display = 'none';
+    document.getElementById('img-ph').style.display   = 'block';
+
+    if (id) {
+      const r = recipes.find(x => x.id === id);
+      document.getElementById('f-title').value = r.title;
+      document.getElementById('f-cat').value   = r.category;
+      document.getElementById('f-time').value  = r.time || '';
+      document.getElementById('f-srv').value   = r.servings || '';
+      document.getElementById('f-tags').value  = (r.tags || []).join(', ');
+      document.getElementById('f-desc').value  = r.desc || '';
+      document.getElementById('f-ing').value   = r.ingredients || '';
+      document.getElementById('f-steps').value = r.steps || '';
+      const n = r.nutrition || {};
+      document.getElementById('f-kcal').value    = n.kcal || '';
+      document.getElementById('f-protein').value = n.protein || '';
+      document.getElementById('f-carbs').value   = n.carbs || '';
+      document.getElementById('f-fat').value     = n.fat || '';
+      document.getElementById('f-fiber').value   = n.fiber || '';
+      if (r.img) {
+        imgData = r.img;
+        const p = document.getElementById('img-prev');
+        p.src = r.img;
+        p.style.display = 'block';
+        document.getElementById('img-ph').style.display = 'none';
+      }
+    } else {
+      ['f-title','f-time','f-srv','f-tags','f-desc','f-ing','f-steps','f-kcal','f-protein','f-carbs','f-fat','f-fiber']
+        .forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('f-cat').value = 'Suppe';
+    }
+
+    document.getElementById('editor-overlay').classList.add('open');
+  }
+
+  function closeEditor() {
+    document.getElementById('editor-overlay').classList.remove('open');
+  }
+
+  function compressToBlob(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 1200;
+          let w = img.width, h = img.height;
+          if (w > MAX || h > MAX) {
+            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+            else       { w = Math.round(w * MAX / h); h = MAX; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.8);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function previewImg(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const drop = document.querySelector('.img-drop');
+    const p = document.getElementById('img-prev');
+    const ph = document.getElementById('img-ph');
+    drop.style.opacity = '0.5';
+    drop.style.pointerEvents = 'none';
+    try {
+      const blob = await compressToBlob(file);
+      const filename = Date.now() + '-' + Math.random().toString(36).slice(2) + '.jpg';
+      const res = await fetch(`${window.SUPABASE_URL}/storage/v1/object/image/${filename}`, {
+        method: 'POST',
+        headers: {
+          apikey: window.SUPABASE_KEY,
+          Authorization: `Bearer ${window.SUPABASE_KEY}`,
+          'Content-Type': 'image/jpeg'
+        },
+        body: blob
+      });
+      if (!res.ok) throw new Error(await res.text());
+      imgData = `${window.SUPABASE_URL}/storage/v1/object/public/image/${filename}`;
+      p.src = imgData;
+      p.style.display = 'block';
+      ph.style.display = 'none';
+    } catch(err) {
+      console.error('[img upload]', err);
+      alert('Bild-Upload fehlgeschlagen. Prüfe ob der Supabase Storage Bucket "image" existiert und public ist.');
+    } finally {
+      drop.style.opacity = '';
+      drop.style.pointerEvents = '';
+    }
+  }
+
+  async function saveRecipe() {
+    if (!isAdmin) return;
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) {
+      document.getElementById('f-title').style.borderColor = '#c05050';
+      document.getElementById('f-title').focus();
+      return;
+    }
+    document.getElementById('f-title').style.borderColor = '';
+
+    const tags = document.getElementById('f-tags').value
+      .split(',').map(t => t.trim()).filter(Boolean);
+
+    const data = {
+      title,
+      category:    document.getElementById('f-cat').value,
+      time:        document.getElementById('f-time').value.trim(),
+      servings:    document.getElementById('f-srv').value.trim(),
+      tags,
+      desc:        document.getElementById('f-desc').value.trim(),
+      ingredients: document.getElementById('f-ing').value.trim(),
+      steps:       document.getElementById('f-steps').value.trim(),
+      img:         imgData,
+      nutrition: {
+        kcal:    document.getElementById('f-kcal').value.trim(),
+        protein: document.getElementById('f-protein').value.trim(),
+        carbs:   document.getElementById('f-carbs').value.trim(),
+        fat:     document.getElementById('f-fat').value.trim(),
+        fiber:   document.getElementById('f-fiber').value.trim(),
+      }
+    };
+
+    if (editId) {
+      const idx = recipes.findIndex(r => r.id === editId);
+      recipes[idx] = { ...recipes[idx], ...data };
+    } else {
+      recipes.unshift({ id: Date.now(), ...data });
+    }
+
+    await saveToStorage();
+    closeEditor();
+    render();
+  }
+
+  // ── Detail: navigate to own page ──
+  function openDetail(id) {
+    const r = recipes.find(r => r.id === id);
+    if (r) sessionStorage.setItem('hqf_current_recipe', JSON.stringify(r));
+    window.location.href = `rezept.html?id=${id}`;
+  }
+
+  // ── Step formatter ──
+  function formatSteps(text) {
+    if (!text) return '';
+    const emojis = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'];
+    return text.split('\n').map(line => {
+      const m = line.match(/^(\d+)\.\s*(.+)/);
+      if (m) {
+        const emoji = emojis[parseInt(m[1]) - 1] || `${m[1]}.`;
+        return `<strong style="display:block; margin-top:14px; font-size:15px; color:#1a2332;">${emoji} ${m[2]}</strong>`;
+      }
+      return line ? `<span style="color:#4a5568; display:block; margin-top:4px;">${line}</span>` : '';
+    }).join('');
+  }
+
+  // ── Detail view ──
+  function closeDetail() {}
+
+  function deleteRecipe(id) {
+    if (!confirm('Dieses Rezept wirklich löschen?')) return;
+    recipes = recipes.filter(r => r.id !== id);
+    saveToStorage();
+    closeDetail();
+    render();
+  }
+
+  // ── Filter Manager ──
+  function openFilterManager() {
+    renderFilterManager();
+    document.getElementById('filter-manager-overlay').classList.add('open');
+  }
+  function closeFilterManager() {
+    document.getElementById('filter-manager-overlay').classList.remove('open');
+  }
+
+  function renderFilterManager() {
+    const filters = allFilterNames();
+    const custom = loadCustomFilters();
+    const meta = loadFilterMeta();
+    const groups = loadFilterGroups();
+    const el = document.getElementById('filter-manager-content');
+
+    const groupSelect = (fname) => `
+      <select onchange="setFilterGroup('${fname.replace(/'/g,"\\'")}', this.value)"
+        style="padding:5px 8px; border:1px solid #d4cdc3; border-radius:3px; font-size:12px; font-family:'Inter',sans-serif; color:#1a2332; background:#fff; cursor:pointer;">
+        <option value="">— keine —</option>
+        ${groups.map(g => `<option value="${g}" ${meta[fname] === g ? 'selected' : ''}>${g}</option>`).join('')}
+      </select>`;
+
+    const newFilterRow = `
+      <div style="padding:16px 20px; border-bottom:1px solid #e0d9ce; background:#faf9f6;">
+        <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8fa8b8; margin-bottom:10px;">Neue Gruppe</div>
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <input id="new-group-input" type="text" placeholder="Gruppenname…"
+            style="flex:1; padding:8px 12px; border:1.5px solid #e0d9ce; border-radius:4px; font-family:'Inter',sans-serif; font-size:13px; outline:none;"
+            onkeydown="if(event.key==='Enter') addFilterGroup()">
+          <button onclick="addFilterGroup()" style="background:#8fa8b8; color:#1a2332; border:none; padding:8px 16px; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; cursor:pointer; white-space:nowrap;">
+            <i class="ti ti-plus"></i> Gruppe
+          </button>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px;">
+          ${groups.map(g => `<span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #d4cdc3;border-radius:3px;padding:4px 10px;font-size:12px;font-family:'Inter',sans-serif;color:#1a2332;">${g}<button onclick="deleteFilterGroup('${g.replace(/'/g,"\\'")}\')" style="background:none;border:none;cursor:pointer;color:#c05050;padding:0;font-size:12px;line-height:1;"><i class="ti ti-x"></i></button></span>`).join('')}
+        </div>
+      </div>
+      <div style="padding:16px 20px; border-bottom:2px solid #1a2332; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8fa8b8; width:100%; margin-bottom:4px;">Neuer Filter</div>
+        <input id="new-filter-input" type="text" placeholder="Filter-Name…"
+          style="flex:1; min-width:140px; padding:9px 14px; border:1.5px solid #e0d9ce; border-radius:4px; font-family:'Inter',sans-serif; font-size:14px; outline:none;">
+        <select id="new-filter-group"
+          style="padding:9px 12px; border:1.5px solid #e0d9ce; border-radius:4px; font-size:14px; font-family:'Inter',sans-serif; color:#1a2332; background:#fff; cursor:pointer;">
+          <option value="">Gruppe wählen…</option>
+          ${groups.map(g => `<option value="${g}">${g}</option>`).join('')}
+        </select>
+        <button onclick="addCustomFilter()" style="background:#1a2332; color:#e8dfd0; border:none; padding:9px 18px; border-radius:4px; font-size:13px; font-family:'Inter',sans-serif; cursor:pointer; white-space:nowrap;">
+          <i class="ti ti-plus"></i> Hinzufügen
+        </button>
+      </div>`;
+
+    // Filter list: all filters with group selector + recipe checkboxes
+    const filterRows = filters.map(f => {
+      const isCustom = custom.includes(f);
+      return `
+        <tr style="border-bottom:1px solid #f0ece5;">
+          <td style="padding:12px 16px; font-weight:500; color:#1a2332; white-space:nowrap;">${f}
+            ${isCustom ? `<button onclick="deleteCustomFilter('${f.replace(/'/g,"\\'")}\')" title="Löschen" style="background:none;border:none;cursor:pointer;color:#c05050;margin-left:6px;padding:0;font-size:13px;"><i class="ti ti-trash"></i></button>` : ''}
+          </td>
+          <td style="padding:12px 16px;">${groupSelect(f)}</td>
+          ${recipes.map(r => {
+            const checked = (r.filterTags && r.filterTags.includes(f)) || r.category === f;
+            const fromCat = r.category === f;
+            return `<td style="text-align:center; padding:12px 8px;">
+              <input type="checkbox" ${checked ? 'checked' : ''} ${fromCat ? 'title="Hauptkategorie"' : ''}
+                onchange="toggleRecipeFilter(${r.id}, '${f.replace(/'/g,"\\'")}', this.checked)"
+                style="width:16px; height:16px; cursor:pointer; accent-color:#1a2332;">
+            </td>`;
+          }).join('')}
+        </tr>`;
+    }).join('');
+
+    el.innerHTML = newFilterRow + `
+      <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="border-bottom:2px solid #1a2332; background:#faf9f6;">
+            <th style="text-align:left; padding:12px 16px; font-weight:500; color:#1a2332; white-space:nowrap;">Filter</th>
+            <th style="text-align:left; padding:12px 16px; font-weight:500; color:#1a2332; white-space:nowrap;">Gruppe</th>
+            ${recipes.map(r => `<th style="padding:10px 8px; font-size:11px; color:#8fa8b8; text-align:center; white-space:nowrap; max-width:80px; overflow:hidden; text-overflow:ellipsis;" title="${r.title}">${r.title.length > 12 ? r.title.slice(0,12)+'…' : r.title}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>${filterRows}</tbody>
+      </table>
+      </div>`;
+  }
+
+  function addFilterGroup() {
+    const input = document.getElementById('new-group-input');
+    const name = input.value.trim();
+    if (!name) return;
+    const groups = loadFilterGroups();
+    if (groups.includes(name)) { input.value = ''; return; }
+    groups.push(name);
+    saveFilterGroups(groups);
+    input.value = '';
+    renderFilterManager();
+  }
+
+  function deleteFilterGroup(name) {
+    if (!confirm(`Gruppe "${name}" löschen? Filter bleiben erhalten, verlieren aber ihre Gruppe.`)) return;
+    const groups = loadFilterGroups().filter(g => g !== name);
+    saveFilterGroups(groups);
+    const meta = loadFilterMeta();
+    Object.keys(meta).forEach(k => { if (meta[k] === name) delete meta[k]; });
+    saveFilterMeta(meta);
+    renderFilterManager();
+    render();
+  }
+
+  function setFilterGroup(filterName, group) {
+    const meta = loadFilterMeta();
+    if (group) meta[filterName] = group;
+    else delete meta[filterName];
+    saveFilterMeta(meta);
+    render();
+  }
+
+  function addCustomFilter() {
+    const input = document.getElementById('new-filter-input');
+    const groupEl = document.getElementById('new-filter-group');
+    const name = input.value.trim();
+    const group = groupEl.value;
+    if (!name) return;
+    const custom = loadCustomFilters();
+    if ([...BASE_FILTERS, ...custom].includes(name)) { input.value = ''; return; }
+    custom.push(name);
+    saveCustomFilters(custom);
+    if (group) {
+      const meta = loadFilterMeta();
+      meta[name] = group;
+      saveFilterMeta(meta);
+    }
+    input.value = '';
+    groupEl.value = '';
+    renderFilterManager();
+    render();
+  }
+
+  function deleteCustomFilter(name) {
+    if (!confirm(`Filter "${name}" löschen?`)) return;
+    const custom = loadCustomFilters().filter(f => f !== name);
+    saveCustomFilters(custom);
+    const meta = loadFilterMeta();
+    delete meta[name];
+    saveFilterMeta(meta);
+    recipes.forEach(r => { if (r.filterTags) r.filterTags = r.filterTags.filter(f => f !== name); });
+    saveToStorage();
+    activeFilters.delete(name);
+    renderFilterManager();
+    render();
+  }
+
+  function toggleRecipeFilter(id, filter, add) {
+    const r = recipes.find(x => x.id === id);
+    if (!r) return;
+    if (!r.filterTags) r.filterTags = [];
+    if (add) {
+      if (!r.filterTags.includes(filter)) r.filterTags.push(filter);
+    } else {
+      r.filterTags = r.filterTags.filter(f => f !== filter);
+    }
+    saveToStorage();
+    render();
+  }
+
+  // Escape key closes overlays
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeDetail();
+      closeEditor();
+      closeLogin();
+    }
+  });
+
+  // ── Design Panel ──
+  const FONTS_HEADING = [
+    { key: 'Playfair Display', label: 'Playfair', preview: 'Aa' },
+    { key: 'Lora',             label: 'Lora',     preview: 'Aa' },
+    { key: 'Cormorant Garamond', label: 'Cormorant', preview: 'Aa' },
+  ];
+  const FONTS_BODY = [
+    { key: 'Inter',   label: 'Inter'   },
+    { key: 'DM Sans', label: 'DM Sans' },
+    { key: 'Lato',    label: 'Lato'    },
+  ];
+  const SIZES = [
+    { key: 'small',  label: 'Klein'  },
+    { key: 'medium', label: 'Normal' },
+    { key: 'large',  label: 'Groß'   },
+  ];
+
+  function loadDesign() {
+    const d = window.store.getItem('hqf_design');
+    return d ? JSON.parse(d) : { headingFont: 'Playfair Display', bodyFont: 'Inter', size: 'medium' };
+  }
+  function saveDesign(d) {
+    window.store.setItem('hqf_design', JSON.stringify(d));
+    applyDesign(d);
+  }
+  function applyDesign(d) {
+    let s = document.getElementById('hqf-design-style');
+    if (!s) { s = document.createElement('style'); s.id = 'hqf-design-style'; document.head.appendChild(s); }
+    const scale = d.size === 'small' ? 0.88 : d.size === 'large' ? 1.14 : 1;
+    s.textContent = `
+      .logo, h1, h2, h3, h4, .hero h1, .recipe-title, .card-body h3, .modal-hdr h2
+        { font-family: '${d.headingFont}', serif !important; }
+      body, p, span, a, button, input, textarea, select, .nav-links a, .filter-btn
+        { font-family: '${d.bodyFont}', sans-serif !important; }
+      body { font-size: ${scale * 16}px !important; }
+      .hero h1 { font-size: ${scale * 36}px !important; }
+      .card-body h3 { font-size: ${scale * 20}px !important; }
+      @media (max-width: 640px) {
+        .hero h1 { font-size: ${Math.round(scale * 24)}px !important; }
+      }
+    `;
+  }
+
+  function renderDesignPanel() {
+    const d = loadDesign();
+    const panel = document.getElementById('design-panel');
+    panel.innerHTML = `
+      <h4>Überschriften-Schrift</h4>
+      <div class="font-options">
+        ${FONTS_HEADING.map(f => `
+          <div class="font-opt${d.headingFont === f.key ? ' active' : ''}"
+               onclick="setHeadingFont('${f.key}')"
+               style="font-family:'${f.key}',serif;">
+            <span class="font-opt-preview">${f.preview}</span>
+            <span class="font-opt-name">${f.label}</span>
+          </div>`).join('')}
+      </div>
+      <h4>Text-Schrift</h4>
+      <div class="font-options">
+        ${FONTS_BODY.map(f => `
+          <div class="font-opt${d.bodyFont === f.key ? ' active' : ''}"
+               onclick="setBodyFont('${f.key}')"
+               style="font-family:'${f.key}',sans-serif;">
+            <span class="font-opt-name">${f.label}</span>
+          </div>`).join('')}
+      </div>
+      <h4>Schriftgröße</h4>
+      <div class="size-options">
+        ${SIZES.map(s => `
+          <div class="size-opt${d.size === s.key ? ' active' : ''}" onclick="setSize('${s.key}')">
+            ${s.label}
+          </div>`).join('')}
+      </div>`;
+  }
+
+  function toggleDesignPanel() {
+    const p = document.getElementById('design-panel');
+    const btn = document.getElementById('design-toggle-btn');
+    p.classList.toggle('open');
+    btn.classList.toggle('active');
+  }
+  function setHeadingFont(key) {
+    const d = loadDesign(); d.headingFont = key; saveDesign(d); renderDesignPanel();
+  }
+  function setBodyFont(key) {
+    const d = loadDesign(); d.bodyFont = key; saveDesign(d); renderDesignPanel();
+  }
+  function setSize(key) {
+    const d = loadDesign(); d.size = key; saveDesign(d); renderDesignPanel();
+  }
+
+  // Init
+  applyDesign(loadDesign());
+  updateNav();
+  const _urlFilter = new URLSearchParams(location.search).get('filter');
+  if (_urlFilter) activeFilters.add(_urlFilter);
+  recipes = loadRecipes();
+  render();
+  (async () => {
+    const localCount = recipes.length;
+    await db.sync('hqf_recipes');
+    await db.sync('hqf_filters');
+    await db.sync('hqf_filter_meta');
+    await db.sync('hqf_filter_groups');
+    const afterSync = loadRecipes();
+    if (afterSync.length >= localCount) {
+      recipes = afterSync;
+      render();
+    }
+  })();
+</script>
+</body>
+</html>

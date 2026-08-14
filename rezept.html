@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="description" content="HighQualityFoods - Rezept Blog, hier findest du Inspiration zum Thema clean eating mit leckeren Gerichten. Die Mahlzeiten sind alle selbst von meiner Mom zubereitet. Viel Spaß beim nachkochen :)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezept — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover { color: #1a2332; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* ── Horizontal layout ── */
+    .recipe-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 62px);
+    }
+
+    /* Left: sticky image */
+    .recipe-img-col {
+      position: sticky;
+      top: 62px;
+      height: calc(100vh - 62px);
+      background: #f5f2ec;
+      border-right: 1px solid rgba(26,35,50,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .recipe-img-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .recipe-img {
+      width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 20px;
+      display: block;
+      box-shadow: 0 8px 32px rgba(26,35,50,.13), 0 2px 8px rgba(26,35,50,.07);
+    }
+    .recipe-img-ph {
+      font-size: 96px;
+      opacity: .2;
+    }
+
+    /* Right: scrollable content */
+    .recipe-info-col {
+      padding: 52px 56px 80px;
+      overflow-y: auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #8fa8b8;
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 28px;
+      transition: color .15s;
+    }
+    .back-link:hover { color: #1a2332; }
+
+    .eyebrow {
+      color: #8fa8b8;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .recipe-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 500;
+      color: #1a2332;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .recipe-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .recipe-meta span {
+      color: #8fa8b8;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .recipe-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .pill {
+      background: #f0ece5;
+      color: #6b7f8f;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .divider { border: none; border-top: 1px solid #e0d9ce; margin: 28px 0; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #8fa8b8;
+      margin-bottom: 14px;
+    }
+
+    .desc-text {
+      color: #4a5568;
+      font-size: 15px;
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    .ingredients-list { list-style: none; margin-bottom: 32px; }
+    .ingredients-list li {
+      color: #1a2332;
+      font-size: 14px;
+      line-height: 1.7;
+      padding: 7px 0;
+      border-bottom: 1px solid #f0ece5;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .ingredients-list li::before { content: '—'; color: #8fa8b8; flex-shrink: 0; }
+
+    .step-item { margin-bottom: 22px; }
+    .step-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #1a2332;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-num {
+      background: #1a2332;
+      color: #e8dfd0;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text {
+      color: #4a5568;
+      font-size: 14px;
+      line-height: 1.85;
+      font-weight: 300;
+      padding-left: 32px;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1.5px solid #1a2332;
+      color: #1a2332;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      margin-bottom: 28px;
+    }
+    .share-btn:hover { background: #1a2332; color: #e8dfd0; }
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a2332;
+      border: 1.5px solid #1a2332;
+      color: #e8dfd0;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: opacity .15s;
+      margin-bottom: 28px;
+      margin-left: 10px;
+    }
+    .pdf-btn:hover { opacity: .82; }
+    .fav-detail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: #c0b8ae;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 9px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .15s;
+      margin-bottom: 28px;
+      margin-left: 4px;
+    }
+    .fav-detail-btn:hover, .fav-detail-btn.active { color: #e07070; }
+
+    @media print {
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+
+      /* Alles ausblenden außer #page */
+      body > *:not(#page) { display: none !important; }
+      body { margin: 0; padding: 0; background: #fff; font-family: 'Inter', sans-serif; font-size: 11px; color: #1a2332; }
+      #page { display: block !important; margin: 0; padding: 0; }
+
+      /* Originallayout komplett überschreiben */
+      .recipe-layout {
+        display: block !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        gap: 0 !important;
+      }
+      .recipe-img-col, .recipe-info-col {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+
+      /* Alles unnötige verstecken */
+      .share-btn, .pdf-btn, .share-toast, .back-link,
+      .recipe-tags, .divider, hr, #footer-admin-btn { display: none !important; }
+
+      /* ── BILD: kompakt oben ── */
+      .recipe-img-wrap { height: 200px; overflow: hidden; width: 100%; }
+      .recipe-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+      .recipe-img-ph { display: none !important; }
+
+      /* ── HEADER: Titel + Meta ── */
+      .recipe-info-col { padding: 14px 20px 0 !important; }
+      .back-link { display: none !important; }
+      .eyebrow { font-size: 9px; letter-spacing: 2px; color: #8fa8b8; margin-bottom: 3px; display: block; }
+      .recipe-title { font-size: 20px !important; margin: 0 0 8px !important; line-height: 1.2; }
+      .recipe-meta { display: flex !important; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid #1a2332; }
+      .recipe-meta span { font-size: 10px; color: #1a2332; display: flex; align-items: center; gap: 4px; }
+      .recipe-tags { display: none; }
+      .desc-text { font-size: 10px; color: #4a5568; margin-bottom: 8px; line-height: 1.5; font-style: italic; }
+
+      /* ── ZWEI SPALTEN: Zutaten | Zubereitung ── */
+      .print-cols {
+        display: grid !important;
+        grid-template-columns: 1fr 2fr;
+        gap: 16px;
+        margin-top: 10px;
+      }
+
+      /* Verstecke originale divider zwischen Sektionen */
+      .divider { display: none !important; }
+
+      /* Labels */
+      .section-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8fa8b8; margin: 0 0 6px; font-weight: 600; display: block; }
+
+      /* Zutaten */
+      .ingredients-list { font-size: 10px; line-height: 1.7; padding-left: 14px; margin: 0; }
+
+      /* Zubereitung Steps */
+      .recipe-info-col strong { font-size: 10px !important; margin-top: 6px !important; }
+      .recipe-info-col span[style*="color:#4a5568"] { font-size: 10px !important; }
+
+      /* HQF Branding */
+      #page::after {
+        content: 'highqualityfoods.de';
+        display: block;
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid #e0d9ce;
+        font-size: 9px;
+        color: #8fa8b8;
+        text-align: center;
+        letter-spacing: 1px;
+      }
+    }
+    .share-toast {
+      display: inline-block;
+      margin-left: 12px;
+      font-size: 12px;
+      color: #8fa8b8;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .share-toast.show { opacity: 1; }
+
+    footer {
+      position: relative;
+      background: #f5f2ec;
+      border-top: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+      top: 0;
+    }
+    .footer-copy { color: rgba(26,35,50,.4); font-size: 12px; }
+
+    .not-found { text-align: center; padding: 120px 48px; }
+    .not-found h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: #1a2332; margin-bottom: 12px; }
+    .not-found p { color: #8fa8b8; margin-bottom: 24px; }
+    .not-found a { color: #1a2332; font-size: 13px; text-decoration: underline; }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
+    .hamburger i { font-size: 22px; line-height: 1; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+    @media (max-width: 800px) {
+      .recipe-layout { grid-template-columns: 1fr; }
+      .recipe-img-col { position: relative; top: 0; height: 260px; border-right: none; border-bottom: 1px solid rgba(26,35,50,.1); padding: 20px; }
+      .recipe-info-col { padding: 28px 20px 48px; }
+      nav, footer { padding-left: 20px; padding-right: 20px; }
+      nav::after { left: 20px; right: 20px; }
+      footer::before { left: 20px; right: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .nav-links, .nav-tag { display: none !important; }
+      .hamburger { display: block; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+  </style>
+  <script>(function(){var d=JSON.parse(window.store.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-HXETZ7G0E4");
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A–Z</a>
+    <a href="about.html">About</a>
+  </div>
+  <div>
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z</a>
+  <a href="about.html">About</a>
+</div>
+
+<div id="page"></div>
+
+<footer>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+</footer>
+
+<script>
+  function formatIngredients(text) {
+    if (!text) return '';
+    return text.split('\n').filter(l => l.trim()).map(line =>
+      `<li>${line.trim()}</li>`
+    ).join('');
+  }
+
+  function formatSteps(text) {
+    if (!text) return '';
+    const lines = text.split('\n');
+    let html = '';
+    let currentStep = null;
+    let currentTexts = [];
+    let stepCounter = 0;
+
+    function flushStep() {
+      if (currentStep !== null) {
+        stepCounter++;
+        html += `<div class="step-item">
+          <div class="step-heading"><span class="step-num">${stepCounter}</span>${currentStep}</div>
+          <div class="step-text">${currentTexts.join('<br>')}</div>
+        </div>`;
+        currentTexts = [];
+        currentStep = null;
+      }
+    }
+
+    lines.forEach(line => {
+      const m = line.match(/^\d+\.\s*(.+)/);
+      if (m) { flushStep(); currentStep = m[1]; }
+      else if (line.trim() && currentStep !== null) { currentTexts.push(line.trim()); }
+      else if (line.trim()) { html += `<div class="step-text" style="margin-bottom:14px;">${line.trim()}</div>`; }
+    });
+    flushStep();
+    return html;
+  }
+
+  function loadRecipes() {
+    const saved = window.store.getItem('hqf_recipes');
+    return saved ? JSON.parse(saved) : [];
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+
+  // Erst sessionStorage (zuverlässigste Quelle nach Navigation), dann localStorage
+  function findRecipe() {
+    try {
+      const cached = sessionStorage.getItem('hqf_current_recipe');
+      if (cached) {
+        const r = JSON.parse(cached);
+        if (r.id === id) return r;
+      }
+    } catch(e) {}
+    return loadRecipes().find(x => x.id === id);
+  }
+
+  renderPage(findRecipe());
+  (async () => {
+    await db.sync('hqf_recipes');
+    const afterSync = findRecipe();
+    if (afterSync) renderPage(afterSync);
+  })();
+  function renderPage(r) {
+  const page = document.getElementById('page');
+
+  if (!r) {
+    page.innerHTML = `<div class="not-found">
+      <h2>Rezept nicht gefunden</h2>
+      <p>Dieses Rezept existiert nicht oder wurde gelöscht.</p>
+      <a href="rezepte.html">← Zurück zur Übersicht</a>
+    </div>`;
+  } else {
+    document.title = `${r.title} — HighQualityFoods`;
+    page.innerHTML = `
+      <div class="recipe-layout">
+
+        <!-- Linke Spalte: Bild -->
+        <div class="recipe-img-col">
+          <div class="recipe-img-wrap">
+            ${r.img
+              ? `<img class="recipe-img" src="${r.img}" alt="${r.title}">`
+              : `<div class="recipe-img-ph">🍽</div>`}
+          </div>
+        </div>
+
+        <!-- Rechte Spalte: Inhalt -->
+        <div class="recipe-info-col">
+          <a href="rezepte.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Rezepte</a>
+          <div class="eyebrow">${r.category}</div>
+
+          <h1 class="recipe-title">${r.title}</h1>
+          <div class="recipe-meta">
+            ${r.time     ? `<span><i class="ti ti-clock"></i>${r.time}</span>` : ''}
+            ${r.servings ? `<span><i class="ti ti-users"></i>${r.servings}</span>` : ''}
+            ${r.nutrition?.kcal    ? `<span><i class="ti ti-flame"></i>${r.nutrition.kcal}</span>` : ''}
+            ${r.nutrition?.protein ? `<span><i class="ti ti-meat"></i>${r.nutrition.protein}</span>` : ''}
+            ${r.nutrition?.carbs   ? `<span><i class="ti ti-bread"></i>${r.nutrition.carbs}</span>` : ''}
+            ${r.nutrition?.fat     ? `<span><i class="ti ti-droplet"></i>${r.nutrition.fat}</span>` : ''}
+            ${r.nutrition?.fiber   ? `<span><i class="ti ti-leaf"></i>${r.nutrition.fiber}</span>` : ''}
+          </div>
+          ${r.tags && r.tags.length
+            ? `<div class="recipe-tags">${r.tags.map(t => `<span class="pill">${t}</span>`).join('')}</div>`
+            : ''}
+
+          ${r.desc ? `
+            <div class="section-label">Beschreibung</div>
+            <p class="desc-text">${r.desc}</p>
+            <hr class="divider">` : ''}
+
+          <div class="print-cols">
+            ${r.ingredients ? `<div>
+              <div class="section-label">Zutaten</div>
+              <ul class="ingredients-list">${formatIngredients(r.ingredients)}</ul>
+            </div>` : '<div></div>'}
+            ${r.steps ? `<div>
+              <div class="section-label">Zubereitung</div>
+              <div>${formatSteps(r.steps)}</div>
+            </div>` : '<div></div>'}
+          </div>
+
+          <hr class="divider">
+          <button class="share-btn" onclick="shareRecipe('${r.title.replace(/'/g,"\\'")}')">
+            <i class="ti ti-share"></i> Rezept teilen
+          </button>
+          <button class="pdf-btn" onclick="window.print()">
+            <i class="ti ti-file-type-pdf"></i> Als PDF speichern
+          </button>
+          <button class="fav-detail-btn${isFav(r.id) ? ' active' : ''}" id="fav-detail-btn" onclick="toggleFavDetail(${r.id})">
+            <i class="ti ti-heart${isFav(r.id) ? '-filled' : ''}"></i> ${isFav(r.id) ? 'Favorit' : 'Favorisieren'}
+          </button>
+          <span class="share-toast" id="share-toast">Link kopiert!</span>
+        </div>
+
+      </div>`;
+  }
+  } // end renderPage
+
+  function loadFavs() { try { return JSON.parse(window.store.getItem('hqf_favs') || '[]'); } catch(e) { return []; } }
+  function saveFavs(f) { window.store.setItem('hqf_favs', JSON.stringify(f)); }
+  function isFav(id) { return loadFavs().includes(id); }
+  function toggleFavDetail(id) {
+    var favs = loadFavs();
+    var idx = favs.indexOf(id);
+    if (idx === -1) favs.push(id); else favs.splice(idx, 1);
+    saveFavs(favs);
+    var btn = document.getElementById('fav-detail-btn');
+    var active = favs.includes(id);
+    btn.className = 'fav-detail-btn' + (active ? ' active' : '');
+    btn.innerHTML = '<i class="ti ti-heart' + (active ? '-filled' : '') + '"></i> ' + (active ? 'Favorit' : 'Favorisieren');
+  }
+
+  function shareRecipe(title) {
+    const url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: title + ' — HighQualityFoods', url });
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        const t = document.getElementById('share-toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+      });
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zutaten A–Z — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav {
+      background: #f5f2ec;
+      border-bottom: none;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover, .nav-links a.active { color: #1a2332; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* Admin nav button */
+    .btn-admin {
+      background: none;
+      border: 1.5px solid rgba(26,35,50,.25);
+      color: rgba(26,35,50,.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-admin:hover { border-color: #1a2332; color: #1a2332; }
+    .btn-admin.active { background: #1a2332; color: #e8dfd0; border-color: #1a2332; }
+
+    /* Admin banner */
+    .admin-banner {
+      display: none;
+      background: #1a2332;
+      color: #e8dfd0;
+      padding: 10px 48px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-banner.show { display: flex; }
+    .admin-banner i { font-size: 15px; }
+
+    .hero {
+      background: #f5f2ec;
+      padding: 64px 48px 48px;
+      border-bottom: 1px solid rgba(26,35,50,.1);
+    }
+    .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; color: #1a2332; line-height: 1.2; }
+    .hero h1 em { color: #8fa8b8; font-style: italic; }
+    .hero-sub { color: rgba(26,35,50,.45); font-size: 15px; font-weight: 300; margin-top: 12px; }
+
+    /* Letter jump bar */
+    .alpha-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 20px 48px;
+      border-bottom: 1px solid #e0d9ce;
+      background: #fff;
+      position: sticky;
+      top: 59px;
+      z-index: 40;
+    }
+    .alpha-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1.5px solid #e0d9ce;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #fff;
+      color: #1a2332;
+      text-decoration: none;
+      transition: background .12s, color .12s, border-color .12s;
+    }
+    .alpha-btn:hover { background: #1a2332; color: #e8dfd0; border-color: #1a2332; }
+    .alpha-btn.inactive { color: #c8c0b4; border-color: #ede8e0; cursor: default; }
+    .alpha-btn.inactive:hover { background: #fff; color: #c8c0b4; border-color: #ede8e0; }
+
+    /* Content */
+    .lexikon-content { max-width: 900px; margin: 0 auto; padding: 48px 48px 80px; }
+
+    .letter-section { margin-bottom: 48px; scroll-margin-top: 120px; }
+    .letter-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 500;
+      color: #1a2332;
+      border-bottom: none;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .letter-count { font-family: 'Inter', sans-serif; font-size: 12px; color: #8fa8b8; font-weight: 400; }
+
+    .ingredient-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+    }
+
+    /* Ingredient item — normal mode */
+    .ingredient-item {
+      background: #fff;
+      border: 1px solid #e0d9ce;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: #1a2332;
+      font-weight: 300;
+      line-height: 1.4;
+      cursor: pointer;
+      transition: background .12s, border-color .12s;
+      position: relative;
+    }
+    .ingredient-item:hover { background: #1a2332; color: #e8dfd0; border-color: #1a2332; }
+
+    /* Admin mode ingredient */
+    body.admin-mode .ingredient-item { padding-right: 64px; cursor: default; }
+    body.admin-mode .ingredient-item:hover { background: #fff; color: #1a2332; border-color: #e0d9ce; }
+
+    .item-actions {
+      display: none;
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      gap: 4px;
+    }
+    body.admin-mode .item-actions { display: flex; }
+
+    .item-btn {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background .12s, color .12s;
+    }
+    .item-btn-edit { background: #f0ece5; color: #1a2332; }
+    .item-btn-edit:hover { background: #1a2332; color: #e8dfd0; }
+    .item-btn-delete { background: #fdf0ef; color: #c0392b; }
+    .item-btn-delete:hover { background: #c0392b; color: #fff; }
+
+    /* Inline edit */
+    .ingredient-item.editing { background: #fffbf5; border-color: #1a2332; }
+    .ingredient-item.editing:hover { background: #fffbf5; color: #1a2332; }
+    .item-edit-input {
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #1a2332;
+      background: transparent;
+      width: 100%;
+    }
+
+    /* Add ingredient button */
+    .add-ingredient-btn {
+      background: transparent;
+      border: 1.5px dashed #c8c0b4;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #8fa8b8;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      transition: border-color .12s, color .12s;
+      font-family: 'Inter', sans-serif;
+    }
+    .add-ingredient-btn:hover { border-color: #1a2332; color: #1a2332; }
+    body.admin-mode .add-ingredient-btn { display: flex; }
+
+    /* Custom ingredient badge */
+    .custom-badge {
+      display: none;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #8fa8b8;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    body.admin-mode .custom-badge { display: inline; }
+
+    /* Recipe modal */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,35,50,.45); z-index: 200; align-items: center; justify-content: center; }
+    .overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 4px; width: 100%; max-width: 480px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 16px 48px rgba(26,35,50,.18); }
+    .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e0d9ce; flex-shrink: 0; }
+    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; }
+    .modal-hdr span { color: #8fa8b8; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 300; }
+    .modal-close { background: none; border: none; cursor: pointer; color: rgba(26,35,50,.4); font-size: 20px; }
+    .modal-body { padding: 20px 24px; overflow-y: auto; }
+    .recipe-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0ece5;
+      text-decoration: none;
+      color: #1a2332;
+      transition: opacity .12s;
+    }
+    .recipe-link:last-child { border-bottom: none; }
+    .recipe-link:hover { opacity: .7; }
+    .recipe-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #eae3d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      overflow: hidden;
+    }
+    .recipe-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .recipe-link-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 500; }
+    .recipe-link-cat { font-size: 11px; color: #8fa8b8; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+    /* Login modal */
+    .login-modal { background: #fff; border-radius: 4px; width: 100%; max-width: 380px; box-shadow: 0 16px 48px rgba(26,35,50,.18); padding: 32px; }
+    .login-modal h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+    .login-field { width: 100%; border: 1.5px solid #e0d9ce; border-radius: 4px; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: #1a2332; outline: none; transition: border-color .15s; }
+    .login-field:focus { border-color: #1a2332; }
+    .login-error { color: #c0392b; font-size: 12px; margin-top: 8px; display: none; }
+    .login-error.show { display: block; }
+    .login-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .btn-primary { background: #1a2332; color: #e8dfd0; border: none; border-radius: 4px; padding: 10px 22px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
+    .btn-primary:hover { opacity: .85; }
+    .btn-secondary { background: none; border: 1.5px solid #e0d9ce; color: #1a2332; border-radius: 4px; padding: 10px 22px; font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; transition: border-color .15s; }
+    .btn-secondary:hover { border-color: #1a2332; }
+
+    .empty-state { text-align: center; padding: 80px 48px; }
+    .empty-state h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: #1a2332; margin-bottom: 12px; }
+    .empty-state p { color: #8fa8b8; font-size: 15px; margin-bottom: 24px; }
+    .empty-state a { color: #1a2332; font-size: 13px; text-decoration: underline; }
+
+    footer {
+      position: relative;
+      background: #f5f2ec;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: none;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+      top: 0;
+    }
+    .footer-copy { color: rgba(26,35,50,.4); font-size: 12px; }
+
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
+    .hamburger i { font-size: 22px; line-height: 1; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+
+    @media (max-width: 640px) {
+      nav, footer, .hero, .lexikon-content, .alpha-bar { padding-left: 20px; padding-right: 20px; }
+      nav::after { left: 20px; right: 20px; }
+      footer::before { left: 20px; right: 20px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .hero h1 { font-size: 30px; }
+      .nav-links, .nav-tag { display: none !important; }
+      .hamburger { display: block; }
+      .ingredient-grid { grid-template-columns: 1fr 1fr; }
+      .admin-banner { padding-left: 20px; padding-right: 20px; }
+      .overlay { padding: 10px; }
+      .modal-wide { max-height: 92vh; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+  </style>
+  <script>(function(){var d=JSON.parse(window.store.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-HXETZ7G0E4");
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html" class="active">A–Z</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="btn-admin" id="admin-btn" onclick="handleAdminBtn()">Admin</button>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z Lexikon</a>
+  <a href="about.html">About</a>
+</div>
+
+<div class="admin-banner" id="admin-banner">
+  <i class="ti ti-shield-check"></i>
+  Admin-Modus aktiv — Zutaten bearbeiten, umbenennen oder hinzufügen
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Zutaten-Lexikon</div>
+  <h1>Alles von <em>A bis Z</em></h1>
+  <p class="hero-sub" id="hero-sub"></p>
+</div>
+
+<div class="alpha-bar" id="alpha-bar"></div>
+
+<div id="main-content"></div>
+
+<!-- Recipe match modal -->
+<div class="overlay" id="ingredient-overlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div>
+        <h2 id="modal-ingredient-name"></h2>
+        <span id="modal-ingredient-count"></span>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Admin login modal -->
+<div class="overlay" id="login-overlay">
+  <div class="login-modal">
+    <h2>Admin-Login</h2>
+    <input class="login-field" type="password" id="login-pw" placeholder="Passwort" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-error" id="login-error">Falsches Passwort.</div>
+    <div class="login-actions">
+      <button class="btn-primary" onclick="doLogin()">Anmelden</button>
+      <button class="btn-secondary" onclick="closeLogin()">Abbrechen</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+</footer>
+
+<script>
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const ADMIN_PW = 'orlen12.11HQF';
+  let isAdmin = false;
+
+  /* ── Admin auth ── */
+  function handleAdminBtn() {
+    if (isAdmin) { logoutAdmin(); } else { openLogin(); }
+  }
+  function openLogin() {
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-error').classList.remove('show');
+    document.getElementById('login-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('login-pw').focus(), 50);
+  }
+  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
+  function doLogin() {
+    if (document.getElementById('login-pw').value === ADMIN_PW) {
+      isAdmin = true;
+      closeLogin();
+      document.body.classList.add('admin-mode');
+      document.getElementById('admin-btn').classList.add('active');
+      document.getElementById('admin-btn').textContent = 'Abmelden';
+      document.getElementById('admin-banner').classList.add('show');
+      render();
+    } else {
+      document.getElementById('login-error').classList.add('show');
+    }
+  }
+  function logoutAdmin() {
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('admin-btn').classList.remove('active');
+    document.getElementById('admin-btn').textContent = 'Admin';
+    document.getElementById('admin-banner').classList.remove('show');
+    render();
+  }
+
+  /* ── Lexikon overrides (hqf_lexikon) ── */
+  function loadOverrides() {
+    try { return JSON.parse(window.store.getItem('hqf_lexikon') || '{}'); } catch { return {}; }
+  }
+  function saveOverrides(o) {
+    window.store.setItem('hqf_lexikon', JSON.stringify(o));
+    db.save('hqf_lexikon');
+  }
+
+  function getHidden()  { const o = loadOverrides(); return new Set(o.hidden || []); }
+  function getRenamed() { return loadOverrides().renamed || {}; }
+  function getCustom()  { return loadOverrides().custom || []; }
+
+  /* ── Ingredient extraction ── */
+  function extractName(line) {
+    let s = line.trim();
+
+    // 1. Strip leading number + optional unit
+    s = s.replace(/^\d+[\d.,/]*\s*/, '');
+    s = s.replace(/^(g|kg|ml|l|cl|EL|TL|Stück|Stk\.|Prise|Prisen|Bund|Zehe|Zehen|Scheibe|Scheiben|Dose|Dosen|Becher|Päckchen|Tasse|Glas|Handvoll)\s+/i, '');
+
+    // 2. Strip vague quantity words
+    s = s.replace(/^(etwas|nach Geschmack|ein paar|ein bisschen|ca\.|einige|wenig|reichlich|viel)\s+/i, '');
+
+    // 3. Strip leading descriptive adjectives (up to two passes)
+    const adjPat = /^(große?[rnsm]?|kleine?[rnsm]?|mittelgroße?[rnsm]?|frische?[rnsm]?|reife?[rnsm]?|junge?[rnsm]?|alte?[rnsm]?|rohe?[rnsm]?|grobe?[rnsm]?|feine?[rnsm]?|gehackte?[rnsm]?|getrocknete?[rnsm]?|geröstete?[rnsm]?|eingelegte?[rnsm]?|gekochte?[rnsm]?|geriebene?[rnsm]?|gewürfelte?[rnsm]?|geschnittene?[rnsm]?|halbierte?[rnsm]?|ganze?[rnsm]?|rote?[rnsm]?|gelbe?[rnsm]?|grüne?[rnsm]?|weiße?[rnsm]?|schwarze?[rnsm]?|braune?[rnsm]?|violette?[rnsm]?|lila|tiefgekühlte?[rnsm]?|TK|bio|öko|organic|frisch)\s+/gi;
+    s = s.replace(adjPat, '').trim();
+    s = s.replace(adjPat, '').trim();
+
+    // 4. Strip Bio-/Öko- prefix attached to the noun
+    s = s.replace(/^(Bio|Öko|Eco)-/i, '');
+
+    // 5. Singularize common German plural endings
+    if (s.endsWith('eln')) {
+      s = s.slice(0, -1);                                                   // Zwiebeln→Zwiebel
+    } else if (s.endsWith('en') && !s.endsWith('chen') && !s.endsWith('lein') && s.length > 5) {
+      s = s.slice(0, -1);                                                   // Karotten→Karotte, Tomaten→Tomate
+    }
+
+    return s.trim();
+  }
+
+  function buildLexikon() {
+    const recipes = JSON.parse(window.store.getItem('hqf_recipes') || '[]');
+    const hidden   = getHidden();
+    const renamed  = getRenamed();
+    const custom   = getCustom();
+
+    const autoSet = new Set();
+    recipes.forEach(r => {
+      if (!r.ingredients) return;
+      r.ingredients.split('\n').forEach(line => {
+        const raw = extractName(line.trim());
+        if (raw.length < 2) return;
+        const name = renamed[raw] || raw;
+        if (!hidden.has(raw) && !hidden.has(name)) autoSet.add(name);
+      });
+    });
+
+    // Merge custom (not hidden)
+    const allSet = new Set([...autoSet]);
+    custom.forEach(n => { if (!hidden.has(n)) allSet.add(n); });
+
+    const sorted = [...allSet].sort((a, b) => a.localeCompare(b, 'de', { sensitivity: 'base' }));
+
+    const groups = {};
+    sorted.forEach(name => {
+      let letter = name[0].toUpperCase();
+      letter = letter === 'Ä' ? 'A' : letter === 'Ö' ? 'O' : letter === 'Ü' ? 'U' : letter;
+      const key = /[A-Z]/.test(letter) ? letter : '#';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push({ name, isCustom: !autoSet.has(name) });
+    });
+
+    return { groups, total: sorted.length, recipeCount: recipes.length };
+  }
+
+  /* ── Render ── */
+  function render() {
+    const { groups, total, recipeCount } = buildLexikon();
+    const activeLetters = new Set(Object.keys(groups));
+
+    document.getElementById('hero-sub').textContent =
+      total > 0 ? `${total} Zutaten aus ${recipeCount} Rezept${recipeCount !== 1 ? 'en' : ''}` : '';
+
+    document.getElementById('alpha-bar').innerHTML = ALPHABET.map(l =>
+      activeLetters.has(l)
+        ? `<a class="alpha-btn" href="#letter-${l}">${l}</a>`
+        : `<span class="alpha-btn inactive">${l}</span>`
+    ).join('');
+
+    const content = document.getElementById('main-content');
+
+    if (total === 0 && !isAdmin) {
+      content.innerHTML = `<div class="empty-state">
+        <h2>Noch keine Zutaten</h2>
+        <p>Sobald du Rezepte hinzufügst, erscheinen die Zutaten automatisch hier.</p>
+        <a href="rezepte.html">← Zu den Rezepten</a>
+      </div>`;
+      return;
+    }
+
+    const letters = ALPHABET.filter(l => groups[l] || (isAdmin));
+    const sectionsWithContent = ALPHABET.filter(l => groups[l]);
+
+    content.innerHTML = `<div class="lexikon-content">${
+      sectionsWithContent.map(l => `
+        <div class="letter-section" id="letter-${l}">
+          <div class="letter-heading">
+            ${l}
+            <span class="letter-count">${groups[l].length} Zutat${groups[l].length !== 1 ? 'en' : ''}</span>
+          </div>
+          <div class="ingredient-grid" id="grid-${l}">
+            ${groups[l].map(({ name, isCustom }) => ingredientHTML(name, isCustom)).join('')}
+            <button class="add-ingredient-btn" onclick="addIngredient('${l}')">
+              <i class="ti ti-plus"></i> Zutat hinzufügen
+            </button>
+          </div>
+        </div>`).join('')
+    }</div>`;
+  }
+
+  function ingredientHTML(name, isCustom) {
+    const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const clickHandler = isAdmin ? '' : `onclick="showRecipesFor('${safe}')"`;
+    return `<div class="ingredient-item" data-name="${name.replace(/"/g,'&quot;')}" ${clickHandler}>
+      <span class="item-label">${name}</span><span class="custom-badge">${isCustom ? 'custom' : ''}</span>
+      <div class="item-actions">
+        <button class="item-btn item-btn-edit" onclick="startEdit(this)" title="Umbenennen"><i class="ti ti-pencil"></i></button>
+        <button class="item-btn item-btn-delete" onclick="deleteIngredient(this)" title="Ausblenden"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`;
+  }
+
+  /* ── Admin: inline edit ── */
+  function startEdit(btn) {
+    const item = btn.closest('.ingredient-item');
+    const label = item.querySelector('.item-label');
+    const current = label.textContent;
+    item.classList.add('editing');
+    label.innerHTML = `<input class="item-edit-input" value="${current.replace(/"/g,'&quot;')}" onblur="saveEdit(this)" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){this.value='${current.replace(/'/g,"\\'")}';this.blur();}">`;
+    item.querySelector('input').select();
+  }
+
+  function saveEdit(input) {
+    const item = input.closest('.ingredient-item');
+    const oldName = item.dataset.name;
+    const newName = input.value.trim();
+    item.classList.remove('editing');
+
+    if (!newName || newName === oldName) { render(); return; }
+
+    const o = loadOverrides();
+    // Store as rename: any auto-extracted ingredient mapping to oldName now maps to newName
+    if (!o.renamed) o.renamed = {};
+    // Find original keys that resolve to oldName
+    const reversed = {};
+    Object.entries(o.renamed).forEach(([k, v]) => { reversed[v] = k; });
+    const originalKey = reversed[oldName] || oldName;
+    o.renamed[originalKey] = newName;
+
+    // If it was a custom ingredient, update the custom array
+    if (o.custom && o.custom.includes(oldName)) {
+      o.custom = o.custom.map(n => n === oldName ? newName : n);
+    }
+    saveOverrides(o);
+    render();
+  }
+
+  /* ── Admin: delete/hide ── */
+  function deleteIngredient(btn) {
+    const item = btn.closest('.ingredient-item');
+    const name = item.dataset.name;
+    const o = loadOverrides();
+    if (!o.hidden) o.hidden = [];
+    if (!o.hidden.includes(name)) o.hidden.push(name);
+    // Also hide the original key if renamed
+    const renamed = o.renamed || {};
+    const original = Object.keys(renamed).find(k => renamed[k] === name);
+    if (original && !o.hidden.includes(original)) o.hidden.push(original);
+    saveOverrides(o);
+    render();
+  }
+
+  /* ── Admin: add custom ingredient ── */
+  function addIngredient(letter) {
+    const grid = document.getElementById('grid-' + letter);
+    const addBtn = grid.querySelector('.add-ingredient-btn');
+
+    // Replace add button temporarily with an input
+    addBtn.style.display = 'none';
+    const inp = document.createElement('input');
+    inp.className = 'ingredient-item item-edit-input';
+    inp.style.cssText = 'padding:10px 14px;border:1.5px solid #1a2332;background:#fffbf5;';
+    inp.placeholder = 'Zutat eingeben…';
+    grid.insertBefore(inp, addBtn);
+    inp.focus();
+
+    function commit() {
+      const val = inp.value.trim();
+      inp.remove();
+      addBtn.style.display = '';
+      if (!val) return;
+      const o = loadOverrides();
+      if (!o.custom) o.custom = [];
+      if (!o.custom.includes(val)) o.custom.push(val);
+      saveOverrides(o);
+      render();
+    }
+    inp.addEventListener('blur', commit);
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') inp.blur();
+      if (e.key === 'Escape') { inp.value = ''; inp.blur(); }
+    });
+  }
+
+  /* ── Recipe modal ── */
+  function showRecipesFor(name) {
+    if (isAdmin) return;
+    const recipes = JSON.parse(window.store.getItem('hqf_recipes') || '[]');
+    const nameLower = name.toLowerCase();
+    const matches = recipes.filter(r => {
+      if (!r.ingredients) return false;
+      return r.ingredients.split('\n').some(line => {
+        const ing = extractName(line.trim()).toLowerCase();
+        return ing === nameLower || ing.startsWith(nameLower) || nameLower.startsWith(ing);
+      });
+    });
+    document.getElementById('modal-ingredient-name').textContent = name;
+    document.getElementById('modal-ingredient-count').textContent = matches.length + ' Rezept' + (matches.length !== 1 ? 'e' : '');
+    const info = INGREDIENT_INFO[name];
+    const infoHtml = info ? `<p style="font-size:14px;color:#4a5568;font-weight:300;line-height:1.7;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f0ece5;">${info}</p>` : '';
+    document.getElementById('modal-body').innerHTML = infoHtml + (matches.length
+      ? matches.map(r => `
+          <a href="rezept.html?id=${r.id}" class="recipe-link">
+            <div class="recipe-thumb">${r.img ? `<img src="${r.img}" alt="">` : '🍽'}</div>
+            <div><div class="recipe-link-title">${r.title}</div><div class="recipe-link-cat">${r.category}</div></div>
+          </a>`).join('')
+      : '<p style="color:#8fa8b8;padding:12px 0;">Kein Rezept gefunden.</p>');
+    document.getElementById('ingredient-overlay').classList.add('open');
+  }
+
+  function closeModal() { document.getElementById('ingredient-overlay').classList.remove('open'); }
+
+  const INGREDIENT_INFO = {
+    'Apfel': 'Reich an Ballaststoffen und Vitamin C. Hält den Blutzucker stabil und sättigt lange dank Pektin.',
+    'Artischocke': 'Fördert die Verdauung und unterstützt die Leber. Reich an Inulin — gut für die Darmflora.',
+    'Avocado': 'Vollgepackt mit gesunden Fetten und Kalium. Sättigt langanhaltend und versorgt den Körper mit Vitamin E.',
+    'Baguette': 'Schnelle Energiequelle durch Kohlenhydrate. Am besten als Vollkorn für mehr Ballaststoffe.',
+    'Banane': 'Liefert schnell verfügbare Energie und Kalium. Ideal vor dem Sport und gut für die Nerven.',
+    'Basilikum': 'Entzündungshemmend und reich an Antioxidantien. Enthält ätherische Öle die die Verdauung fördern.',
+    'Beeren': 'Extrem reich an Antioxidantien und Vitamin C. Wenig Zucker, viele Ballaststoffe — perfekt für jeden Tag.',
+    'Birne': 'Reich an Ballaststoffen und wenig Fruchtzucker. Sättigend und gut für die Verdauung.',
+    'Blattsalat': 'Kalorienarm und vollgepackt mit Folsäure und Vitamin K. Perfekte Basis für jede Mahlzeit.',
+    'Blaubeere': 'Eine der nährstoffreichsten Früchte überhaupt. Schützt Gehirn und Herz durch starke Antioxidantien.',
+    'Brokkoli': 'Eines der nährstoffreichsten Gemüse. Reich an Vitamin C, Ballaststoffen und krebshemmenden Verbindungen.',
+    'Brühe': 'Gut für Darm und Gelenke. Enthält Mineralien und Kollagen — wärmend und nährend.',
+    'Buchweizenbulgur': 'Glutenfrei und reich an Protein und Magnesium. Sättigt lange und stabilisiert den Blutzucker.',
+    'Butter': 'In Maßen eine natürliche Fettquelle mit fettlöslichen Vitaminen A, D, E und K.',
+    'Cashew-kerne': 'Reich an Magnesium und gesunden Fetten. Gut für Herz und Nervensystem, sättigen schnell.',
+    'Champingons': 'Kalorienarm und reich an B-Vitaminen und Selen. Stärken das Immunsystem und liefern pflanzliches Protein.',
+    'Chiasame': 'Vollgepackt mit Omega-3, Ballaststoffen und Protein. Quellen im Magen auf und sättigen extrem lange.',
+    'Dattel': 'Natürlicher Zuckerersatz mit Ballaststoffen und Kalium. Liefert schnelle Energie ohne Blutzuckerspitzen.',
+    'Datteln': 'Natürlicher Zuckerersatz mit Ballaststoffen und Kalium. Liefert schnelle Energie ohne Blutzuckerspitzen.',
+    'Dressing': 'Macht Salate genussvoller und hilft fettlösliche Vitamine aus dem Gemüse aufzunehmen.',
+    'dunkle Balsamicoessig': 'Enthält Antioxidantien und kann den Blutzucker nach dem Essen senken. Gibt Gerichten Tiefe.',
+    'Erbsen': 'Reich an pflanzlichem Protein und Ballaststoffen. Sättigen lange und liefern wichtige B-Vitamine.',
+    'Feige': 'Reich an Kalzium, Kalium und Ballaststoffen. Süß von Natur aus — ein gesunder Snack mit Mehrwert.',
+    'Feta': 'Gute Kalziumquelle mit weniger Fett als viele andere Käsesorten. Enthält probiotische Kulturen.',
+    'Gemüsebrühe': 'Mineralienreich und kalorienarm. Gut für die Verdauung und als Basis für nahezu jedes Gericht.',
+    'Gemüsezwiebel': 'Enthält Quercetin — ein starkes Antioxidans. Entzündungshemmend und gut für das Herz.',
+    'Glasnudel': 'Glutenfrei und leicht verdaulich. Nehmen kaum Eigengeschmack an und passen zu allem.',
+    'Gurke': 'Zu 95% Wasser — ideal zur Hydration. Kalorienarm, erfrischend und gut für die Haut.',
+    'Haferflocke': 'Reich an Beta-Glucan, das den Cholesterinspiegel senkt. Sättigt langanhaltend und stabilisiert den Blutzucker.',
+    'Hafermilch': 'Pflanzliche Milchalternative mit Beta-Glucan. Gut für Herz und Verdauung, natürlich süßlich.',
+    'Hähnchenbrust': 'Mageres Protein pur. Ideal für Muskelaufbau und -erhalt bei wenig Fett und Kalorien.',
+    'Himbeere': 'Reich an Vitamin C und Antioxidantien bei wenig Zucker. Gut für die Haut und das Immunsystem.',
+    'Honig': 'Natürlicher Süßungsmittel mit antibakteriellen Eigenschaften. In Maßen eine bessere Alternative zu Zucker.',
+    'Italienische Kräuter (Oregano, Basilikum etc.)': 'Reich an ätherischen Ölen mit entzündungshemmender Wirkung. Verbessern den Geschmack ohne Kalorien.',
+    'Karotte': 'Reich an Beta-Carotin — wichtig für Augen und Haut. Süßlich, knackig und sehr ballaststoffreich.',
+    'Kartoffelstärke': 'Enthält resistente Stärke die als Prebiotikum wirkt. Gut für die Darmflora.',
+    'Knoblauchzähe': 'Enthält Allicin — ein starkes natürliches Antibiotikum. Gut für Herz, Immunsystem und Blutdruck.',
+    'Knoblauchzehn': 'Enthält Allicin — ein starkes natürliches Antibiotikum. Gut für Herz, Immunsystem und Blutdruck.',
+    'Kokusflocke': 'Reich an mittelkettigen Fettsäuren die schnell Energie liefern. Sättigt gut und gibt Gerichten Aroma.',
+    'Koriander': 'Entgiftend und verdauungsfördernd. Enthält Antioxidantien und verleiht Gerichten eine frische Note.',
+    'Kresse': 'Eines der nährstoffreichsten Lebensmittel. Reich an Vitamin C, K und senfölartigen Verbindungen.',
+    'Kürbiskerne': 'Reich an Zink, Magnesium und gesunden Fetten. Gut für Prostata, Schlaf und das Immunsystem.',
+    'Lachsfilet': 'Exzellente Omega-3-Quelle für Herz und Gehirn. Reich an hochwertigem Protein und Vitamin D.',
+    'Lammlachs': 'Reich an Protein, Eisen und Zink. Liefert hochwertige Aminosäuren für Muskel und Immunsystem.',
+    'Leinöl': 'Die reichste pflanzliche Omega-3-Quelle. Entzündungshemmend und gut für Herz und Gehirn.',
+    'Leinsamen': 'Reich an Omega-3, Ballaststoffen und Lignanen. Gut für Darm, Herz und den Hormonhaushalt.',
+    'Limette': 'Reich an Vitamin C und Antioxidantien. Gibt Gerichten Frische und unterstützt die Eisenaufnahme.',
+    'Mandel': 'Reich an Vitamin E, Magnesium und gesunden Fetten. Sättigen schnell und schützen das Herz.',
+    'Mandelmilch': 'Kalorienarm und laktosefrei. Enthält Vitamin E und eignet sich gut als Milchersatz.',
+    'Mandelmuß': 'Konzentrierte Nährstoffquelle mit gesunden Fetten und Protein. Gut für Herz und langen Sättigungseffekt.',
+    'Marinade': 'Gibt Proteinen Geschmack und macht sie zarter. Mit Öl und Säure werden Nährstoffe besser aufgeschlossen.',
+    'Mediterrane Kräuter': 'Entzündungshemmend und reich an Antioxidantien. Geben Gerichten Tiefe ohne zusätzliche Kalorien.',
+    'Olivenöl': 'Das Herzstück der mediterranen Küche. Reich an einfach ungesättigten Fetten und Antioxidantien — gut für Herz und Gefäße.',
+    'Paprika': 'Enthält mehr Vitamin C als Zitrusfrüchte. Reich an Antioxidantien und kalorienarm.',
+    'Polenta': 'Glutenfrei und leicht verdaulich. Liefert komplexe Kohlenhydrate und sättigt gleichmäßig.',
+    'Radieschen': 'Kalorienarm und reich an Vitamin C. Regen die Verdauung an und haben eine leicht entgiftende Wirkung.',
+    'Rapsöl': 'Günstige Omega-3-Quelle mit gutem Fettsäureprofil. Hitzebeständig und vielseitig einsetzbar.',
+    'Risotto Reis': 'Leicht verdaulich und sättigend. Liefert komplexe Kohlenhydrate für gleichmäßige Energie.',
+    'Rosine': 'Konzentrierte Energiequelle mit Eisen und Kalium. In Maßen ein guter natürlicher Süßungsmittel.',
+    'Rucola': 'Bitterstoffe fördern die Verdauung und Leber. Reich an Vitamin K und hat eine leicht pikante Note.',
+    'Saaten/Kerne': 'Konzentrierte Nährstoffbomben mit gesunden Fetten, Protein und Mineralstoffen. Perfekt als Topping.',
+    'Salatdressing': 'Macht Salat genussvoller und hilft fettlösliche Vitamine aus Gemüse aufzunehmen.',
+    'Salatgurke': 'Zu 95% Wasser — ideal zur Hydration. Kalorienarm und erfrischend.',
+    'Salatherz': 'Knackig und reich an Folsäure und Vitamin K. Kalorienarm und perfekte Salatbasis.',
+    'Salz & Pfeffer': 'Das wichtigste Gewürzpaar. Salz in Maßen — Pfeffer enthält Piperin das die Nährstoffaufnahme verbessert.',
+    'Salz, Pfeffer, Essig & Öl': 'Das klassische Dressing-Grundgerüst. Essig hilft den Blutzucker stabil zu halten.',
+    'Schnittlauch': 'Reich an Vitamin C und Antioxidantien. Leicht verdaulich und gibt Gerichten eine milde Zwiebelnote.',
+    'Senf': 'Regt den Stoffwechsel an und enthält Senfölglycoside mit antibakterieller Wirkung. Kalorienarm.',
+    'Sesam': 'Reich an Kalzium, Zink und gesunden Fetten. Gibt Gerichten Nuss-Aroma und liefert pflanzliches Protein.',
+    'Sojasauce': 'Gibt umami Tiefe mit wenig Kalorien. Fermentiert — gut für die Darmflora in Maßen.',
+    'Spaghetti': 'Liefert komplexe Kohlenhydrate für langanhaltende Energie. Als Vollkorn noch ballaststoffreicher.',
+    'Süßkartoffel': 'Reich an Beta-Carotin, Ballaststoffen und Vitamin C. Sättigt lang und stabilisiert den Blutzucker.',
+    'Thunfisch': 'Mageres Protein mit viel Omega-3. Gut für Muskeln, Herz und Gehirn — schnell zubereitet.',
+    'Tofu': 'Hochwertiges pflanzliches Protein mit allen essentiellen Aminosäuren. Reich an Kalzium und Eisen.',
+    'Tomate': 'Reich an Lycopin — einem starken Antioxidans. Gut für Herz und Haut, kalorienarm und vielseitig.',
+    'Tomatenmark': 'Konzentrierte Tomatennährstoffe mit noch mehr Lycopin als frische Tomaten. Gibt Gerichten Tiefe.',
+    'VK Brot': 'Vollkornbrot mit mehr Ballaststoffen als Weißbrot. Sättigt länger und stabilisiert den Blutzucker.',
+    'Vollmich oder frische Sahne': 'Liefert Kalzium und fettlösliche Vitamine. Volle Fette sättigen besser als fettarme Varianten.',
+    'Wasser': 'Das wichtigste Lebensmittel überhaupt. Essenziell für jeden Stoffwechselprozess im Körper.',
+    'Zitrone': 'Reich an Vitamin C und Zitronensäure. Unterstützt die Eisenaufnahme und gibt Gerichten frische Lebendigkeit.',
+    'Zuckerschote': 'Knackig und süß mit wenig Kalorien. Reich an Vitamin C und pflanzlichem Protein.',
+    'Zwiebel': 'Enthält Quercetin — ein starkes Antioxidans. Entzündungshemmend, gut für Herz und Immunsystem.',
+  };
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeLogin();
+    }
+  });
+  document.getElementById('ingredient-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  document.getElementById('login-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLogin(); });
+
+  render();
+  (async () => {
+    await db.sync('hqf_recipes');
+    await db.sync('hqf_lexikon');
+    render();
+  })();
+</script>
+</body>
+</html>
