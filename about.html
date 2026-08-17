@@ -181,7 +181,7 @@
   <div class="intro-block">
     <div class="avatar">L</div>
     <div class="intro-text">
-      <h2>Hey, ich bin Leon.</h2>
+      <h2 id="about-heading">Wer hinter HighQualityFoods steckt?</h2>
       <p id="about-text"></p>
     </div>
   </div>
@@ -241,6 +241,10 @@
       <button class="modal-close" onclick="closeAboutEditor()"><i class="ti ti-x"></i></button>
     </div>
     <div class="modal-body">
+      <div class="fg" style="margin-bottom:16px;">
+        <label>Überschrift</label>
+        <input type="text" id="about-heading-input" placeholder="Überschrift…" style="width:100%;padding:10px 14px;border:1.5px solid #e0d9ce;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;">
+      </div>
       <div class="fg">
         <label>Text</label>
         <textarea id="about-editor-input" placeholder="Schreib hier deinen About-Text…"></textarea>
@@ -257,13 +261,16 @@
   const ADMIN_PASSWORD = 'orlen12.11HQF';
   const WEBAUTHN_KEY = 'hqf_webauthn_cred';
   const DEFAULT_TEXT = 'Mein Name ist Leon und ich mache es kurz und knapp: Ich mag gutes Essen und möchte ein paar Rezepte meiner Mum hier teilen. Viel Spaß beim nachkochen :)';
+  const DEFAULT_HEADING = 'Wer hinter HighQualityFoods steckt?';
 
   let isAdmin = false;
 
   // ── Render about text ──
   function renderAbout() {
-    const text = window.store ? window.store.getItem('hqf_about') : null || DEFAULT_TEXT;
+    const text = (window.store && window.store.getItem('hqf_about')) || DEFAULT_TEXT;
     document.getElementById('about-text').textContent = text;
+    const heading = (window.store && window.store.getItem('hqf_about_heading')) || DEFAULT_HEADING;
+    document.getElementById('about-heading').textContent = heading;
   }
 
   // ── Nav ──
@@ -323,16 +330,20 @@
 
   // ── About editor ──
   function openAboutEditor() {
-    const text = window.store ? window.store.getItem('hqf_about') : null || DEFAULT_TEXT;
+    const text = (window.store && window.store.getItem('hqf_about')) || DEFAULT_TEXT;
     document.getElementById('about-editor-input').value = text;
+    const heading = (window.store && window.store.getItem('hqf_about_heading')) || DEFAULT_HEADING;
+    document.getElementById('about-heading-input').value = heading;
     document.getElementById('about-editor-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('about-editor-input').focus(), 60);
+    setTimeout(() => document.getElementById('about-heading-input').focus(), 60);
   }
   function closeAboutEditor() { document.getElementById('about-editor-overlay').classList.remove('open'); }
   function saveAboutText() {
     const text = document.getElementById('about-editor-input').value.trim();
     if (!text) return;
     window.store.setItem('hqf_about', text);
+    const heading = document.getElementById('about-heading-input').value.trim();
+    if (heading) window.store.setItem('hqf_about_heading', heading);
     renderAbout();
     closeAboutEditor();
   }
