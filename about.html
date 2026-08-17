@@ -179,7 +179,7 @@
 
 <div class="content">
   <div class="intro-block">
-    <div class="avatar">L</div>
+    <div class="avatar" id="about-avatar">L</div>
     <div class="intro-text">
       <h2 id="about-heading">Wer hinter HighQualityFoods steckt?</h2>
       <p id="about-text"></p>
@@ -187,12 +187,8 @@
   </div>
 
   <div style="margin-bottom: 64px;">
-    <p style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:#1a2332;margin-bottom:20px;">Was soll HighQualityFoods sein?</p>
-    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;">
-      <li style="font-size:15px;font-weight:300;color:#4a5568;line-height:1.7;display:flex;align-items:baseline;gap:10px;"><span style="width:5px;height:5px;border-radius:50%;background:#8fa8b8;flex-shrink:0;margin-top:8px;"></span>Eine Inspirationsquelle für gesündere Ernährung</li>
-      <li style="font-size:15px;font-weight:300;color:#4a5568;line-height:1.7;display:flex;align-items:baseline;gap:10px;"><span style="width:5px;height:5px;border-radius:50%;background:#8fa8b8;flex-shrink:0;margin-top:8px;"></span>Ein Ort wo man schnell ein gutes Rezept findet</li>
-      <li style="font-size:15px;font-weight:300;color:#4a5568;line-height:1.7;display:flex;align-items:baseline;gap:10px;"><span style="width:5px;height:5px;border-radius:50%;background:#8fa8b8;flex-shrink:0;margin-top:8px;"></span>Eine Anlaufstelle wenn man nicht weiß was man kochen soll</li>
-    </ul>
+    <p id="about-title2" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:#1a2332;margin-bottom:20px;">Was soll HighQualityFoods sein?</p>
+    <ul id="about-points" style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;"></ul>
   </div>
 
   <div class="cta-block">
@@ -242,12 +238,28 @@
     </div>
     <div class="modal-body">
       <div class="fg" style="margin-bottom:16px;">
+        <label>Bild (rund, ersetzt das „L")</label>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div id="about-img-prev" style="width:56px;height:56px;border-radius:50%;background:#1a2332;color:#8fa8b8;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:24px;background-size:cover;background-position:center;flex-shrink:0;">L</div>
+          <input type="file" id="about-img-file" accept="image/*" style="font-size:13px;">
+          <span id="about-img-status" style="font-size:12px;color:#8fa8b8;"></span>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:16px;">
         <label>Überschrift</label>
         <input type="text" id="about-heading-input" placeholder="Überschrift…" style="width:100%;padding:10px 14px;border:1.5px solid #e0d9ce;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;">
       </div>
-      <div class="fg">
+      <div class="fg" style="margin-bottom:16px;">
         <label>Text</label>
         <textarea id="about-editor-input" placeholder="Schreib hier deinen About-Text…"></textarea>
+      </div>
+      <div class="fg" style="margin-bottom:16px;">
+        <label>Zwischen-Titel</label>
+        <input type="text" id="about-title2-input" placeholder="z.B. Was soll HighQualityFoods sein?" style="width:100%;padding:10px 14px;border:1.5px solid #e0d9ce;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;">
+      </div>
+      <div class="fg">
+        <label>Punkte (ein Punkt pro Zeile)</label>
+        <textarea id="about-points-input" placeholder="Ein Punkt pro Zeile…"></textarea>
       </div>
     </div>
     <div class="modal-ftr">
@@ -262,6 +274,13 @@
   const WEBAUTHN_KEY = 'hqf_webauthn_cred';
   const DEFAULT_TEXT = 'Mein Name ist Leon und ich mache es kurz und knapp: Ich mag gutes Essen und möchte ein paar Rezepte meiner Mum hier teilen. Viel Spaß beim nachkochen :)';
   const DEFAULT_HEADING = 'Wer hinter HighQualityFoods steckt?';
+  const DEFAULT_TITLE2 = 'Was soll HighQualityFoods sein?';
+  const DEFAULT_POINTS = [
+    'Eine Inspirationsquelle für gesündere Ernährung',
+    'Ein Ort wo man schnell ein gutes Rezept findet',
+    'Eine Anlaufstelle wenn man nicht weiß was man kochen soll'
+  ];
+  let aboutImageUrl = '';
 
   let isAdmin = false;
 
@@ -271,6 +290,32 @@
     document.getElementById('about-text').textContent = text;
     const heading = (window.store && window.store.getItem('hqf_about_heading')) || DEFAULT_HEADING;
     document.getElementById('about-heading').textContent = heading;
+
+    // Bild
+    const img = (window.store && window.store.getItem('hqf_about_image')) || '';
+    aboutImageUrl = img;
+    const av = document.getElementById('about-avatar');
+    if (img) { av.textContent = ''; av.style.backgroundImage = 'url("' + img + '")'; av.style.backgroundSize = 'cover'; av.style.backgroundPosition = 'center'; }
+    else { av.textContent = 'L'; av.style.backgroundImage = 'none'; }
+
+    // Zwischen-Titel
+    const title2 = (window.store && window.store.getItem('hqf_about_title2')) || DEFAULT_TITLE2;
+    document.getElementById('about-title2').textContent = title2;
+
+    // Punkte
+    let points = DEFAULT_POINTS;
+    try { const raw = window.store && window.store.getItem('hqf_about_points'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) points = p; } } catch(e) {}
+    const ul = document.getElementById('about-points');
+    ul.innerHTML = '';
+    points.forEach(function(pt) {
+      const li = document.createElement('li');
+      li.style.cssText = 'font-size:15px;font-weight:300;color:#4a5568;line-height:1.7;display:flex;align-items:baseline;gap:10px;';
+      const dot = document.createElement('span');
+      dot.style.cssText = 'width:5px;height:5px;border-radius:50%;background:#8fa8b8;flex-shrink:0;margin-top:8px;';
+      li.appendChild(dot);
+      li.appendChild(document.createTextNode(pt));
+      ul.appendChild(li);
+    });
   }
 
   // ── Nav ──
@@ -334,8 +379,41 @@
     document.getElementById('about-editor-input').value = text;
     const heading = (window.store && window.store.getItem('hqf_about_heading')) || DEFAULT_HEADING;
     document.getElementById('about-heading-input').value = heading;
+    const title2 = (window.store && window.store.getItem('hqf_about_title2')) || DEFAULT_TITLE2;
+    document.getElementById('about-title2-input').value = title2;
+    let points = DEFAULT_POINTS;
+    try { const raw = window.store && window.store.getItem('hqf_about_points'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) points = p; } } catch(e) {}
+    document.getElementById('about-points-input').value = points.join('\n');
+    // Bild-Vorschau
+    const prev = document.getElementById('about-img-prev');
+    document.getElementById('about-img-status').textContent = '';
+    if (aboutImageUrl) { prev.textContent = ''; prev.style.backgroundImage = 'url("' + aboutImageUrl + '")'; }
+    else { prev.textContent = 'L'; prev.style.backgroundImage = 'none'; }
     document.getElementById('about-editor-overlay').classList.add('open');
     setTimeout(() => document.getElementById('about-heading-input').focus(), 60);
+  }
+
+  async function uploadAboutImage(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const status = document.getElementById('about-img-status');
+    status.textContent = 'Lädt hoch…';
+    try {
+      const filename = Date.now() + '-' + Math.random().toString(36).slice(2) + '.jpg';
+      const res = await fetch(window.SUPABASE_URL + '/storage/v1/object/image/' + filename, {
+        method: 'POST',
+        headers: { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + window.SUPABASE_KEY, 'Content-Type': file.type || 'image/jpeg' },
+        body: file
+      });
+      if (!res.ok) throw new Error(await res.text());
+      aboutImageUrl = window.SUPABASE_URL + '/storage/v1/object/public/image/' + filename;
+      const prev = document.getElementById('about-img-prev');
+      prev.textContent = ''; prev.style.backgroundImage = 'url("' + aboutImageUrl + '")';
+      status.textContent = 'Bild bereit ✓';
+    } catch (e) {
+      console.error('[about img]', e);
+      status.textContent = 'Upload fehlgeschlagen';
+    }
   }
   function closeAboutEditor() { document.getElementById('about-editor-overlay').classList.remove('open'); }
   // ── Supabase-Anbindung für About-Inhalte ──
@@ -367,6 +445,11 @@
     saveKV('hqf_about', text);
     const heading = document.getElementById('about-heading-input').value.trim();
     if (heading) { window.store.setItem('hqf_about_heading', heading); saveKV('hqf_about_heading', heading); }
+    const title2 = document.getElementById('about-title2-input').value.trim();
+    if (title2) { window.store.setItem('hqf_about_title2', title2); saveKV('hqf_about_title2', title2); }
+    const points = document.getElementById('about-points-input').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    if (points.length) { window.store.setItem('hqf_about_points', JSON.stringify(points)); saveKV('hqf_about_points', points); }
+    if (aboutImageUrl) { window.store.setItem('hqf_about_image', aboutImageUrl); saveKV('hqf_about_image', aboutImageUrl); }
     renderAbout();
     closeAboutEditor();
   }
@@ -376,11 +459,12 @@
   renderAbout();
   updateNav();
   // Inhalte aus Supabase holen, damit Änderungen für alle sichtbar sind
+  document.getElementById('about-img-file').addEventListener('change', function(){ uploadAboutImage(this); });
   (async function () {
-    const h = await fetchKV('hqf_about_heading');
-    if (h) window.store.setItem('hqf_about_heading', h);
-    const t = await fetchKV('hqf_about');
-    if (t) window.store.setItem('hqf_about', t);
+    const keys = ['hqf_about_heading','hqf_about','hqf_about_title2','hqf_about_image'];
+    for (const k of keys) { const v = await fetchKV(k); if (v) window.store.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); }
+    const pts = await fetchKV('hqf_about_points');
+    if (pts) window.store.setItem('hqf_about_points', JSON.stringify(pts));
     renderAbout();
   })();
 </script>
