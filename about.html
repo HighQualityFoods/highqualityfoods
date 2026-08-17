@@ -338,12 +338,35 @@
     setTimeout(() => document.getElementById('about-heading-input').focus(), 60);
   }
   function closeAboutEditor() { document.getElementById('about-editor-overlay').classList.remove('open'); }
+  // ── Supabase-Anbindung für About-Inhalte ──
+  async function fetchKV(key) {
+    if (!window.SUPABASE_URL) return null;
+    try {
+      const r = await fetch(window.SUPABASE_URL + '/rest/v1/kv_store?key=eq.' + key + '&select=value',
+        { headers: { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + window.SUPABASE_KEY } });
+      const rows = await r.json();
+      return (rows && rows.length) ? rows[0].value : null;
+    } catch (e) { return null; }
+  }
+  async function saveKV(key, value) {
+    if (!window.SUPABASE_URL) return;
+    try {
+      await fetch(window.SUPABASE_URL + '/rest/v1/kv_store', {
+        method: 'POST',
+        headers: { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + window.SUPABASE_KEY,
+          'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates' },
+        body: JSON.stringify({ key: key, value: value })
+      });
+    } catch (e) {}
+  }
+
   function saveAboutText() {
     const text = document.getElementById('about-editor-input').value.trim();
     if (!text) return;
     window.store.setItem('hqf_about', text);
+    saveKV('hqf_about', text);
     const heading = document.getElementById('about-heading-input').value.trim();
-    if (heading) window.store.setItem('hqf_about_heading', heading);
+    if (heading) { window.store.setItem('hqf_about_heading', heading); saveKV('hqf_about_heading', heading); }
     renderAbout();
     closeAboutEditor();
   }
@@ -352,6 +375,14 @@
 
   renderAbout();
   updateNav();
+  // Inhalte aus Supabase holen, damit Änderungen für alle sichtbar sind
+  (async function () {
+    const h = await fetchKV('hqf_about_heading');
+    if (h) window.store.setItem('hqf_about_heading', h);
+    const t = await fetchKV('hqf_about');
+    if (t) window.store.setItem('hqf_about', t);
+    renderAbout();
+  })();
 </script>
 </body>
 </html>
