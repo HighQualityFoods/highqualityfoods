@@ -710,8 +710,8 @@
       </div>
       <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
       <div class="info-box" style="margin-top:16px;">
-        Passwort ändern: Öffne diese Datei in einem Texteditor und suche nach<br>
-        <strong>const ADMIN_PASSWORD</strong> — ersetze den Wert durch dein eigenes Passwort.
+        Login läuft über Supabase. Passwort ändern: im Supabase-Dashboard unter
+        <strong>Authentication → Users</strong>.
       </div>
     </div>
   </div>
@@ -796,7 +796,7 @@
 <script>
   // ─────────────────────────────────────────────
   //  PASSWORT HIER ÄNDERN ↓
-  const ADMIN_PASSWORD = 'orlen12.11HQF';
+  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
   // ─────────────────────────────────────────────
 
   let isAdmin = false;
@@ -857,8 +857,9 @@
   function closeLogin() {
     document.getElementById('login-overlay').classList.remove('open');
   }
-  function doLogin() {
-    if (document.getElementById('pw-input').value === ADMIN_PASSWORD) {
+  async function doLogin() {
+    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
+    if (ok) {
       isAdmin = true;
       closeLogin();
       updateNav();
@@ -871,6 +872,7 @@
   }
   function logout() {
     isAdmin = false;
+    if (window.hqfLogout) window.hqfLogout();
     updateNav();
     render();
   }

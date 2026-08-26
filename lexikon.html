@@ -413,7 +413,7 @@
 
 <script>
   const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const ADMIN_PW = 'orlen12.11HQF';
+  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
   let isAdmin = false;
 
   /* ── Admin auth ── */
@@ -427,8 +427,9 @@
     setTimeout(() => document.getElementById('login-pw').focus(), 50);
   }
   function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
-  function doLogin() {
-    if (document.getElementById('login-pw').value === ADMIN_PW) {
+  async function doLogin() {
+    const ok = await window.hqfLogin(document.getElementById('login-pw').value);
+    if (ok) {
       isAdmin = true;
       closeLogin();
       document.body.classList.add('admin-mode');
@@ -442,6 +443,7 @@
   }
   function logoutAdmin() {
     isAdmin = false;
+    if (window.hqfLogout) window.hqfLogout();
     document.body.classList.remove('admin-mode');
     document.getElementById('admin-btn').classList.remove('active');
     document.getElementById('admin-btn').textContent = 'Admin';

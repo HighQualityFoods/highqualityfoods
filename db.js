@@ -41,6 +41,34 @@ window.store = {
       window.SUPABASE_KEY !== 'DEIN_ANON_KEY';
   }
 
+  // ── Admin-Auth über Supabase (Passwort wird serverseitig geprüft) ──
+  window.HQF_ADMIN_EMAIL = 'leon.tsst@gmail.com';
+  window._hqfToken = null;
+
+  // Login: gibt true bei Erfolg, false bei falschem Passwort
+  window.hqfLogin = async function (password) {
+    if (!isConfigured()) return false;
+    try {
+      const r = await fetch(window.SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        headers: { apikey: window.SUPABASE_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: window.HQF_ADMIN_EMAIL, password: password })
+      });
+      if (!r.ok) return false;
+      const d = await r.json();
+      if (d && d.access_token) { window._hqfToken = d.access_token; return true; }
+      return false;
+    } catch (e) { return false; }
+  };
+  window.hqfLogout = function () { window._hqfToken = null; };
+  window.hqfLoggedIn = function () { return !!window._hqfToken; };
+  // Header für Schreibzugriffe: nutzt Login-Token wenn vorhanden, sonst anon
+  window.hqfWriteHeaders = function (extra) {
+    var h = { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + (window._hqfToken || window.SUPABASE_KEY) };
+    if (extra) { for (var k in extra) h[k] = extra[k]; }
+    return h;
+  };
+
   async function req(method, path, body) {
     if (!isConfigured()) return null;
     try {
@@ -48,7 +76,7 @@ window.store = {
         method,
         headers: {
           apikey: window.SUPABASE_KEY,
-          Authorization: `Bearer ${window.SUPABASE_KEY}`,
+          Authorization: `Bearer ${window._hqfToken || window.SUPABASE_KEY}`,
           'Content-Type': 'application/json',
           Prefer: 'return=representation,resolution=merge-duplicates'
         },

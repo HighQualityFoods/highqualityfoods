@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="config.js"></script>
+  <script src="db.js"></script>
   <title>About — HighQualityFoods</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -218,7 +220,7 @@
 </div>
 
 <script>
-  const ADMIN_PASSWORD = 'orlen12.11HQF';
+  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
   const WEBAUTHN_KEY = 'hqf_webauthn_cred';
   const DEFAULT_TEXT = 'Mein Name ist Leon und ich mache es kurz und knapp. Meine Mom macht sehr gesundes und vor allem leckeres Essen und ich möchte den Rezepten eine Plattform geben und mein Glück teilen. Hier findest du einfache, gesunde, süße, salzige und natürlich sehr leckere Rezepte. Ob Frühstück, Mittag- oder Abendessen oder einen Snack zwischendurch. Das wars schon, viel Spaß beim Zubereiten :)';
 
@@ -272,8 +274,9 @@
   }
   function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
 
-  function doLogin() {
-    if (document.getElementById('pw-input').value === ADMIN_PASSWORD) {
+  async function doLogin() {
+    const ok = window.hqfLogin ? await window.hqfLogin(document.getElementById('pw-input').value) : false;
+    if (ok) {
       isAdmin = true; closeLogin(); updateNav();
     } else {
       document.getElementById('pw-err').style.display = 'block';
@@ -281,7 +284,7 @@
       document.getElementById('pw-input').focus();
     }
   }
-  function logout() { isAdmin = false; updateNav(); }
+  function logout() { isAdmin = false; if (window.hqfLogout) window.hqfLogout(); updateNav(); }
 
   // ── About editor ──
   function openAboutEditor() {
