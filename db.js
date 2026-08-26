@@ -42,7 +42,7 @@ window.store = {
   }
 
   // ── Admin-Auth über Supabase (Passwort wird serverseitig geprüft) ──
-  window.HQF_ADMIN_EMAIL = 'leon.tsst@gmail.com';
+  window.HQF_ADMIN_EMAIL = 'leonradanovic@icloud.com';
   window._hqfToken = null;
 
   // Login: gibt true bei Erfolg, false bei falschem Passwort
