@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="description" content="Dein persönlicher Ernährungsplan von HighQualityFoods — fülle den Fragebogen aus und erhalte einen Vorschlag, der zu deinem Alltag und Geschmack passt.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dein Ernährungsplan — HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav { background: #f5f2ec; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+    nav::after { content: ''; position: absolute; bottom: 0; left: 48px; right: 48px; height: 1.5px; background: #8fa8b8; border-radius: 999px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; letter-spacing: .3px; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover, .nav-links a.active { color: #1a2332; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+    .hamburger { display: none; background: none; border: none; color: #1a2332; font-size: 22px; cursor: pointer; }
+    .admin-badge { background: transparent; border: 1px solid #1a2332; color: #1a2332; font-size: 10px; letter-spacing: 1.5px; padding: 5px 10px; border-radius: 2px; text-transform: uppercase; }
+    .btn-logout { background: transparent; border: 1px solid rgba(26,35,50,.25); color: rgba(26,35,50,.55); padding: 8px 14px; font-size: 11px; font-family: 'Inter', sans-serif; cursor: pointer; border-radius: 2px; }
+    .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu.open { display: flex; }
+
+    .wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 100px; }
+
+    .fb-head { text-align: center; margin-bottom: 48px; }
+    .fb-head .mark { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 18px; }
+    .fb-head .mark span { color: #8fa8b8; }
+    .fb-head .rule { width: 40px; height: 1px; background: #8fa8b8; margin: 0 auto 22px; }
+    .fb-head h1 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 40px; line-height: 1.2; margin-bottom: 12px; }
+    .fb-head .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
+    .fb-head p { color: rgba(26,35,50,.55); font-size: 15px; font-weight: 300; line-height: 1.8; max-width: 520px; margin: 0 auto; }
+
+    .section-label { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 44px 0 22px; padding-bottom: 10px; border-bottom: 1px solid #e0d9ce; }
+
+    .q { margin-bottom: 26px; }
+    .q > label.q-title { display: block; font-weight: 500; font-size: 16px; margin-bottom: 4px; }
+    .q .hint { color: rgba(26,35,50,.45); font-size: 13px; font-weight: 300; margin-bottom: 10px; }
+    .req { color: #b06a4f; }
+
+    input[type="text"], input[type="email"], input[type="number"], textarea {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 15px; color: #1a2332; background: #fdfcfa; outline: none;
+      transition: border-color .15s;
+    }
+    input:focus, textarea:focus { border-color: #1a2332; }
+    textarea { resize: vertical; min-height: 74px; }
+    .row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .row > div { flex: 1; min-width: 140px; }
+    .col-label { font-size: 13px; color: rgba(26,35,50,.6); margin-bottom: 6px; display: block; }
+
+    .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .opt { position: relative; }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt label { display: inline-block; padding: 9px 16px; border: 1.5px solid #e0d9ce; border-radius: 999px; font-size: 14px; cursor: pointer; transition: all .15s; background: #fdfcfa; color: #4a5568; }
+    .opt input:checked + label { background: #1a2332; border-color: #1a2332; color: #f5f2ec; }
+
+    .disclaimer { background: #efe9df; border-radius: 10px; padding: 20px 22px; font-size: 12.5px; line-height: 1.7; color: rgba(26,35,50,.6); font-weight: 300; margin: 40px 0 24px; }
+    .disclaimer strong { color: #1a2332; font-weight: 500; }
+    .consent { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 28px; font-size: 14px; line-height: 1.6; }
+    .consent input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: #1a2332; }
+    .consent a { color: #8fa8b8; }
+
+    .submit-btn { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 16px; font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: opacity .15s; }
+    .submit-btn:hover { opacity: .85; }
+    .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .form-err { color: #b06a4f; font-size: 14px; margin-top: 14px; text-align: center; display: none; }
+
+    .thanks { text-align: center; padding: 60px 20px; display: none; }
+    .thanks i { font-size: 56px; color: #8fa8b8; }
+    .thanks h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 30px; margin: 18px 0 12px; }
+    .thanks p { color: rgba(26,35,50,.6); font-weight: 300; line-height: 1.8; max-width: 440px; margin: 0 auto; }
+
+    .foot { text-align: center; padding: 30px; color: rgba(26,35,50,.3); font-size: 12px; letter-spacing: 1px; }
+    .foot button { background: none; border: none; color: rgba(26,35,50,.25); font-size: 11px; cursor: pointer; font-family: 'Inter', sans-serif; }
+
+    /* Admin */
+    .admin-panel { display: none; background: #1a2332; color: #f5f2ec; border-radius: 12px; padding: 24px; margin-bottom: 40px; }
+    .admin-panel h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 4px; }
+    .admin-panel .sub { color: #8fa8b8; font-size: 13px; margin-bottom: 18px; }
+    .req-item { background: rgba(255,255,255,.06); border-radius: 8px; padding: 16px 18px; margin-bottom: 12px; }
+    .req-item .rh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+    .req-item .rname { font-weight: 500; font-size: 16px; }
+    .req-item .rdate { color: #8fa8b8; font-size: 12px; }
+    .req-item .rmail { color: #8fa8b8; font-size: 13px; margin-bottom: 10px; }
+    .req-item details { font-size: 13.5px; line-height: 1.7; }
+    .req-item summary { cursor: pointer; color: #e8dfd0; font-size: 13px; }
+    .req-item .kv { margin-top: 10px; }
+    .req-item .kv b { color: #8fa8b8; font-weight: 500; }
+    .del-btn { margin-top: 12px; background: transparent; border: 1px solid rgba(255,255,255,.25); color: #d99; font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
+    .del-btn:hover { background: #b06a4f; border-color: #b06a4f; color: #fff; }
+    .del-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,35,50,.55); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 10px; width: 100%; max-width: 400px; overflow: hidden; }
+    .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid #eee; }
+    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #1a2332; }
+    .modal-body { padding: 22px; }
+    .modal-body label { display: block; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8fa8b8; margin-bottom: 8px; }
+    .modal-body input { width: 100%; padding: 11px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px; font-size: 14px; outline: none; }
+    .modal-body .err { color: #b06a4f; font-size: 13px; margin-top: 8px; display: none; }
+    .btn-primary-full { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 13px; font-size: 13px; font-weight: 500; letter-spacing: .5px; border-radius: 6px; cursor: pointer; margin-top: 16px; }
+
+    @media (max-width: 900px) { .nav-links, .nav-tag { display: none !important; } .hamburger { display: block !important; } nav { padding: 16px 20px; } nav::after { left: 20px; right: 20px; } .fb-head h1 { font-size: 32px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A–Z</a>
+    <a href="about.html">About</a>
+    <a href="ernaehrungsplan.html" class="active">Ernährungsplan</a>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <span class="nav-tag">Rezept-Blog</span>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Startseite</a>
+  <a href="rezepte.html">Rezepte</a>
+  <a href="blog.html">Blog</a>
+  <a href="lexikon.html">A–Z</a>
+  <a href="about.html">About</a>
+  <a href="ernaehrungsplan.html">Ernährungsplan</a>
+</div>
+
+<div class="wrap">
+
+  <!-- Admin: Anfragen -->
+  <div class="admin-panel" id="admin-panel">
+    <h3>Fragebogen-Anfragen</h3>
+    <div class="sub" id="admin-sub">Lädt…</div>
+    <div id="req-list"></div>
+  </div>
+
+  <!-- Formular -->
+  <div id="form-view">
+    <div class="fb-head">
+      <div class="mark">High<span>Quality</span>Foods</div>
+      <div class="rule"></div>
+      <h1>Dein persönlicher Ernährungsplan</h1>
+      <div class="eyebrow">Fragebogen</div>
+      <p>Damit dein Plan wirklich zu dir passt, brauche ich ein Gefühl für deinen Alltag und deinen Geschmack. Nimm dir fünf Minuten Zeit und antworte so ehrlich wie möglich — es gibt keine falschen Antworten.</p>
+    </div>
+
+    <form id="fb-form">
+
+      <div class="section-label">01 — Über dich</div>
+      <div class="q">
+        <div class="row">
+          <div><span class="col-label">Name <span class="req">*</span></span><input type="text" name="name" required></div>
+          <div><span class="col-label">E-Mail <span class="req">*</span></span><input type="email" name="email" required></div>
+        </div>
+      </div>
+      <div class="q">
+        <div class="row">
+          <div><span class="col-label">Alter</span><input type="number" name="alter" min="0"></div>
+          <div><span class="col-label">Größe (cm)</span><input type="number" name="groesse" min="0"></div>
+          <div><span class="col-label">Gewicht (kg)</span><input type="number" name="gewicht" min="0"></div>
+        </div>
+        <div class="hint" style="margin-top:8px;">Freiwillige Angabe — hilft mir bei realistischen Portionsempfehlungen.</div>
+      </div>
+      <div class="q">
+        <label class="q-title">Was ist dein Ziel?</label>
+        <div class="hint">Beschreibe in eigenen Worten, was du erreichen möchtest.</div>
+        <textarea name="ziel"></textarea>
+      </div>
+      <div class="q">
+        <label class="q-title">Wie sieht ein normaler Tag bei dir aus?</label>
+        <div class="hint">Arbeitszeiten, Schule, Studium, Schichtdienst, viel unterwegs?</div>
+        <textarea name="normaler_tag"></textarea>
+      </div>
+      <div class="q">
+        <label class="q-title">Wie oft in der Woche treibst du Sport, und welchen Sport?</label>
+        <div class="hint">Auch Spazieren, Radfahren zur Arbeit oder Tanzen zählt.</div>
+        <div class="opts" style="margin-bottom:10px;">
+          <span class="opt"><input type="radio" name="sport_haeufigkeit" id="sp1" value="Selten"><label for="sp1">Selten</label></span>
+          <span class="opt"><input type="radio" name="sport_haeufigkeit" id="sp2" value="1–2×"><label for="sp2">1–2×</label></span>
+          <span class="opt"><input type="radio" name="sport_haeufigkeit" id="sp3" value="3–4×"><label for="sp3">3–4×</label></span>
+          <span class="opt"><input type="radio" name="sport_haeufigkeit" id="sp4" value="5×+"><label for="sp4">5×+</label></span>
+        </div>
+        <input type="text" name="sport_welcher" placeholder="Welchen Sport?">
+      </div>
+
+      <div class="section-label">02 — Dein Geschmack</div>
+      <div class="q"><label class="q-title">Was ist dein Lieblingsessen?</label><div class="hint">Das Gericht, auf das du dich immer freust.</div><input type="text" name="lieblingsessen"></div>
+      <div class="q"><label class="q-title">Was ist dein Lieblings-Dessert?</label><input type="text" name="lieblingsdessert"></div>
+      <div class="q"><label class="q-title">Welche Lebensmittel würdest du gerne weglassen?</label><div class="hint">Dinge, von denen du dir selbst weniger wünschst.</div><textarea name="weglassen"></textarea></div>
+      <div class="q"><label class="q-title">Welche Lebensmittel magst du überhaupt nicht?</label><div class="hint">Kommt mir nicht auf den Teller.</div><textarea name="mag_nicht"></textarea></div>
+
+      <div class="section-label">03 — Dein Alltag in der Küche</div>
+      <div class="q">
+        <label class="q-title">Wie viel Zeit möchtest du täglich fürs Kochen einplanen?</label>
+        <div class="opts">
+          <span class="opt"><input type="radio" name="kochzeit" id="kz1" value="Unter 15 Min."><label for="kz1">Unter 15 Min.</label></span>
+          <span class="opt"><input type="radio" name="kochzeit" id="kz2" value="15–30 Min."><label for="kz2">15–30 Min.</label></span>
+          <span class="opt"><input type="radio" name="kochzeit" id="kz3" value="30–45 Min."><label for="kz3">30–45 Min.</label></span>
+          <span class="opt"><input type="radio" name="kochzeit" id="kz4" value="Zeit ist kein Problem"><label for="kz4">Zeit ist kein Problem</label></span>
+        </div>
+      </div>
+      <div class="q">
+        <label class="q-title">Wie viele Mahlzeiten passen realistisch in deinen Tag?</label>
+        <div class="opts">
+          <span class="opt"><input type="radio" name="mahlzeiten" id="mz1" value="2"><label for="mz1">2</label></span>
+          <span class="opt"><input type="radio" name="mahlzeiten" id="mz2" value="3"><label for="mz2">3</label></span>
+          <span class="opt"><input type="radio" name="mahlzeiten" id="mz3" value="4"><label for="mz3">4</label></span>
+          <span class="opt"><input type="radio" name="mahlzeiten" id="mz4" value="5 oder mehr"><label for="mz4">5 oder mehr</label></span>
+        </div>
+      </div>
+      <div class="q">
+        <label class="q-title">Frühstückst du?</label>
+        <div class="opts">
+          <span class="opt"><input type="radio" name="fruehstueck" id="fr1" value="Immer"><label for="fr1">Immer</label></span>
+          <span class="opt"><input type="radio" name="fruehstueck" id="fr2" value="Manchmal"><label for="fr2">Manchmal</label></span>
+          <span class="opt"><input type="radio" name="fruehstueck" id="fr3" value="Nie"><label for="fr3">Nie</label></span>
+        </div>
+      </div>
+      <div class="q">
+        <label class="q-title">Wie oft isst du auswärts oder bestellst?</label>
+        <div class="opts">
+          <span class="opt"><input type="radio" name="auswaerts" id="aw1" value="Selten"><label for="aw1">Selten</label></span>
+          <span class="opt"><input type="radio" name="auswaerts" id="aw2" value="1–2× pro Woche"><label for="aw2">1–2× pro Woche</label></span>
+          <span class="opt"><input type="radio" name="auswaerts" id="aw3" value="3–4× pro Woche"><label for="aw3">3–4× pro Woche</label></span>
+          <span class="opt"><input type="radio" name="auswaerts" id="aw4" value="Fast täglich"><label for="aw4">Fast täglich</label></span>
+        </div>
+      </div>
+      <div class="q"><label class="q-title">Kochst du für dich allein oder für mehrere Personen?</label><input type="text" name="kochen_fuer"></div>
+      <div class="q"><label class="q-title">Was kochst du schon regelmäßig und gerne?</label><div class="hint">Gerichte, die du im Schlaf hinbekommst.</div><textarea name="kocht_gerne"></textarea></div>
+
+      <div class="section-label">04 — Vorlieben & Unverträglichkeiten</div>
+      <div class="q">
+        <label class="q-title">Ernährst du dich nach einem bestimmten Prinzip?</label>
+        <div class="opts">
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr1" value="Keine Vorgaben"><label for="pr1">Keine Vorgaben</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr2" value="Vegetarisch"><label for="pr2">Vegetarisch</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr3" value="Vegan"><label for="pr3">Vegan</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr4" value="Pescetarisch"><label for="pr4">Pescetarisch</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr5" value="Halal"><label for="pr5">Halal</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr6" value="Koscher"><label for="pr6">Koscher</label></span>
+          <span class="opt"><input type="checkbox" name="prinzip" id="pr7" value="Sonstiges"><label for="pr7">Sonstiges</label></span>
+        </div>
+      </div>
+      <div class="q"><label class="q-title">Gibt es Lebensmittel, die du nicht verträgst?</label><div class="hint">Z. B. Laktose, Gluten, Nüsse — nur was du selbst weißt.</div><textarea name="unvertraeglichkeiten"></textarea></div>
+
+      <div class="section-label">05 — Deine Stolpersteine</div>
+      <div class="q">
+        <label class="q-title">An welcher Stelle fällt dir gutes Essen im Alltag am schwersten?</label>
+        <div class="hint">Mehrfachauswahl möglich — genau hier setzt dein Plan an.</div>
+        <div class="opts">
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st1" value="Lust auf Süßes"><label for="st1">Lust auf Süßes</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st2" value="Snacken zwischendurch"><label for="st2">Snacken zwischendurch</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st3" value="Die Abendstunden"><label for="st3">Die Abendstunden</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st4" value="Essen bei Stress"><label for="st4">Essen bei Stress</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st5" value="Portionsgrößen"><label for="st5">Portionsgrößen</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st6" value="Vorausplanen"><label for="st6">Vorausplanen</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st7" value="Unterwegs sein"><label for="st7">Unterwegs sein</label></span>
+          <span class="opt"><input type="checkbox" name="stolpersteine" id="st8" value="Dranbleiben"><label for="st8">Dranbleiben</label></span>
+        </div>
+      </div>
+      <div class="q"><label class="q-title">Was hast du schon probiert, das nicht funktioniert hat?</label><div class="hint">Damit wir es nicht wiederholen.</div><textarea name="probiert"></textarea></div>
+      <div class="q"><label class="q-title">Was möchtest du mir noch mitgeben?</label><div class="hint">Alles, was dir wichtig ist und oben keinen Platz gefunden hat.</div><textarea name="sonstiges"></textarea></div>
+
+      <div class="disclaimer">
+        <strong>Wichtiger Hinweis.</strong> Die Vorschläge dienen der allgemeinen Information rund um Genuss und Alltagsgestaltung. Sie sind keine medizinische oder diätetische Beratung und ersetzen keine Diagnose oder Behandlung durch Ärztinnen, Ärzte oder zugelassene Ernährungsfachkräfte. Bei Erkrankungen, in Schwangerschaft und Stillzeit, bei Medikamenteneinnahme oder einem auffälligen Verhältnis zum Essen wende dich bitte an eine Fachperson. Angaben zu Alter, Größe und Gewicht sind freiwillig; teile hier keine Diagnosen oder Befunde mit. Deine Daten werden nur für deinen Vorschlag genutzt, nicht weitergegeben und auf Wunsch gelöscht.
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent" required>
+        <span>Ich bin damit einverstanden, dass meine Angaben zur Erstellung meines persönlichen Vorschlags verarbeitet werden. Diese Einwilligung kann ich jederzeit widerrufen. <a href="impressum.html">Datenschutz</a></span>
+      </label>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Fragebogen absenden</button>
+      <div class="form-err" id="form-err">Bitte fülle Name, E-Mail und die Einwilligung aus.</div>
+    </form>
+  </div>
+
+  <!-- Danke -->
+  <div class="thanks" id="thanks">
+    <i class="ti ti-circle-check"></i>
+    <h2>Vielen Dank!</h2>
+    <p>Deine Angaben sind bei mir angekommen. Ich melde mich in Kürze per E-Mail bei dir mit deinem persönlichen Vorschlag.</p>
+  </div>
+
+</div>
+
+<div class="foot">
+  <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+</div>
+
+<!-- Login Modal -->
+<div class="overlay" id="login-overlay">
+  <div class="modal">
+    <div class="modal-hdr"><h2>Admin-Login</h2><button class="modal-close" onclick="closeLogin()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-body">
+      <label>Passwort</label>
+      <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+      <div class="err" id="pw-err">Falsches Passwort.</div>
+      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TABLE = 'plan_requests';
+  let isAdmin = false;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  // ── Formular absenden ──
+  document.getElementById('fb-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const f = e.target;
+    const err = document.getElementById('form-err');
+    const name = f.name.value.trim(), email = f.email.value.trim();
+    if (!name || !email || !document.getElementById('consent').checked) { err.style.display = 'block'; return; }
+    err.style.display = 'none';
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = 'Wird gesendet…';
+
+    const fd = new FormData(f);
+    const payload = {};
+    for (const [k, v] of fd.entries()) {
+      if (payload[k] !== undefined) { payload[k] = [].concat(payload[k], v); }
+      else { payload[k] = v; }
+    }
+    payload.eingereicht_am = new Date().toISOString();
+
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE, {
+        method: 'POST',
+        headers: window.hqfWriteHeaders({ 'Content-Type': 'application/json', Prefer: 'return=minimal' }),
+        body: JSON.stringify({ payload: payload })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('thanks').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e2) {
+      console.error('[fragebogen]', e2);
+      err.textContent = 'Es gab ein Problem beim Senden. Bitte versuch es später erneut oder schreib an kontakt@highqualityfoods.de.';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Fragebogen absenden';
+    }
+  });
+
+  // ── Admin ──
+  function openLogin() { document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display = 'none'; setTimeout(() => document.getElementById('pw-input').focus(), 60); }
+  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
+  async function doLogin() {
+    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
+    if (ok) { isAdmin = true; closeLogin(); showAdmin(); }
+    else { document.getElementById('pw-err').style.display = 'block'; document.getElementById('pw-input').value = ''; }
+  }
+
+  const LABELS = {
+    name:'Name', email:'E-Mail', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
+    ziel:'Ziel', normaler_tag:'Normaler Tag', sport_haeufigkeit:'Sport-Häufigkeit', sport_welcher:'Welcher Sport',
+    lieblingsessen:'Lieblingsessen', lieblingsdessert:'Lieblings-Dessert', weglassen:'Würde gerne weglassen', mag_nicht:'Mag gar nicht',
+    kochzeit:'Kochzeit/Tag', mahlzeiten:'Mahlzeiten/Tag', fruehstueck:'Frühstück', auswaerts:'Isst auswärts', kochen_fuer:'Kocht für', kocht_gerne:'Kocht gerne',
+    prinzip:'Ernährungsprinzip', unvertraeglichkeiten:'Unverträglichkeiten',
+    stolpersteine:'Stolpersteine', probiert:'Schon probiert', sonstiges:'Mitteilung'
+  };
+  const ORDER = ['alter','groesse','gewicht','ziel','normaler_tag','sport_haeufigkeit','sport_welcher','lieblingsessen','lieblingsdessert','weglassen','mag_nicht','kochzeit','mahlzeiten','fruehstueck','auswaerts','kochen_fuer','kocht_gerne','prinzip','unvertraeglichkeiten','stolpersteine','probiert','sonstiges'];
+
+  async function showAdmin() {
+    document.getElementById('form-view').style.display = 'none';
+    document.getElementById('thanks').style.display = 'none';
+    const panel = document.getElementById('admin-panel');
+    panel.style.display = 'block';
+    document.getElementById('footer-admin-btn').textContent = 'Abmelden';
+    document.getElementById('footer-admin-btn').onclick = function(){ isAdmin=false; if(window.hqfLogout) window.hqfLogout(); location.reload(); };
+    const sub = document.getElementById('admin-sub');
+    const list = document.getElementById('req-list');
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?select=*&order=created_at.desc', { headers: window.hqfWriteHeaders() });
+      const rows = await res.json();
+      if (!Array.isArray(rows) || rows.length === 0) { sub.textContent = 'Noch keine Anfragen.'; return; }
+      sub.textContent = rows.length + ' Anfrage' + (rows.length === 1 ? '' : 'n');
+      list.innerHTML = rows.map(function (r) {
+        const p = r.payload || {};
+        const d = new Date(r.created_at).toLocaleString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        let kv = ORDER.filter(k => p[k] && p[k].length).map(function (k) {
+          const val = Array.isArray(p[k]) ? p[k].join(', ') : p[k];
+          return '<div class="kv"><b>' + esc(LABELS[k] || k) + ':</b> ' + esc(val) + '</div>';
+        }).join('');
+        return '<div class="req-item" id="req-' + r.id + '"><div class="rh"><span class="rname">' + esc(p.name || '—') + '</span><span class="rdate">' + esc(d) + '</span></div>' +
+               '<div class="rmail">' + esc(p.email || '') + '</div>' +
+               '<details><summary>Alle Antworten anzeigen</summary>' + kv + '</details>' +
+               '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
+      }).join('');
+    } catch (e) { sub.textContent = 'Fehler beim Laden.'; console.error(e); }
+  }
+
+  async function deleteRequest(id, btn) {
+    if (!confirm('Diese Anfrage wirklich löschen? Das kann nicht rückgängig gemacht werden.')) return;
+    btn.disabled = true; btn.textContent = 'Löscht…';
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?id=eq.' + id, {
+        method: 'DELETE', headers: window.hqfWriteHeaders({ Prefer: 'return=minimal' })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const el = document.getElementById('req-' + id);
+      if (el) el.remove();
+    } catch (e) {
+      console.error('[delete]', e); btn.disabled = false; btn.textContent = 'Löschen';
+      alert('Löschen fehlgeschlagen. Bitte erneut versuchen.');
+    }
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin(); });
+</script>
+</body>
+</html>
