@@ -46,6 +46,18 @@
 
     .section-label { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin: 44px 0 22px; padding-bottom: 10px; border-bottom: 1px solid #e0d9ce; }
 
+    .why { background: #efe9df; border-radius: 14px; padding: 36px 34px; margin-bottom: 48px; }
+    .why h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 26px; margin-bottom: 10px; }
+    .why > p { color: rgba(26,35,50,.6); font-size: 15px; font-weight: 300; line-height: 1.7; margin-bottom: 26px; }
+    .why-benefits { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 26px; }
+    .why-benefits > div { flex: 1; min-width: 160px; }
+    .why-benefits i { font-size: 24px; color: #8fa8b8; }
+    .why-benefits .b-t { font-weight: 500; font-size: 15px; margin: 8px 0 4px; }
+    .why-benefits .b-d { color: rgba(26,35,50,.55); font-size: 13.5px; font-weight: 300; line-height: 1.6; }
+    .why-included { font-size: 14.5px; line-height: 1.8; color: #4a5568; font-weight: 300; padding: 18px 0; border-top: 1px solid #e0d9ce; border-bottom: 1px solid #e0d9ce; }
+    .why-included b { color: #1a2332; font-weight: 500; }
+    .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
+
     .q { margin-bottom: 26px; }
     .q > label.q-title { display: block; font-weight: 500; font-size: 16px; margin-bottom: 4px; }
     .q .hint { color: rgba(26,35,50,.45); font-size: 13px; font-weight: 300; margin-bottom: 10px; }
@@ -164,6 +176,18 @@
       <p>Damit dein Plan wirklich zu dir passt, brauche ich ein Gefühl für deinen Alltag und deinen Geschmack. Nimm dir fünf Minuten Zeit und antworte so ehrlich wie möglich — es gibt keine falschen Antworten.</p>
     </div>
 
+    <div class="why">
+      <h2>Warum ein Plan von HighQualityFoods?</h2>
+      <p>Kein 08/15-Plan von der Stange — sondern einer, der genau auf deinen Alltag angepasst ist.</p>
+      <div class="why-benefits">
+        <div><i class="ti ti-clock"></i><div class="b-t">Alltagstauglich</div><div class="b-d">Die meisten Gerichte stehen in 20–30 Minuten.</div></div>
+        <div><i class="ti ti-shopping-cart"></i><div class="b-t">Fertige Einkaufsliste</div><div class="b-d">Einmal einkaufen, entspannt durch die Woche.</div></div>
+        <div><i class="ti ti-adjustments-heart"></i><div class="b-t">Auf dich zugeschnitten</div><div class="b-d">Deine Allergien, dein Geschmack, deine Zeit.</div></div>
+      </div>
+      <div class="why-included"><b>Das ist drin:</b> 7-Tage-Wochenplan · passende Rezepte · Einkaufsliste · Nährwerte · eine Checkliste zum Dranbleiben · auf Wunsch anpassbar</div>
+      <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
+    </div>
+
     <form id="fb-form">
 
       <div class="section-label">01 — Über dich</div>
@@ -172,6 +196,11 @@
           <div><span class="col-label">Name <span class="req">*</span></span><input type="text" name="name" required></div>
           <div><span class="col-label">E-Mail <span class="req">*</span></span><input type="email" name="email" required></div>
         </div>
+      </div>
+      <div class="q">
+        <span class="col-label">Wohnort (Stadt / Region)</span>
+        <input type="text" name="wohnort" placeholder="z. B. Köln">
+        <div class="hint" style="margin-top:8px;">Hilft mir bei saisonalen und regional verfügbaren Zutaten.</div>
       </div>
       <div class="q">
         <div class="row">
@@ -373,14 +402,14 @@
   }
 
   const LABELS = {
-    name:'Name', email:'E-Mail', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
+    name:'Name', email:'E-Mail', wohnort:'Wohnort', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
     ziel:'Ziel', normaler_tag:'Normaler Tag', sport_haeufigkeit:'Sport-Häufigkeit', sport_welcher:'Welcher Sport',
     lieblingsessen:'Lieblingsessen', lieblingsdessert:'Lieblings-Dessert', weglassen:'Würde gerne weglassen', mag_nicht:'Mag gar nicht',
     kochzeit:'Kochzeit/Tag', mahlzeiten:'Mahlzeiten/Tag', fruehstueck:'Frühstück', auswaerts:'Isst auswärts', kochen_fuer:'Kocht für', kocht_gerne:'Kocht gerne',
     prinzip:'Ernährungsprinzip', unvertraeglichkeiten:'Unverträglichkeiten',
     stolpersteine:'Stolpersteine', probiert:'Schon probiert', sonstiges:'Mitteilung'
   };
-  const ORDER = ['alter','groesse','gewicht','ziel','normaler_tag','sport_haeufigkeit','sport_welcher','lieblingsessen','lieblingsdessert','weglassen','mag_nicht','kochzeit','mahlzeiten','fruehstueck','auswaerts','kochen_fuer','kocht_gerne','prinzip','unvertraeglichkeiten','stolpersteine','probiert','sonstiges'];
+  const ORDER = ['wohnort','alter','groesse','gewicht','ziel','normaler_tag','sport_haeufigkeit','sport_welcher','lieblingsessen','lieblingsdessert','weglassen','mag_nicht','kochzeit','mahlzeiten','fruehstueck','auswaerts','kochen_fuer','kocht_gerne','prinzip','unvertraeglichkeiten','stolpersteine','probiert','sonstiges'];
 
   async function showAdmin() {
     document.getElementById('form-view').style.display = 'none';
