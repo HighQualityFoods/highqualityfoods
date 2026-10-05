@@ -14,6 +14,7 @@
   <script src="data.js"></script>
   <script src="config.js"></script>
   <script src="db.js"></script>
+  <script src="blog-pages.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
@@ -727,7 +728,7 @@
           </div>
           <div class="post-title">${p.title}</div>
           <div class="post-excerpt">${p.excerpt || ''}</div>
-          <div class="post-read-more">Weiterlesen <i class="ti ti-arrow-right"></i></div>
+          <a class="post-read-more" href="${postUrl(p)}" style="text-decoration:none;">Weiterlesen <i class="ti ti-arrow-right"></i></a>
           <div class="post-card-actions">
             <button class="btn-edit-post" onclick="openEditor(${p.id})"><i class="ti ti-pencil"></i> Bearbeiten</button>
             <button class="btn-del-post" onclick="deletePost(${p.id})"><i class="ti ti-trash"></i> Löschen</button>
@@ -739,7 +740,20 @@
       </div>`;
   }
 
-  function goToPost(id) { location.href = 'blog.html?id=' + id; }
+  function hqfSlug(t) {
+    return (t || '').toLowerCase()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  function postUrl(p) {
+    const slug = hqfSlug(p.title);
+    if (window.HQF_BLOG_PAGES && window.HQF_BLOG_PAGES.indexOf(slug) !== -1) return 'blog/' + slug + '.html';
+    return 'blog.html?id=' + p.id;
+  }
+  function goToPost(id) {
+    const p = loadPosts().find(x => x.id === id);
+    location.href = p ? postUrl(p) : ('blog.html?id=' + id);
+  }
 
   function renderDetail(pid) {
     const posts = loadPosts();
@@ -751,6 +765,14 @@
       return;
     }
     document.title = p.title + ' — HighQualityFoods';
+    (function(){
+      var slug = hqfSlug(p.title);
+      if (window.HQF_BLOG_PAGES && window.HQF_BLOG_PAGES.indexOf(slug) !== -1) {
+        var c = document.querySelector('link[rel="canonical"]') || document.createElement('link');
+        c.rel = 'canonical'; c.href = 'https://highqualityfoods.de/blog/' + slug + '.html';
+        if (!c.parentNode) document.head.appendChild(c);
+      }
+    })();
     const dateStr = p.date ? new Date(p.date + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
 
     root.innerHTML = `
