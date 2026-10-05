@@ -2,19 +2,75 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <meta name="description" content="HighQualityFoods - Rezept Blog, hier findest du Inspiration zum Thema clean eating mit leckeren Gerichten. Die Mahlzeiten sind alle selbst von meiner Mom zubereitet. Viel Spaß beim nachkochen :)">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rezept — HighQualityFoods</title>
+  <title>Hähnchensalat 🥗 | HighQualityFoods</title>
+  <meta name="description" content="Aus einem normalen Salat wird durch das Hähnchen eine Proteinreiche, frische Mahlzeit 🥘💪">
+  <link rel="canonical" href="https://highqualityfoods.de/rezepte/haehnchensalat.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Hähnchensalat 🥗 | HighQualityFoods">
+  <meta property="og:description" content="Aus einem normalen Salat wird durch das Hähnchen eine Proteinreiche, frische Mahlzeit 🥘💪">
+  <meta property="og:url" content="https://highqualityfoods.de/rezepte/haehnchensalat.html">
+  <meta property="og:image" content="https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1784019202191-qupa5qwlhr.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <script src="data.js"></script>
-  <script src="config.js"></script>
-  <script src="db.js"></script>
-  <script src="recipe-pages.js"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": "Hähnchensalat 🥗",
+  "url": "https://highqualityfoods.de/rezepte/haehnchensalat.html",
+  "author": {
+    "@type": "Organization",
+    "name": "HighQualityFoods"
+  },
+  "image": [
+    "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1784019202191-qupa5qwlhr.jpg"
+  ],
+  "description": "Aus einem normalen Salat wird durch das Hähnchen eine Proteinreiche, frische Mahlzeit 🥘💪",
+  "recipeCategory": "Hauptgericht",
+  "recipeYield": "2 Personen",
+  "totalTime": "PT20M",
+  "recipeIngredient": [
+    "Feldsalat",
+    "Rucola",
+    "Rote Paprika",
+    "Mais",
+    "Kürbiskerne",
+    "1 EL Naturjoghurt",
+    "1 Hänchenbrust (Gewürze: Paprikapulver süß, Gemüsebrühe, Chiliflocken)",
+    "Dressing:",
+    "2El Naturjoghurt, frische Kräuter, Dill, Petersilie, 1/2 Tl körnigen Senf, Salz, Pfeffer, 2 TL Zitronensaft, 1 Tl Honig, 1El Rapsöl, 1Tl Olivenöl"
+  ],
+  "recipeInstructions": [
+    {
+      "@type": "HowToStep",
+      "name": "Hähnchen Vorbereiten",
+      "text": "Das Hähnchen unter klarem Wasser abspülen und mit Küchenpapier abtupfen und in kleine Filets schneiden. Mit einem Backpinsel von beiden Seiten mit Naturjoghurt bestreichen und 5 Min ruhen lassen. Dann mit Parikapulver, Bio Gemüsebrühe und etwas Chiliflocken würzen. Anschließend in der Pfanne von beiden Seiten durchbraten."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Dressing",
+      "text": "Alle Zutaten fürs Dressing zusammen verquirlen und die Soße ist schon fertig. 🤌🏼"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Salat",
+      "text": "Salat anrichten, Dressing übergießen, das warme Filet auf den Salat geben. Das ganze mit knackfrischer Paprika, Kürbiskernen und etwas Mais ergänzen.\nGuten Appetit 😋"
+    }
+  ],
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": "520 kcal",
+    "proteinContent": "37g",
+    "carbohydrateContent": "18g",
+    "fatContent": "25g"
+  }
+}
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
@@ -398,8 +454,6 @@
     }
       @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
   </style>
-  <script>(function(){var d=JSON.parse(window.store.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -409,15 +463,15 @@
   </script>
 </head>
 <body>
-
 <nav>
-  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <a href="/index.html" class="logo">High<span>Quality</span>Foods</a>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="rezepte.html">Rezepte</a>
-    <a href="blog.html">Blog</a>
-    <a href="lexikon.html">A–Z</a>
-    <a href="about.html">About</a>
+    <a href="/index.html">Home</a>
+    <a href="/rezepte.html">Rezepte</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/lexikon.html">A–Z</a>
+    <a href="/about.html">About</a>
+    <a href="/ernaehrungsplan.html">Ernährungsplan</a>
   </div>
   <div>
     <span class="nav-tag">Rezept-Blog</span>
@@ -425,196 +479,52 @@
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="index.html">Startseite</a>
-  <a href="rezepte.html">Rezepte</a>
-  <a href="blog.html">Blog</a>
-  <a href="lexikon.html">A–Z</a>
-  <a href="about.html">About</a>
+  <a href="/index.html">Startseite</a>
+  <a href="/rezepte.html">Rezepte</a>
+  <a href="/blog.html">Blog</a>
+  <a href="/lexikon.html">A–Z</a>
+  <a href="/about.html">About</a>
+  <a href="/ernaehrungsplan.html">Ernährungsplan</a>
 </div>
 
-<div id="page"></div>
+<div id="page">
+  <div class="recipe-layout">
+    <div class="recipe-img-col">
+      <div class="recipe-img-wrap"><img class="recipe-img" src="https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1784019202191-qupa5qwlhr.jpg" alt="Hähnchensalat 🥗"></div>
+    </div>
+    <div class="recipe-info-col">
+      <a href="/rezepte.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Rezepte</a>
+      <div class="eyebrow">Hauptgericht</div>
+      <h1 class="recipe-title">Hähnchensalat 🥗</h1>
+      <div style="display:inline-flex;align-items:center;gap:6px;font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#8fa8b8;margin:0 0 14px;"><i class="ti ti-heart" style="font-size:14px;"></i>Aus Mamas Küche</div>
+      <div class="recipe-meta"><span><i class="ti ti-clock"></i>20 min</span><span><i class="ti ti-users"></i>2 Personen</span><span><i class="ti ti-flame"></i>520 kcal</span><span><i class="ti ti-meat"></i>37g</span><span><i class="ti ti-bread"></i>18g</span><span><i class="ti ti-droplet"></i>25g</span></div>
+      <div class="recipe-tags"><span class="pill">Hähnchen</span><span class="pill">Protein</span><span class="pill">Salat</span></div>
+      <div class="section-label">Beschreibung</div><p class="desc-text">Aus einem normalen Salat wird durch das Hähnchen eine Proteinreiche, frische Mahlzeit 🥘💪</p><hr class="divider">
+      <div class="print-cols">
+        <div><div class="section-label">Zutaten</div><ul class="ingredients-list"><li>Feldsalat</li><li>Rucola</li><li>Rote Paprika</li><li>Mais</li><li>Kürbiskerne</li><li>1 EL Naturjoghurt</li><li>1 Hänchenbrust (Gewürze: Paprikapulver süß, Gemüsebrühe, Chiliflocken)</li><li>Dressing:</li><li>2El Naturjoghurt, frische Kräuter, Dill, Petersilie, 1/2 Tl körnigen Senf, Salz, Pfeffer, 2 TL Zitronensaft, 1 Tl Honig, 1El Rapsöl, 1Tl Olivenöl</li></ul></div>
+        <div><div class="section-label">Zubereitung</div><div><div class="step-item"><div class="step-heading"><span class="step-num">1</span>Hähnchen Vorbereiten</div><div class="step-text">Das Hähnchen unter klarem Wasser abspülen und mit Küchenpapier abtupfen und in kleine Filets schneiden. Mit einem Backpinsel von beiden Seiten mit Naturjoghurt bestreichen und 5 Min ruhen lassen. Dann mit Parikapulver, Bio Gemüsebrühe und etwas Chiliflocken würzen. Anschließend in der Pfanne von beiden Seiten durchbraten.</div></div><div class="step-item"><div class="step-heading"><span class="step-num">2</span>Dressing</div><div class="step-text">Alle Zutaten fürs Dressing zusammen verquirlen und die Soße ist schon fertig. 🤌🏼</div></div><div class="step-item"><div class="step-heading"><span class="step-num">3</span>Salat</div><div class="step-text">Salat anrichten, Dressing übergießen, das warme Filet auf den Salat geben. Das ganze mit knackfrischer Paprika, Kürbiskernen und etwas Mais ergänzen.<br>Guten Appetit 😋</div></div></div></div>
+      </div>
+      <hr class="divider">
+      <button class="share-btn" onclick="shareRecipe()"><i class="ti ti-share"></i> Rezept teilen</button>
+      <button class="pdf-btn" onclick="window.print()"><i class="ti ti-file-type-pdf"></i> Als PDF speichern</button>
+      <span class="share-toast" id="share-toast">Link kopiert!</span>
+    </div>
+  </div>
+</div>
 
 <footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
 </footer>
 
 <script>
-  function formatIngredients(text) {
-    if (!text) return '';
-    return text.split('\n').filter(l => l.trim()).map(line =>
-      `<li>${line.trim()}</li>`
-    ).join('');
-  }
-
-  function formatSteps(text) {
-    if (!text) return '';
-    const lines = text.split('\n');
-    let html = '';
-    let currentStep = null;
-    let currentTexts = [];
-    let stepCounter = 0;
-
-    function flushStep() {
-      if (currentStep !== null) {
-        stepCounter++;
-        html += `<div class="step-item">
-          <div class="step-heading"><span class="step-num">${stepCounter}</span>${currentStep}</div>
-          <div class="step-text">${currentTexts.join('<br>')}</div>
-        </div>`;
-        currentTexts = [];
-        currentStep = null;
-      }
-    }
-
-    lines.forEach(line => {
-      const m = line.match(/^\d+\.\s*(.+)/);
-      if (m) { flushStep(); currentStep = m[1]; }
-      else if (line.trim() && currentStep !== null) { currentTexts.push(line.trim()); }
-      else if (line.trim()) { html += `<div class="step-text" style="margin-bottom:14px;">${line.trim()}</div>`; }
-    });
-    flushStep();
-    return html;
-  }
-
-  function loadRecipes() {
-    const saved = window.store.getItem('hqf_recipes');
-    return saved ? JSON.parse(saved) : [];
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id'));
-
-  // Erst sessionStorage (zuverlässigste Quelle nach Navigation), dann localStorage
-  function findRecipe() {
-    try {
-      const cached = sessionStorage.getItem('hqf_current_recipe');
-      if (cached) {
-        const r = JSON.parse(cached);
-        if (r.id === id) return r;
-      }
-    } catch(e) {}
-    return loadRecipes().find(x => x.id === id);
-  }
-
-  renderPage(findRecipe());
-  (async () => {
-    await db.sync('hqf_recipes');
-    const afterSync = findRecipe();
-    if (afterSync) renderPage(afterSync);
-  })();
-  function renderPage(r) {
-  const page = document.getElementById('page');
-
-  if (!r) {
-    page.innerHTML = `<div class="not-found">
-      <h2>Rezept nicht gefunden</h2>
-      <p>Dieses Rezept existiert nicht oder wurde gelöscht.</p>
-      <a href="rezepte.html">← Zurück zur Übersicht</a>
-    </div>`;
-  } else {
-    document.title = `${r.title} — HighQualityFoods`;
-    // Canonical auf die statische SEO-Seite (gegen Duplicate Content)
-    (function(){
-      var slug = (r.title||'').toLowerCase()
-        .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
-        .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-      if (window.HQF_PAGES && window.HQF_PAGES.indexOf(slug) !== -1) {
-        var c = document.querySelector('link[rel="canonical"]') || document.createElement('link');
-        c.rel = 'canonical';
-        c.href = 'https://highqualityfoods.de/rezepte/' + slug + '.html';
-        if (!c.parentNode) document.head.appendChild(c);
-      }
-    })();
-    page.innerHTML = `
-      <div class="recipe-layout">
-
-        <!-- Linke Spalte: Bild -->
-        <div class="recipe-img-col">
-          <div class="recipe-img-wrap">
-            ${r.img
-              ? `<img class="recipe-img" src="${r.img}" alt="${r.title}">`
-              : `<div class="recipe-img-ph">🍽</div>`}
-          </div>
-        </div>
-
-        <!-- Rechte Spalte: Inhalt -->
-        <div class="recipe-info-col">
-          <a href="rezepte.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Rezepte</a>
-          <div class="eyebrow">${r.category}</div>
-
-          <h1 class="recipe-title">${r.title}</h1>
-          <div style="display:inline-flex;align-items:center;gap:6px;font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#8fa8b8;margin:0 0 14px;"><i class="ti ti-heart" style="font-size:14px;"></i>Aus Mamas Küche</div>
-          <div class="recipe-meta">
-            ${r.time     ? `<span><i class="ti ti-clock"></i>${r.time}</span>` : ''}
-            ${r.servings ? `<span><i class="ti ti-users"></i>${r.servings}</span>` : ''}
-            ${r.nutrition?.kcal    ? `<span><i class="ti ti-flame"></i>${r.nutrition.kcal}</span>` : ''}
-            ${r.nutrition?.protein ? `<span><i class="ti ti-meat"></i>${r.nutrition.protein}</span>` : ''}
-            ${r.nutrition?.carbs   ? `<span><i class="ti ti-bread"></i>${r.nutrition.carbs}</span>` : ''}
-            ${r.nutrition?.fat     ? `<span><i class="ti ti-droplet"></i>${r.nutrition.fat}</span>` : ''}
-            ${r.nutrition?.fiber   ? `<span><i class="ti ti-leaf"></i>${r.nutrition.fiber}</span>` : ''}
-          </div>
-          ${r.tags && r.tags.length
-            ? `<div class="recipe-tags">${r.tags.map(t => `<span class="pill">${t}</span>`).join('')}</div>`
-            : ''}
-
-          ${r.desc ? `
-            <div class="section-label">Beschreibung</div>
-            <p class="desc-text">${r.desc}</p>
-            <hr class="divider">` : ''}
-
-          <div class="print-cols">
-            ${r.ingredients ? `<div>
-              <div class="section-label">Zutaten</div>
-              <ul class="ingredients-list">${formatIngredients(r.ingredients)}</ul>
-            </div>` : '<div></div>'}
-            ${r.steps ? `<div>
-              <div class="section-label">Zubereitung</div>
-              <div>${formatSteps(r.steps)}</div>
-            </div>` : '<div></div>'}
-          </div>
-
-          <hr class="divider">
-          <button class="share-btn" onclick="shareRecipe('${r.title.replace(/'/g,"\\'")}')">
-            <i class="ti ti-share"></i> Rezept teilen
-          </button>
-          <button class="pdf-btn" onclick="window.print()">
-            <i class="ti ti-file-type-pdf"></i> Als PDF speichern
-          </button>
-          <button class="fav-detail-btn${isFav(r.id) ? ' active' : ''}" id="fav-detail-btn" onclick="toggleFavDetail(${r.id})">
-            <i class="ti ti-heart${isFav(r.id) ? '-filled' : ''}"></i> ${isFav(r.id) ? 'Favorit' : 'Favorisieren'}
-          </button>
-          <span class="share-toast" id="share-toast">Link kopiert!</span>
-        </div>
-
-      </div>`;
-  }
-  } // end renderPage
-
-  function loadFavs() { try { return JSON.parse(window.store.getItem('hqf_favs') || '[]'); } catch(e) { return []; } }
-  function saveFavs(f) { window.store.setItem('hqf_favs', JSON.stringify(f)); }
-  function isFav(id) { return loadFavs().includes(id); }
-  function toggleFavDetail(id) {
-    var favs = loadFavs();
-    var idx = favs.indexOf(id);
-    if (idx === -1) favs.push(id); else favs.splice(idx, 1);
-    saveFavs(favs);
-    var btn = document.getElementById('fav-detail-btn');
-    var active = favs.includes(id);
-    btn.className = 'fav-detail-btn' + (active ? ' active' : '');
-    btn.innerHTML = '<i class="ti ti-heart' + (active ? '-filled' : '') + '"></i> ' + (active ? 'Favorit' : 'Favorisieren');
-  }
-
-  function shareRecipe(title) {
+  function shareRecipe() {
     const url = window.location.href;
-    if (navigator.share) {
-      navigator.share({ title: title + ' — HighQualityFoods', url });
-    } else {
-      navigator.clipboard.writeText(url).then(() => {
-        const t = document.getElementById('share-toast');
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-      });
-    }
+    const title = "H\u00e4hnchensalat \ud83e\udd57 \u2014 HighQualityFoods";
+    if (navigator.share) { navigator.share({ title, url }); }
+    else { navigator.clipboard.writeText(url).then(() => {
+      const t = document.getElementById('share-toast'); t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }); }
   }
 </script>
 </body>

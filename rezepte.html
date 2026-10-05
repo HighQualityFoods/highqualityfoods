@@ -14,6 +14,7 @@
   <script src="data.js"></script>
   <script src="config.js"></script>
   <script src="db.js"></script>
+  <script src="recipe-pages.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1403,7 +1404,7 @@
     }
 
     g.innerHTML = list.map(r => `
-      <a class="card" role="article" href="rezept.html?id=${r.id}" onclick="sessionStorage.setItem('hqf_current_recipe', JSON.stringify(recipes.find(x=>x.id===${r.id})||''))">
+      <a class="card" role="article" href="${recipeUrl(r)}" onclick="sessionStorage.setItem('hqf_current_recipe', JSON.stringify(recipes.find(x=>x.id===${r.id})||''))">
         <div class="card-img" style="position:relative;">
           ${r.img ? `<img src="${r.img}" alt="${r.title}" loading="lazy">` : '🍲'}
           <div class="card-cat">${r.category}</div>
@@ -1585,11 +1586,24 @@
     render();
   }
 
+  // ── Slug & URL (matcht build_recipes.py) ──
+  function hqfSlug(t) {
+    return (t || '').toLowerCase()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  function recipeUrl(r) {
+    const slug = hqfSlug(r.title);
+    if (window.HQF_PAGES && window.HQF_PAGES.indexOf(slug) !== -1) return 'rezepte/' + slug + '.html';
+    return 'rezept.html?id=' + r.id;
+  }
+
   // ── Detail: navigate to own page ──
   function openDetail(id) {
     const r = recipes.find(r => r.id === id);
-    if (r) sessionStorage.setItem('hqf_current_recipe', JSON.stringify(r));
-    window.location.href = `rezept.html?id=${id}`;
+    if (!r) { window.location.href = 'rezept.html?id=' + id; return; }
+    sessionStorage.setItem('hqf_current_recipe', JSON.stringify(r));
+    window.location.href = recipeUrl(r);
   }
 
   // ── Step formatter ──
