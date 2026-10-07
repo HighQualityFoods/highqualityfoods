@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="description" content="Bewerte deinen persönlichen Ernährungsplan von HighQualityFoods.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Deine Bewertung | HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <script src="data.js"></script>
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+    nav { background: #f5f2ec; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+    nav::after { content: ''; position: absolute; bottom: 0; left: 48px; right: 48px; height: 1.5px; background: #8fa8b8; border-radius: 999px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+    .wrap { max-width: 600px; margin: 0 auto; padding: 56px 24px 100px; }
+    .head { text-align: center; margin-bottom: 40px; }
+    .head .mark { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 16px; }
+    .head .mark span { color: #8fa8b8; }
+    .head h1 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 36px; line-height: 1.2; margin-bottom: 12px; }
+    .head p { color: rgba(26,35,50,.55); font-size: 15px; font-weight: 300; line-height: 1.8; }
+
+    .stars-input { display: flex; justify-content: center; gap: 10px; margin: 10px 0 28px; }
+    .stars-input i { font-size: 44px; color: #d9d2c6; cursor: pointer; transition: color .12s, transform .1s; }
+    .stars-input i:hover { transform: scale(1.1); }
+    .stars-input i.on { color: #e9963c; }
+
+    .field-label { display: block; font-size: 13px; letter-spacing: .5px; color: rgba(26,35,50,.6); margin-bottom: 7px; }
+    input[type="text"], textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 15px; color: #1a2332; background: #fdfcfa; outline: none; }
+    input:focus, textarea:focus { border-color: #1a2332; }
+    textarea { resize: vertical; min-height: 100px; }
+    .fg { margin-bottom: 22px; }
+    .submit-btn { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 16px; font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: opacity .15s; }
+    .submit-btn:hover { opacity: .85; }
+    .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .note { text-align: center; font-size: 13px; color: rgba(26,35,50,.45); margin-top: 16px; }
+    .form-err { color: #b06a4f; font-size: 14px; margin-top: 14px; text-align: center; display: none; }
+
+    .thanks { text-align: center; padding: 50px 20px; display: none; }
+    .thanks i { font-size: 56px; color: #8fa8b8; }
+    .thanks h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 28px; margin: 16px 0 10px; }
+    .thanks p { color: rgba(26,35,50,.6); font-weight: 300; line-height: 1.8; max-width: 400px; margin: 0 auto; }
+
+    .foot { text-align: center; padding: 30px; }
+    .foot button { background: none; border: none; color: rgba(26,35,50,.25); font-size: 11px; cursor: pointer; font-family: 'Inter', sans-serif; }
+
+    /* Admin */
+    .admin-panel { display: none; background: #1a2332; color: #f5f2ec; border-radius: 12px; padding: 24px; margin-bottom: 36px; }
+    .admin-panel h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 4px; }
+    .admin-panel .sub { color: #8fa8b8; font-size: 13px; margin-bottom: 18px; }
+    .rev-item { background: rgba(255,255,255,.06); border-radius: 8px; padding: 16px 18px; margin-bottom: 12px; }
+    .rev-item.pending { border: 1px solid #e9963c; }
+    .rev-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .rev-stars { color: #e9963c; font-size: 15px; letter-spacing: 1px; }
+    .rev-name { font-weight: 500; }
+    .rev-text { font-size: 14px; line-height: 1.6; margin: 8px 0 12px; color: #e8dfd0; font-weight: 300; }
+    .rev-actions { display: flex; gap: 8px; }
+    .rev-actions button { font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #f5f2ec; }
+    .btn-approve { border-color: #7bbf8f !important; color: #7bbf8f !important; }
+    .btn-approve:hover { background: #7bbf8f !important; color: #1a2332 !important; }
+    .btn-hide { color: #c9c2b6 !important; }
+    .btn-del { border-color: #d99 !important; color: #d99 !important; }
+    .btn-del:hover { background: #b06a4f !important; color: #fff !important; }
+    .badge-pending { background: #e9963c; color: #1a2332; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .badge-live { background: rgba(123,191,143,.2); color: #7bbf8f; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,35,50,.55); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 10px; width: 100%; max-width: 400px; overflow: hidden; }
+    .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid #eee; }
+    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; }
+    .modal-body { padding: 22px; }
+    .modal-body label { display: block; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8fa8b8; margin-bottom: 8px; }
+    .modal-body input { width: 100%; padding: 11px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px; font-size: 14px; outline: none; }
+    .modal-body .err { color: #b06a4f; font-size: 13px; margin-top: 8px; display: none; }
+    .btn-primary-full { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 13px; font-size: 13px; font-weight: 500; border-radius: 6px; cursor: pointer; margin-top: 16px; }
+    @media (max-width: 700px) { nav { padding: 16px 20px; } nav::after { left: 20px; right: 20px; } .head h1 { font-size: 30px; } }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-HXETZ7G0E4");
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <span class="nav-tag">Rezept-Blog</span>
+</nav>
+
+<div class="wrap">
+
+  <!-- Admin: Moderation -->
+  <div class="admin-panel" id="admin-panel">
+    <h3>Bewertungen verwalten</h3>
+    <div class="sub" id="admin-sub">Lädt…</div>
+    <div id="rev-list"></div>
+  </div>
+
+  <!-- Formular -->
+  <div id="form-view">
+    <div class="head">
+      <div class="mark">High<span>Quality</span>Foods</div>
+      <h1>Wie war dein Ernährungsplan?</h1>
+      <p>Deine ehrliche Meinung hilft mir enorm — und anderen, die noch unsicher sind. Dauert nur eine Minute. 🙏</p>
+    </div>
+
+    <form id="rev-form">
+      <div class="fg" style="text-align:center;">
+        <span class="field-label">Deine Bewertung</span>
+        <div class="stars-input" id="stars-input">
+          <i class="ti ti-star" data-v="1"></i>
+          <i class="ti ti-star" data-v="2"></i>
+          <i class="ti ti-star" data-v="3"></i>
+          <i class="ti ti-star" data-v="4"></i>
+          <i class="ti ti-star" data-v="5"></i>
+        </div>
+      </div>
+      <div class="fg">
+        <span class="field-label">Dein Name <span style="color:#b06a4f;">*</span></span>
+        <input type="text" id="r-name" placeholder="z. B. Sarah M." required>
+      </div>
+      <div class="fg">
+        <span class="field-label">Deine Erfahrung</span>
+        <textarea id="r-text" placeholder="Was hat dir am Plan gefallen? Was hat sich verändert?"></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submit-btn">Bewertung absenden</button>
+      <div class="form-err" id="form-err">Bitte wähle eine Sternebewertung und gib deinen Namen an.</div>
+      <div class="note">Deine Bewertung wird nach kurzer Prüfung veröffentlicht.</div>
+    </form>
+  </div>
+
+  <!-- Danke -->
+  <div class="thanks" id="thanks">
+    <i class="ti ti-circle-check"></i>
+    <h2>Danke dir! 🙏</h2>
+    <p>Deine Bewertung ist angekommen und wird nach kurzer Prüfung auf der Seite veröffentlicht. Das bedeutet mir viel!</p>
+  </div>
+
+</div>
+
+<div class="foot">
+  <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+</div>
+
+<div class="overlay" id="login-overlay">
+  <div class="modal">
+    <div class="modal-hdr"><h2>Admin-Login</h2><button class="modal-close" onclick="closeLogin()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-body">
+      <label>Passwort</label>
+      <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+      <div class="err" id="pw-err">Falsches Passwort.</div>
+      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TABLE = 'reviews';
+  let rating = 0, isAdmin = false;
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  // ── Sterne-Eingabe ──
+  const starsEl = document.getElementById('stars-input');
+  starsEl.querySelectorAll('i').forEach(star => {
+    star.addEventListener('click', () => { rating = parseInt(star.dataset.v); paintStars(rating); });
+    star.addEventListener('mouseenter', () => paintStars(parseInt(star.dataset.v)));
+  });
+  starsEl.addEventListener('mouseleave', () => paintStars(rating));
+  function paintStars(n) {
+    starsEl.querySelectorAll('i').forEach(s => {
+      const v = parseInt(s.dataset.v);
+      s.classList.toggle('ti-star-filled', v <= n);
+      s.classList.toggle('ti-star', v > n);
+      s.classList.toggle('on', v <= n);
+    });
+  }
+
+  // ── Absenden ──
+  document.getElementById('rev-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('r-name').value.trim();
+    const text = document.getElementById('r-text').value.trim();
+    const err = document.getElementById('form-err');
+    if (!rating || !name) { err.style.display = 'block'; return; }
+    err.style.display = 'none';
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = 'Wird gesendet…';
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE, {
+        method: 'POST',
+        headers: window.hqfWriteHeaders({ 'Content-Type': 'application/json', Prefer: 'return=minimal' }),
+        body: JSON.stringify({ name, stars: rating, text, approved: false })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('thanks').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e2) {
+      console.error('[review]', e2);
+      err.textContent = 'Es gab ein Problem. Bitte versuch es später erneut.';
+      err.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Bewertung absenden';
+    }
+  });
+
+  // ── Admin ──
+  function openLogin(){ document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display='none'; setTimeout(()=>document.getElementById('pw-input').focus(),60); }
+  function closeLogin(){ document.getElementById('login-overlay').classList.remove('open'); }
+  async function doLogin(){
+    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
+    if (ok) { isAdmin = true; closeLogin(); showAdmin(); }
+    else { document.getElementById('pw-err').style.display='block'; document.getElementById('pw-input').value=''; }
+  }
+  function starStr(n){ return '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5-n); }
+
+  async function showAdmin(){
+    document.getElementById('form-view').style.display='none';
+    document.getElementById('thanks').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    document.getElementById('footer-admin-btn').textContent='Abmelden';
+    document.getElementById('footer-admin-btn').onclick=function(){ isAdmin=false; if(window.hqfLogout)window.hqfLogout(); location.reload(); };
+    await loadAdmin();
+  }
+  async function loadAdmin(){
+    const sub = document.getElementById('admin-sub');
+    const list = document.getElementById('rev-list');
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?select=*&order=created_at.desc', { headers: window.hqfWriteHeaders() });
+      const rows = await res.json();
+      const pending = rows.filter(r=>!r.approved).length;
+      sub.textContent = rows.length + ' Bewertung' + (rows.length===1?'':'en') + (pending?` · ${pending} wartet auf Freigabe`:'');
+      list.innerHTML = rows.map(r => `
+        <div class="rev-item ${r.approved?'':'pending'}" id="rev-${r.id}">
+          <div class="rev-head">
+            <span class="rev-name">${esc(r.name||'—')} <span class="rev-stars">${starStr(r.stars||0)}</span></span>
+            <span class="${r.approved?'badge-live':'badge-pending'}">${r.approved?'live':'wartet'}</span>
+          </div>
+          ${r.text?`<div class="rev-text">${esc(r.text)}</div>`:''}
+          <div class="rev-actions">
+            ${r.approved
+              ? `<button class="btn-hide" onclick="setApproved('${r.id}',false,this)">Verbergen</button>`
+              : `<button class="btn-approve" onclick="setApproved('${r.id}',true,this)">✓ Freigeben</button>`}
+            <button class="btn-del" onclick="delReview('${r.id}',this)">Löschen</button>
+          </div>
+        </div>`).join('');
+    } catch(e){ sub.textContent='Fehler beim Laden.'; console.error(e); }
+  }
+  async function setApproved(id, val, btn){
+    btn.disabled=true;
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?id=eq.' + id, {
+        method:'PATCH', headers: window.hqfWriteHeaders({ 'Content-Type':'application/json', Prefer:'return=minimal' }),
+        body: JSON.stringify({ approved: val })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      loadAdmin();
+    } catch(e){ btn.disabled=false; alert('Fehler.'); console.error(e); }
+  }
+  async function delReview(id, btn){
+    if (!confirm('Bewertung wirklich löschen?')) return;
+    btn.disabled=true;
+    try {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?id=eq.' + id, {
+        method:'DELETE', headers: window.hqfWriteHeaders({ Prefer:'return=minimal' })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const el=document.getElementById('rev-'+id); if(el) el.remove();
+    } catch(e){ btn.disabled=false; alert('Fehler.'); console.error(e); }
+  }
+  document.addEventListener('keydown', e => { if (e.key==='Escape') closeLogin(); });
+</script>
+</body>
+</html>
