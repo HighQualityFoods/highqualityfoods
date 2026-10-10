@@ -213,6 +213,11 @@
         <div class="hint" style="margin-top:8px;">Hilft mir bei saisonalen und regional verfügbaren Zutaten.</div>
       </div>
       <div class="q">
+        <span class="col-label">Empfohlen von / Aktionscode <span style="color:rgba(26,35,50,.4);font-weight:400;">(optional)</span></span>
+        <input type="text" name="empfehlung" placeholder="z. B. GYM-MUSTERFIT">
+        <div class="hint" style="margin-top:8px;">Falls dich ein Studio, Trainer oder Partner empfohlen hat — trag hier den Code ein.</div>
+      </div>
+      <div class="q">
         <div class="row">
           <div><span class="col-label">Alter</span><input type="number" name="alter" min="0"></div>
           <div><span class="col-label">Größe (cm)</span><input type="number" name="groesse" min="0"></div>
@@ -444,6 +449,7 @@
         }).join('');
         return '<div class="req-item" id="req-' + r.id + '"><div class="rh"><span class="rname">' + esc(p.name || '—') + '</span><span class="rdate">' + esc(d) + '</span></div>' +
                '<div class="rmail">' + esc(p.email || '') + '</div>' +
+               (p.empfehlung ? '<div style="margin-top:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🏷️ Empfohlen von: ' + esc(p.empfehlung) + '</div>' : '') +
                '<details><summary>Alle Antworten anzeigen</summary>' + kv + '</details>' +
                '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
       }).join('');
