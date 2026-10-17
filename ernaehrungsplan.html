@@ -54,8 +54,13 @@
     .why-benefits i { font-size: 24px; color: #8fa8b8; }
     .why-benefits .b-t { font-weight: 500; font-size: 15px; margin: 8px 0 4px; }
     .why-benefits .b-d { color: rgba(26,35,50,.55); font-size: 13.5px; font-weight: 300; line-height: 1.6; }
-    .why-included { font-size: 14.5px; line-height: 1.8; color: #4a5568; font-weight: 300; padding: 18px 0; border-top: 1px solid #e0d9ce; border-bottom: 1px solid #e0d9ce; }
-    .why-included b { color: #1a2332; font-weight: 500; }
+    .why-included { background: #fdfcfa; border: 1px solid #e0d9ce; border-radius: 12px; padding: 26px 28px; }
+    .why-included h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 16px; }
+    .why-included ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+    .why-included li { font-size: 14.5px; display: flex; gap: 10px; align-items: center; }
+    .why-included .ck { width: 22px; height: 22px; border-radius: 50%; background: #1a2332; color: #f5f2ec; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .why-included b { font-weight: 500; }
+    @media (max-width: 560px) { .why-included { padding: 22px 20px; } .why-included ul { grid-template-columns: 1fr; } }
     .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
 
     .q { margin-bottom: 26px; }
@@ -192,7 +197,17 @@
         <div><i class="ti ti-shopping-cart"></i><div class="b-t">Fertige Einkaufsliste</div><div class="b-d">Einmal einkaufen, entspannt durch die Woche.</div></div>
         <div><i class="ti ti-adjustments-heart"></i><div class="b-t">Auf dich zugeschnitten</div><div class="b-d">Deine Allergien, dein Geschmack, deine Zeit.</div></div>
       </div>
-      <div class="why-included"><b>Das ist drin:</b> 7-Tage-Wochenplan · passende Rezepte · Einkaufsliste · Nährwerte · eine Checkliste zum Dranbleiben · auf Wunsch anpassbar</div>
+      <div class="why-included">
+        <h3>Das ist drin</h3>
+        <ul>
+          <li><span class="ck"><i class="ti ti-check"></i></span><b>4-Wochen-Plan</b></li>
+          <li><span class="ck"><i class="ti ti-check"></i></span>Passende Rezepte</li>
+          <li><span class="ck"><i class="ti ti-check"></i></span>Einkaufslisten</li>
+          <li><span class="ck"><i class="ti ti-check"></i></span>Nährwerte</li>
+          <li><span class="ck"><i class="ti ti-check"></i></span>4-Wochen-Abhakliste</li>
+          <li><span class="ck"><i class="ti ti-check"></i></span>Auf Wunsch anpassbar</li>
+        </ul>
+      </div>
       <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
     </div>
 
