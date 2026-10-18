@@ -109,6 +109,7 @@
     }
       @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
   </style>
+  <script src="/consent.js" defer></script>
 </head>
 <body>
 
@@ -134,7 +135,7 @@
   <div class="section">
     <h2>Impressum</h2>
 
-    <h3>Angaben gemäß § 5 TMG</h3>
+    <h3>Angaben gemäß § 5 DDG</h3>
     <p>
       Leon Radanovic<br>
       Am Kloppenheimer Rain 42<br>
@@ -152,7 +153,7 @@
   </div>
 
   <!-- DATENSCHUTZ -->
-  <div class="section">
+  <div class="section" id="datenschutz">
     <h2>Datenschutzerklärung</h2>
 
     <h3>1. Verantwortlicher</h3>
@@ -163,25 +164,43 @@
     </p>
 
     <h3>2. Hosting</h3>
-    <p>Diese Website wird gehostet bei Netlify, Inc., 44 Montgomery Street, Suite 300, San Francisco, CA 94104, USA. Beim Aufruf der Website werden automatisch Verbindungsdaten (IP-Adresse, Zeitpunkt, aufgerufene Seite) im Server-Log erfasst. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb der Website). Weitere Informationen: <a href="https://www.netlify.com/privacy/" target="_blank">netlify.com/privacy</a>.</p>
+    <p>Diese Website wird über GitHub Pages bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Website werden automatisch technische Verbindungsdaten (z. B. IP-Adresse, Zeitpunkt, aufgerufene Seite, Browsertyp) verarbeitet, um die Seite auszuliefern und den sicheren Betrieb zu gewährleisten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und stabilen Bereitstellung). Eine Übermittlung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework bzw. von Standardvertragsklauseln. Weitere Informationen: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub-Datenschutzerklärung</a>.</p>
 
-    <h3>3. Google Analytics</h3>
-    <p>Diese Website nutzt Google Analytics, einen Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Google Analytics verwendet Cookies, die eine Analyse der Benutzung der Website ermöglichen. Die dadurch erzeugten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert.</p>
-    <p>Die IP-Anonymisierung ist aktiviert, sodass deine IP-Adresse innerhalb der EU gekürzt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Du kannst der Datenerfassung widersprechen, indem du das <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-Out-Browser-Add-on</a> installierst. Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.</p>
+    <h3>3. Fragebogen für deinen Ernährungsplan</h3>
+    <p>Wenn du den Fragebogen ausfüllst, verarbeite ich deine Angaben (z. B. Name, E-Mail, Wohnort, Ziele, Essgewohnheiten, Vorlieben sowie freiwillige Angaben zu Alter, Größe und Gewicht), um mich bei dir zu melden und deinen persönlichen Plan zu erstellen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung und Durchführung eines Vertrags).</p>
+    <p>Angaben zu <b>Allergien und Unverträglichkeiten</b> sind Gesundheitsdaten. Diese verarbeite ich nur mit deiner ausdrücklichen Einwilligung, die du im Fragebogen erteilst (Art. 9 Abs. 2 lit. a i. V. m. Art. 6 Abs. 1 lit. a DSGVO). Du kannst die Einwilligung jederzeit per E-Mail an <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a> mit Wirkung für die Zukunft widerrufen.</p>
+    <p>Die Daten werden in einer Datenbank des Dienstleisters Supabase, Inc. gespeichert, mit dem ein Vertrag zur Auftragsverarbeitung besteht. Ich lösche deine Angaben, sobald sie für die Erstellung und Betreuung deines Plans nicht mehr nötig sind, spätestens jedoch auf deinen Wunsch – soweit keine gesetzlichen Aufbewahrungspflichten (z. B. für Rechnungen) entgegenstehen.</p>
 
-    <h3>4. Lokale Datenspeicherung</h3>
-    <p>Diese Website verwendet localStorage und sessionStorage deines Browsers, um Rezepte und Favoriten lokal zu speichern. Diese Daten verlassen deinen Browser nicht und werden nicht an Dritte weitergegeben.</p>
+    <h3>4. Bezahlung</h3>
+    <p>Die Bezahlung deines Plans erfolgt per Überweisung. Dabei verarbeite ich die Zahlungsinformationen, die mir über den Zahlungseingang bekannt werden (z. B. Name, Betrag, Verwendungszweck, ggf. IBAN). Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Rechnungs- und Zahlungsdaten bewahre ich gemäß den steuer- und handelsrechtlichen Pflichten (bis zu 10 Jahre) auf.</p>
 
-    <h3>5. Deine Rechte</h3>
-    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung deiner personenbezogenen Daten sowie ein Widerspruchsrecht. Wende dich dafür an: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a>.</p>
-    <p>Du hast zudem das Recht, dich bei einer Datenschutzbehörde zu beschweren, z. B. beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit.</p>
+    <h3>5. Kontakt per E-Mail</h3>
+    <p>Wenn du mir eine E-Mail schreibst, verarbeite ich deine Angaben, um deine Anfrage zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Die Daten werden gelöscht, wenn die Anfrage erledigt ist und keine Aufbewahrungspflichten bestehen.</p>
+
+    <h3>6. Bewertungen</h3>
+    <p>Wenn du eine Bewertung abgibst, speichere ich deinen angegebenen Namen, die Sternebewertung und deinen Text (ebenfalls bei Supabase). Nach meiner Freigabe werden Name, Sterne und Text öffentlich auf der Website angezeigt. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit widerrufen kannst – dann entferne ich die Bewertung.</p>
+
+    <h3>7. Google Analytics (nur mit Einwilligung)</h3>
+    <p>Mit deiner Einwilligung nutzt diese Website Google Analytics 4, einen Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Dabei werden Cookies gesetzt und Informationen über deine Nutzung der Website (z. B. aufgerufene Seiten, Gerät, ungefährer Standort) verarbeitet; IP-Adressen werden von Google Analytics 4 nicht gespeichert. Eine Übermittlung an Google LLC in den USA ist möglich; sie erfolgt auf Grundlage des EU-US Data Privacy Framework.</p>
+    <p>Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Ohne Einwilligung wird Google Analytics nicht geladen. Du kannst deine Entscheidung jederzeit über <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a> ändern. Weitere Informationen: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
+
+    <h3>8. Schriftarten und Icons</h3>
+    <p>Für Schriftarten und Icons bindet diese Website Dienste von Google Fonts (Google Ireland Limited) und jsDelivr (Prospect One, Polen) ein. Beim Laden wird deine IP-Adresse an diese Anbieter übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer einheitlichen und ansprechenden Darstellung).</p>
+
+    <h3>9. Lokale Speicherung im Browser</h3>
+    <p>Diese Website nutzt den lokalen Speicher deines Browsers (localStorage/sessionStorage), um z. B. Favoriten und deine Cookie-Entscheidung zu speichern. Diese Daten bleiben in deinem Browser und werden nicht an mich übertragen. Das ist für die gewünschten Funktionen technisch erforderlich (§ 25 Abs. 2 TDDDG).</p>
+
+    <h3>10. Deine Rechte</h3>
+    <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen. Erteilte Einwilligungen kannst du jederzeit mit Wirkung für die Zukunft widerrufen. Wende dich dafür an: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a>.</p>
+    <p>Du hast zudem das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren, z. B. beim Hessischen Beauftragten für Datenschutz und Informationsfreiheit.</p>
+    <p style="font-size:13px;">Stand: Oktober 2026</p>
   </div>
 
 </div>
 
 <footer>
   <span>© 2026 HighQualityFoods</span>
-  <a href="impressum.html">Impressum & Datenschutz</a>
+  <span><a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
 </footer>
 
 </body>

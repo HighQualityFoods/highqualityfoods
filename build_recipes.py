@@ -180,13 +180,7 @@ def page_html(r, slug, img):
 {build_schema(r, slug, img)}
   </script>
   <style>{STYLE}</style>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
-    gtag("js", new Date());
-    gtag("config", "G-HXETZ7G0E4");
-  </script>
+  <script src="/consent.js" defer></script>
 </head>
 <body>
 {NAV}
@@ -217,7 +211,7 @@ def page_html(r, slug, img):
 </div>
 
 <footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="/agb.html" style="color:inherit;text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:inherit;text-decoration:none;">Cookie-Einstellungen</a></span>
 </footer>
 
 <script>
@@ -342,13 +336,7 @@ def blog_page_html(p, slug, img):
 {blog_schema(p, slug, img)}
   </script>
   <style>{BLOG_STYLE}</style>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
-    gtag("js", new Date());
-    gtag("config", "G-HXETZ7G0E4");
-  </script>
+  <script src="/consent.js" defer></script>
 </head>
 <body>
 {NAV}
@@ -372,7 +360,7 @@ def blog_page_html(p, slug, img):
 </div>
 
 <footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a></span>
+  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="/agb.html" style="color:inherit;text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:inherit;text-decoration:none;">Cookie-Einstellungen</a></span>
 </footer>
 
 <script>

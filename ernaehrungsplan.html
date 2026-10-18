@@ -139,14 +139,7 @@
 
     @media (max-width: 900px) { .nav-links, .nav-tag { display: none !important; } .hamburger { display: block !important; } nav { padding: 16px 20px; } nav::after { left: 20px; right: 20px; } .fb-head h1 { font-size: 32px; } }
   </style>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXETZ7G0E4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-HXETZ7G0E4");
-  </script>
+  <script src="/consent.js" defer></script>
 </head>
 <body>
 
@@ -213,7 +206,7 @@
         </ul>
         <div class="why-price">
           <div class="p">79,99 €</div>
-          <div class="p-info"><b>Einmalig für deinen 4-Wochen-Plan.</b><br>Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.<br>Endpreis, gem. § 19 UStG wird keine Umsatzsteuer berechnet.</div>
+          <div class="p-info"><b>Einmalig für deinen 4-Wochen-Plan.</b><br>Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.</div>
         </div>
       </div>
       <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
@@ -355,7 +348,7 @@
       </div>
       <label class="consent">
         <input type="checkbox" id="consent" required>
-        <span>Ich bin damit einverstanden, dass meine Angaben zur Erstellung meines persönlichen Vorschlags verarbeitet werden. Diese Einwilligung kann ich jederzeit widerrufen. <a href="impressum.html">Datenschutz</a></span>
+        <span>Ich willige ein, dass meine Angaben – einschließlich gesundheitsbezogener Angaben wie Allergien und Unverträglichkeiten – verarbeitet werden, um mich zu kontaktieren und meinen persönlichen Plan zu erstellen. Diese Einwilligung kann ich jederzeit per E-Mail widerrufen. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>. Das Absenden ist unverbindlich; es gelten die <a href="agb.html">AGB</a>.</span>
       </label>
 
       <button type="submit" class="submit-btn" id="submit-btn">Fragebogen absenden</button>
@@ -373,6 +366,7 @@
 </div>
 
 <div class="foot">
+  <div class="foot-links" style="margin-bottom:10px;font-size:12px;letter-spacing:0;"><a href="impressum.html" style="color:rgba(26,35,50,.45);text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html" style="color:rgba(26,35,50,.45);text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:rgba(26,35,50,.45);text-decoration:none;">Cookie-Einstellungen</a></div>
   <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
 </div>
 

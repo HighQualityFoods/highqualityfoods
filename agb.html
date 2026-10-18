@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGB & Widerruf — HighQualityFoods</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+
+    nav {
+      background: #f5f2ec;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo span { color: #8fa8b8; }
+    .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
+    .nav-links a:hover { color: #1a2332; }
+
+    .hero {
+      padding: 72px 48px 56px;
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 48px;
+      right: 48px;
+      height: 1.5px;
+      background: #8fa8b8;
+      border-radius: 999px;
+    }
+    .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; color: #1a2332; }
+
+    .content { max-width: 720px; margin: 0 auto; padding: 64px 48px 96px; }
+
+    .section { margin-bottom: 56px; }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: #1a2332;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid #d4ccc0;
+    }
+    .section h3 {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      color: #1a2332;
+      margin: 24px 0 8px;
+    }
+    .section p {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #4a5568;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .section a { color: #8fa8b8; text-decoration: none; }
+    .section a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1.5px solid #d4ccc0;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(26,35,50,.4);
+    }
+    footer a { color: rgba(26,35,50,.4); text-decoration: none; }
+    footer a:hover { color: #1a2332; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      nav::after { left: 20px; right: 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 48px 20px 40px; }
+      .hero::after { left: 20px; right: 20px; }
+      .hero h1 { font-size: 32px; }
+      .content { padding: 40px 20px 64px; }
+      footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+      @media (max-width: 900px) { .nav-links { display: none !important; } .hamburger { display: block !important; } }
+    .section ol, .section ul { margin: 0 0 12px 20px; color: #4a5568; font-size: 15px; line-height: 1.85; font-weight: 300; }
+    .box { background: #fdfcfa; border: 1px solid #e0d9ce; border-radius: 12px; padding: 22px 24px; margin-top: 12px; }
+  </style>
+  <script src="/consent.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="lexikon.html">A-Z</a>
+    <a href="about.html">About</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow">Rechtliches</p>
+  <h1>AGB &amp;<br><em style="font-style:italic;color:#8fa8b8;">Widerruf</em></h1>
+</div>
+
+<div class="content">
+
+  <div class="section" id="agb">
+    <h2>Allgemeine Geschäftsbedingungen</h2>
+
+    <h3>§ 1 Geltungsbereich und Anbieter</h3>
+    <p>Diese AGB gelten für alle Verträge über individuelle Ernährungspläne zwischen Leon Radanovic, Am Kloppenheimer Rain 42, 65232 Taunusstein, E-Mail: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a> („ich“) und dir als Kunde/Kundin („du“).</p>
+
+    <h3>§ 2 Leistung</h3>
+    <p>Ich erstelle dir auf Grundlage deiner Angaben im Fragebogen einen individuellen 4-Wochen-Ernährungsplan. Er enthält einen 4-Wochen-Plan, passende Rezepte, Einkaufslisten, Nährwertangaben und eine 4-Wochen-Abhakliste. Der Plan wird dir als PDF per E-Mail zugeschickt.</p>
+    <p>Der Plan dient der allgemeinen Information und Alltagsgestaltung rund um Ernährung. Er ist keine medizinische, ärztliche oder diätetische Beratung oder Behandlung und ersetzt diese nicht. Bei Erkrankungen, in Schwangerschaft und Stillzeit, bei Medikamenteneinnahme oder einem auffälligen Verhältnis zum Essen wende dich bitte an eine Fachperson. Ein bestimmter Erfolg (z. B. eine Gewichtsveränderung) wird nicht geschuldet.</p>
+
+    <h3>§ 3 Vertragsschluss</h3>
+    <p>Das Ausfüllen des Fragebogens auf der Website ist eine unverbindliche Anfrage. Ich prüfe deine Angaben und schicke dir anschließend per E-Mail ein Angebot mit den Zahlungsinformationen. Der Vertrag kommt zustande, wenn du das Angebot annimmst, indem du den Rechnungsbetrag bezahlst. Ich kann Anfragen ohne Angabe von Gründen ablehnen, z. B. wenn ein Plan aus gesundheitlichen Gründen nicht geeignet erscheint.</p>
+
+    <h3>§ 4 Preise und Zahlung</h3>
+    <p>Es gilt der im Angebot genannte Preis. Alle Preise sind Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung). Die Zahlung erfolgt im Voraus per Überweisung auf das im Angebot genannte Konto.</p>
+
+    <h3>§ 5 Erstellung und Lieferung</h3>
+    <p>Nach Zahlungseingang erstelle ich deinen Plan und schicke ihn dir in der Regel innerhalb von 3 Werktagen per E-Mail zu. Sollten Rückfragen zu deinen Angaben nötig sein, verlängert sich die Frist entsprechend.</p>
+
+    <h3>§ 6 Anpassungen</h3>
+    <p>Wenn etwas nicht zu dir passt, passe ich deinen Plan auf Wunsch einmal kostenlos an, sofern du dich innerhalb von 14 Tagen nach Erhalt per E-Mail meldest. Weitergehende Änderungen können wir gesondert vereinbaren.</p>
+
+    <h3>§ 7 Deine Mitwirkung</h3>
+    <p>Bitte mache im Fragebogen vollständige und wahrheitsgemäße Angaben, insbesondere zu Allergien und Unverträglichkeiten. Für Folgen falscher oder unvollständiger Angaben bin ich nicht verantwortlich. Prüfe Zutaten bitte immer selbst auf Allergene.</p>
+
+    <h3>§ 8 Nutzungsrechte</h3>
+    <p>Der Plan ist für deinen persönlichen Gebrauch bestimmt. Eine Weitergabe, Veröffentlichung oder kommerzielle Nutzung ist ohne meine Zustimmung nicht erlaubt.</p>
+
+    <h3>§ 9 Haftung</h3>
+    <p>Ich hafte unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit. Bei leichter Fahrlässigkeit hafte ich nur bei Verletzung einer wesentlichen Vertragspflicht und begrenzt auf den vertragstypischen, vorhersehbaren Schaden. Die Haftung nach dem Produkthaftungsgesetz bleibt unberührt.</p>
+
+    <h3>§ 10 Widerrufsrecht</h3>
+    <p>Als Verbraucher/in hast du ein gesetzliches Widerrufsrecht. Die Einzelheiten findest du in der <a href="#widerruf">Widerrufsbelehrung</a> unten.</p>
+
+    <h3>§ 11 Streitbeilegung</h3>
+    <p>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+    <h3>§ 12 Schlussbestimmungen</h3>
+    <p>Es gilt das Recht der Bundesrepublik Deutschland. Bist du Verbraucher/in, gilt diese Rechtswahl nur, soweit dir dadurch nicht der Schutz zwingender Bestimmungen des Rechts deines gewöhnlichen Aufenthaltsstaats entzogen wird. Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+    <p style="font-size:13px;">Stand: Oktober 2026</p>
+  </div>
+
+  <div class="section" id="widerruf">
+    <h2>Widerrufsbelehrung</h2>
+
+    <h3>Widerrufsrecht</h3>
+    <p>Du hast das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag des Vertragsabschlusses.</p>
+    <p>Um dein Widerrufsrecht auszuüben, musst du mich (Leon Radanovic, Am Kloppenheimer Rain 42, 65232 Taunusstein, E-Mail: <a href="mailto:kontakt@highqualityfoods.de">kontakt@highqualityfoods.de</a>) mittels einer eindeutigen Erklärung (z. B. eine E-Mail oder ein mit der Post versandter Brief) über deinen Entschluss, diesen Vertrag zu widerrufen, informieren. Du kannst dafür das unten stehende Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.</p>
+    <p>Zur Wahrung der Widerrufsfrist reicht es aus, dass du die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absendest.</p>
+
+    <h3>Folgen des Widerrufs</h3>
+    <p>Wenn du diesen Vertrag widerrufst, habe ich dir alle Zahlungen, die ich von dir erhalten habe, unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über deinen Widerruf dieses Vertrags bei mir eingegangen ist. Für diese Rückzahlung verwende ich dasselbe Zahlungsmittel, das du bei der ursprünglichen Transaktion eingesetzt hast, es sei denn, mit dir wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden dir wegen dieser Rückzahlung Entgelte berechnet.</p>
+    <p>Hast du verlangt, dass die Dienstleistung während der Widerrufsfrist beginnen soll, so hast du mir einen angemessenen Betrag zu zahlen, der dem Anteil der bis zu dem Zeitpunkt, zu dem du mich von der Ausübung des Widerrufsrechts hinsichtlich dieses Vertrags unterrichtest, bereits erbrachten Dienstleistungen im Vergleich zum Gesamtumfang der im Vertrag vorgesehenen Dienstleistungen entspricht.</p>
+
+    <h3>Vorzeitiges Erlöschen des Widerrufsrechts</h3>
+    <p>Das Widerrufsrecht erlischt, wenn ich die Dienstleistung vollständig erbracht habe (dir also deinen fertigen Plan zugeschickt habe) und du vor Beginn der Ausführung ausdrücklich zugestimmt hast, dass ich vor Ablauf der Widerrufsfrist mit der Erstellung beginne, und du deine Kenntnis davon bestätigt hast, dass du dein Widerrufsrecht bei vollständiger Vertragserfüllung verlierst.</p>
+
+    <h3>Muster-Widerrufsformular</h3>
+    <p>(Wenn du den Vertrag widerrufen willst, dann fülle bitte dieses Formular aus und sende es zurück.)</p>
+    <div class="box">
+      <p>An: Leon Radanovic, Am Kloppenheimer Rain 42, 65232 Taunusstein, E-Mail: kontakt@highqualityfoods.de</p>
+      <p>Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über die Erbringung der folgenden Dienstleistung:<br>_______________________________________</p>
+      <p>Bestellt am (*) / erhalten am (*): ____________________</p>
+      <p>Name des/der Verbraucher(s): ____________________</p>
+      <p>Anschrift des/der Verbraucher(s): ____________________</p>
+      <p>Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier): ____________________</p>
+      <p>Datum: ____________________</p>
+      <p style="font-size:13px;margin-bottom:0;">(*) Unzutreffendes streichen.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 HighQualityFoods</span>
+  <span><a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+</footer>
+
+</body>
+</html>
