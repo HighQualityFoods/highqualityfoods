@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Individueller Ernährungsplan | HighQualityFoods</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <script src="data.js"></script>
   <script src="config.js"></script>
@@ -55,12 +55,16 @@
     .why-benefits .b-t { font-weight: 500; font-size: 15px; margin: 8px 0 4px; }
     .why-benefits .b-d { color: rgba(26,35,50,.55); font-size: 13.5px; font-weight: 300; line-height: 1.6; }
     .why-included { background: #fdfcfa; border: 1px solid #e0d9ce; border-radius: 12px; padding: 26px 28px; }
-    .why-included h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 16px; }
+    .why-included h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -.3px; margin-bottom: 16px; }
     .why-included ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
     .why-included li { font-size: 14.5px; display: flex; gap: 10px; align-items: center; }
     .why-included .ck { width: 22px; height: 22px; border-radius: 50%; background: #1a2332; color: #f5f2ec; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
     .why-included b { font-weight: 500; }
-    @media (max-width: 560px) { .why-included { padding: 22px 20px; } .why-included ul { grid-template-columns: 1fr; } }
+    .why-price { display: flex; align-items: center; gap: 22px; margin-top: 22px; padding-top: 20px; border-top: 1px solid #e0d9ce; }
+    .why-price .p { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 24px; line-height: 1; letter-spacing: -.3px; color: #1a2332; white-space: nowrap; }
+    .why-price .p-info { font-size: 13px; line-height: 1.6; color: rgba(26,35,50,.55); font-weight: 300; }
+    .why-price .p-info b { color: #1a2332; font-weight: 500; }
+    @media (max-width: 560px) { .why-included { padding: 22px 20px; } .why-included ul { grid-template-columns: 1fr; } .why-price { flex-direction: column; align-items: flex-start; gap: 10px; } }
     .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
 
     .q { margin-bottom: 26px; }
@@ -207,6 +211,10 @@
           <li><span class="ck"><i class="ti ti-check"></i></span>4-Wochen-Abhakliste</li>
           <li><span class="ck"><i class="ti ti-check"></i></span>Auf Wunsch anpassbar</li>
         </ul>
+        <div class="why-price">
+          <div class="p">79,99 €</div>
+          <div class="p-info"><b>Einmalig für deinen 4-Wochen-Plan.</b><br>Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.<br>Endpreis, gem. § 19 UStG wird keine Umsatzsteuer berechnet.</div>
+        </div>
       </div>
       <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
     </div>
