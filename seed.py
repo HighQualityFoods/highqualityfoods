@@ -19,13 +19,11 @@ def fetch(key):
 print('Daten aus Supabase laden...')
 recipes = fetch('hqf_recipes')
 filters = fetch('hqf_filters')
-lexikon = fetch('hqf_lexikon')
 posts   = fetch('hqf_posts')
 
 data = {}
 if recipes: data['hqf_recipes'] = [{**r, 'img': None} for r in recipes]
 if filters: data['hqf_filters'] = filters
-if lexikon: data['hqf_lexikon'] = lexikon
 if posts:   data['hqf_posts']   = [{**p, 'img': None} for p in posts]
 
 js = """// Auto-generiert von sync.sh — nicht bearbeiten

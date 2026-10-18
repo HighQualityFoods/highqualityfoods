@@ -82,7 +82,6 @@ NAV = '''<nav>
     <a href="/index.html">Home</a>
     <a href="/rezepte.html">Rezepte</a>
     <a href="/blog.html">Blog</a>
-    <a href="/lexikon.html">A–Z</a>
     <a href="/about.html">About</a>
     <a href="/ernaehrungsplan.html">Ernährungsplan</a>
   </div>
@@ -95,7 +94,6 @@ NAV = '''<nav>
   <a href="/index.html">Startseite</a>
   <a href="/rezepte.html">Rezepte</a>
   <a href="/blog.html">Blog</a>
-  <a href="/lexikon.html">A–Z</a>
   <a href="/about.html">About</a>
   <a href="/ernaehrungsplan.html">Ernährungsplan</a>
 </div>'''
@@ -429,7 +427,6 @@ def main():
         ('/rezepte.html', 'weekly', '0.9'),
         ('/ernaehrungsplan.html', 'monthly', '0.8'),
         ('/blog.html', 'weekly', '0.8'),
-        ('/lexikon.html', 'monthly', '0.7'),
         ('/about.html', 'monthly', '0.5'),
     ]
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
