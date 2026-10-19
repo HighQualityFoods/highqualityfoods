@@ -54,17 +54,25 @@
     .why-benefits i { font-size: 24px; color: #8fa8b8; }
     .why-benefits .b-t { font-weight: 500; font-size: 15px; margin: 8px 0 4px; }
     .why-benefits .b-d { color: rgba(26,35,50,.55); font-size: 13.5px; font-weight: 300; line-height: 1.6; }
-    .why-included { background: #fdfcfa; border: 1px solid #e0d9ce; border-radius: 12px; padding: 26px 28px; }
-    .why-included h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -.3px; margin-bottom: 16px; }
-    .why-included ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
-    .why-included li { font-size: 14.5px; display: flex; gap: 10px; align-items: center; }
-    .why-included .ck { width: 22px; height: 22px; border-radius: 50%; background: #1a2332; color: #f5f2ec; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-    .why-included b { font-weight: 500; }
-    .why-price { display: flex; align-items: center; gap: 22px; margin-top: 22px; padding-top: 20px; border-top: 1px solid #e0d9ce; }
-    .why-price .p { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 24px; line-height: 1; letter-spacing: -.3px; color: #1a2332; white-space: nowrap; }
-    .why-price .p-info { font-size: 13px; line-height: 1.6; color: rgba(26,35,50,.55); font-weight: 300; }
-    .why-price .p-info b { color: #1a2332; font-weight: 500; }
-    @media (max-width: 560px) { .why-included { padding: 22px 20px; } .why-included ul { grid-template-columns: 1fr; } .why-price { flex-direction: column; align-items: flex-start; gap: 10px; } }
+    .price-box { text-align: center; padding: 22px 0 24px; margin: 8px 0 28px; border-top: 1px solid #e0d9ce; border-bottom: 1px solid #e0d9ce; }
+    .price-box .pb-kicker { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+    .price-box .pb-row { display: flex; justify-content: center; align-items: stretch; gap: 32px; }
+    .price-box .pb-div { width: 1px; background: #e0d9ce; }
+    .price-box .pb-label { font-size: 12.5px; color: #4a5568; margin-bottom: 6px; }
+    .price-box .pb-price { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 26px; line-height: 1; letter-spacing: -.6px; color: #1a2332; white-space: nowrap; }
+    .price-box .pb-note { font-size: 11.5px; color: rgba(26,35,50,.45); font-weight: 300; margin-top: 6px; }
+    .price-box .pb-foot { font-size: 12.5px; color: rgba(26,35,50,.55); font-weight: 300; line-height: 1.6; margin: 16px auto 0; max-width: 420px; }
+    .why-included { display: grid; grid-template-columns: 1fr; gap: 34px; align-items: center; }
+    .why-included.has-img { grid-template-columns: 200px 1fr; }
+    .why-included .inc-img { width: 100%; height: auto; display: block; }
+    .why-included .inc-kicker { font-size: 12px; color: #8fa8b8; font-weight: 500; margin-bottom: 4px; }
+    .why-included h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -.8px; margin-bottom: 12px; }
+    .why-included ul { list-style: none; }
+    .why-included li { font-size: 15px; padding: 7px 0; color: #3a4454; border-bottom: 1px solid rgba(26,35,50,.07); }
+    .why-included li:last-child { border-bottom: 0; }
+    .why-included .inc-price { margin-top: 16px; font-size: 12.5px; color: rgba(26,35,50,.5); }
+    .why-included .inc-price a { color: #1a2332; text-decoration: none; border-bottom: 1px solid rgba(26,35,50,.2); }
+    @media (max-width: 560px) { .why-included, .why-included.has-img { grid-template-columns: 1fr; gap: 22px; } .why-included .inc-img { max-width: 160px; margin: 0 auto; } .price-box .pb-row { gap: 22px; } .price-box .pb-price { font-size: 24px; } }
     .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
 
     .q { margin-bottom: 26px; }
@@ -193,18 +201,18 @@
         <div><i class="ti ti-adjustments-heart"></i><div class="b-t">Auf dich zugeschnitten</div><div class="b-d">Deine Allergien, dein Geschmack, deine Zeit.</div></div>
       </div>
       <div class="why-included">
-        <h3>Das ist drin</h3>
-        <ul>
-          <li><span class="ck"><i class="ti ti-check"></i></span><b>4-Wochen-Plan</b></li>
-          <li><span class="ck"><i class="ti ti-check"></i></span>Passende Rezepte</li>
-          <li><span class="ck"><i class="ti ti-check"></i></span>Einkaufslisten</li>
-          <li><span class="ck"><i class="ti ti-check"></i></span>Nährwerte</li>
-          <li><span class="ck"><i class="ti ti-check"></i></span>4-Wochen-Abhakliste</li>
-          <li><span class="ck"><i class="ti ti-check"></i></span>Auf Wunsch anpassbar</li>
-        </ul>
-        <div class="why-price">
-          <div class="p">79,99 €</div>
-          <div class="p-info"><b>Einmalig für deinen 4-Wochen-Plan.</b><br>Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.</div>
+        <div>
+          <div class="inc-kicker">Dein 4-Wochen-Plan</div>
+          <h3>Alles drin.</h3>
+          <ul>
+            <li>4-Wochen-Plan</li>
+            <li>Passende Rezepte</li>
+            <li>Einkaufslisten</li>
+            <li>Nährwerte</li>
+            <li>4-Wochen-Abhakliste</li>
+            <li>Auf Wunsch anpassbar</li>
+          </ul>
+          <div class="inc-price">Ab 49,99 € · <a href="#preis">Preis &amp; Details am Ende des Fragebogens</a></div>
         </div>
       </div>
       <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
@@ -213,6 +221,7 @@
     <div id="hqf-reviews" data-variant="light" data-limit="4" style="margin-bottom:48px;"></div>
 
     <div id="hqf-partners" style="margin-bottom:48px;"></div>
+
 
     <form id="fb-form">
 
@@ -232,6 +241,14 @@
         <span class="col-label">Empfohlen von / Aktionscode <span style="color:rgba(26,35,50,.4);font-weight:400;">(optional)</span></span>
         <input type="text" name="empfehlung" placeholder="z. B. GYM-MUSTERFIT">
         <div class="hint" style="margin-top:8px;">Falls dich ein Studio, Trainer oder Partner empfohlen hat — trag hier den Code ein.</div>
+      </div>
+      <div class="q">
+        <label class="q-title">Bist du Student/in?</label>
+        <div class="hint">Studierende zahlen 49,99 € statt 64,99 €. Den Nachweis (z. B. Studierendenausweis) schickst du mir einfach per Mail.</div>
+        <div class="opts">
+          <span class="opt"><input type="radio" name="student" id="stu1" value="Ja"><label for="stu1">Ja</label></span>
+          <span class="opt"><input type="radio" name="student" id="stu2" value="Nein"><label for="stu2">Nein</label></span>
+        </div>
       </div>
       <div class="q">
         <div class="row">
@@ -340,6 +357,16 @@
       </div>
       <div class="q"><label class="q-title">Was hast du schon probiert, das nicht funktioniert hat?</label><div class="hint">Damit wir es nicht wiederholen.</div><textarea name="probiert"></textarea></div>
       <div class="q"><label class="q-title">Was möchtest du mir noch mitgeben?</label><div class="hint">Alles, was dir wichtig ist und oben keinen Platz gefunden hat.</div><textarea name="sonstiges"></textarea></div>
+
+      <div class="price-box" id="preis">
+        <div class="pb-kicker">Dein 4-Wochen-Plan</div>
+        <div class="pb-row">
+          <div><div class="pb-label">Regulär</div><div class="pb-price">64,99 €</div><div class="pb-note">einmalig</div></div>
+          <div class="pb-div"></div>
+          <div><div class="pb-label">Für Studierende</div><div class="pb-price">49,99 €</div><div class="pb-note">mit gültigem Nachweis</div></div>
+        </div>
+        <p class="pb-foot">Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.</p>
+      </div>
 
       <div class="disclaimer">
         <strong>Wichtiger Hinweis.</strong> Die Vorschläge dienen der allgemeinen Information rund um Genuss und Alltagsgestaltung. Sie sind keine medizinische oder diätetische Beratung und ersetzen keine Diagnose oder Behandlung durch Ärztinnen, Ärzte oder zugelassene Ernährungsfachkräfte. Bei Erkrankungen, in Schwangerschaft und Stillzeit, bei Medikamenteneinnahme oder einem auffälligen Verhältnis zum Essen wende dich bitte an eine Fachperson. Angaben zu Alter, Größe und Gewicht sind freiwillig; teile hier keine Diagnosen oder Befunde mit. Deine Daten werden nur für deinen Vorschlag genutzt, nicht weitergegeben und auf Wunsch gelöscht.
@@ -467,6 +494,7 @@
         return '<div class="req-item" id="req-' + r.id + '"><div class="rh"><span class="rname">' + esc(p.name || '—') + '</span><span class="rdate">' + esc(d) + '</span></div>' +
                '<div class="rmail">' + esc(p.email || '') + '</div>' +
                (p.empfehlung ? '<div style="margin-top:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🏷️ Empfohlen von: ' + esc(p.empfehlung) + '</div>' : '') +
+               (p.student === 'Ja' ? '<div style="margin-top:6px;margin-left:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🎓 Student/in · 49,99 €</div>' : '') +
                '<details><summary>Alle Antworten anzeigen</summary>' + kv + '</details>' +
                '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
       }).join('');
