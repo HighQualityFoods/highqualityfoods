@@ -37,7 +37,7 @@
     .stars-input i.on { color: #e9963c; }
 
     .field-label { display: block; font-size: 13px; letter-spacing: .5px; color: rgba(26,35,50,.6); margin-bottom: 7px; }
-    input[type="text"], textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 15px; color: #1a2332; background: #fdfcfa; outline: none; }
+    input[type="text"], textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 16px; color: #1a2332; background: #fdfcfa; outline: none; }
     input:focus, textarea:focus { border-color: #1a2332; }
     textarea { resize: vertical; min-height: 100px; }
     .fg { margin-bottom: 22px; }
@@ -114,7 +114,7 @@
       <p>Deine ehrliche Meinung hilft mir enorm — und anderen, die noch unsicher sind. Dauert nur eine Minute. 🙏</p>
     </div>
 
-    <form id="rev-form">
+    <form id="rev-form" novalidate>
       <div class="fg" style="text-align:center;">
         <span class="field-label">Deine Bewertung</span>
         <div class="stars-input" id="stars-input">
@@ -135,7 +135,7 @@
       </div>
       <button type="submit" class="submit-btn" id="submit-btn">Bewertung absenden</button>
       <div class="form-err" id="form-err">Bitte wähle eine Sternebewertung und gib deinen Namen an.</div>
-      <div class="note">Deine Bewertung wird nach kurzer Prüfung veröffentlicht.</div>
+      <div class="note">Deine Bewertung wird nach kurzer Prüfung mit Namen, Sternen und Text auf der Website veröffentlicht. Mehr in der <a href="impressum.html#datenschutz" style="color:inherit;">Datenschutzerklärung</a>.</div>
     </form>
   </div>
 
@@ -192,7 +192,7 @@
     const name = document.getElementById('r-name').value.trim();
     const text = document.getElementById('r-text').value.trim();
     const err = document.getElementById('form-err');
-    if (!rating || !name) { err.style.display = 'block'; return; }
+    if (!rating || !name) { err.textContent = !rating ? 'Bitte wähle zuerst eine Sternebewertung (tippe auf die Sterne).' : 'Bitte gib deinen Namen an.'; err.style.display = 'block'; err.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
     err.style.display = 'none';
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -208,7 +208,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e2) {
       console.error('[review]', e2);
-      err.textContent = 'Es gab ein Problem. Bitte versuch es später erneut.';
+      err.innerHTML = 'Das Senden hat leider nicht geklappt. Bitte versuch es gleich nochmal – oder schick mir deine Bewertung an <a href="mailto:kontakt@highqualityfoods.de" style="color:inherit;">kontakt@highqualityfoods.de</a>.';
       err.style.display = 'block';
       btn.disabled = false; btn.textContent = 'Bewertung absenden';
     }

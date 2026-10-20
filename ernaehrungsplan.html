@@ -82,7 +82,7 @@
 
     input[type="text"], input[type="email"], input[type="number"], textarea {
       width: 100%; padding: 11px 14px; border: 1.5px solid #e0d9ce; border-radius: 6px;
-      font-family: 'Inter', sans-serif; font-size: 15px; color: #1a2332; background: #fdfcfa; outline: none;
+      font-family: 'Inter', sans-serif; font-size: 16px; color: #1a2332; background: #fdfcfa; outline: none;
       transition: border-color .15s;
     }
     input:focus, textarea:focus { border-color: #1a2332; }
@@ -133,7 +133,7 @@
     .req-item .rmail { color: #8fa8b8; font-size: 13px; margin-bottom: 10px; }
     .req-item details { font-size: 13.5px; line-height: 1.7; }
     .req-item summary { cursor: pointer; color: #e8dfd0; font-size: 13px; }
-    .req-item .kv { margin-top: 10px; }
+    .req-item .kv { margin-top: 10px; white-space: pre-line; }
     .req-item .kv b { color: #8fa8b8; font-weight: 500; }
     .del-btn { margin-top: 12px; background: transparent; border: 1px solid rgba(255,255,255,.25); color: #d99; font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
     .del-btn:hover { background: #b06a4f; border-color: #b06a4f; color: #fff; }
@@ -238,13 +238,13 @@
       <div class="section-label">01 — Über dich</div>
       <div class="q">
         <div class="row">
-          <div><span class="col-label">Name <span class="req">*</span></span><input type="text" name="name" required></div>
-          <div><span class="col-label">E-Mail <span class="req">*</span></span><input type="email" name="email" required></div>
+          <div><span class="col-label">Name <span class="req">*</span></span><input type="text" name="name" autocomplete="name" required></div>
+          <div><span class="col-label">E-Mail <span class="req">*</span></span><input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required></div>
         </div>
       </div>
       <div class="q">
         <span class="col-label">Wohnort (Stadt / Region)</span>
-        <input type="text" name="wohnort" placeholder="z. B. Köln">
+        <input type="text" name="wohnort" autocomplete="address-level2" placeholder="z. B. Köln">
         <div class="hint" style="margin-top:8px;">Hilft mir bei saisonalen und regional verfügbaren Zutaten.</div>
       </div>
       <div class="q">
@@ -395,7 +395,8 @@
   <div class="thanks" id="thanks">
     <i class="ti ti-circle-check"></i>
     <h2>Vielen Dank!</h2>
-    <p>Deine Angaben sind bei mir angekommen. Ich melde mich in Kürze per E-Mail bei dir mit deinem persönlichen Vorschlag.</p>
+    <p>Deine Angaben sind bei mir angekommen. Ich melde mich in Kürze per E-Mail bei dir – an <b id="sent-to"></b>.</p>
+    <p style="font-size:13.5px;margin-top:14px;">Schau zur Sicherheit auch in deinen Spam-Ordner. Falls die Adresse nicht stimmt, schreib mir einfach an <a href="mailto:kontakt@highqualityfoods.de" style="color:#8fa8b8;">kontakt@highqualityfoods.de</a>.</p>
   </div>
 
 </div>
@@ -422,6 +423,13 @@
   const TABLE = 'plan_requests';
   let isAdmin = false;
 
+  // Häufige Tippfehler bei E-Mail-Domains erkennen
+  const MAIL_FIX = { 'gmial.com':'gmail.com','gmai.com':'gmail.com','gmail.de':'gmail.com','gamil.com':'gmail.com','gmail.co':'gmail.com','gmx.d':'gmx.de','gmx.com':'gmx.de','gmx.ed':'gmx.de','web.d':'web.de','wbe.de':'web.de','icloud.de':'icloud.com','iclod.com':'icloud.com','icoud.com':'icloud.com','outlok.com':'outlook.com','outlook.d':'outlook.de','hotmial.com':'hotmail.com','hotmail.d':'hotmail.de','t-onlin.de':'t-online.de','tonline.de':'t-online.de','yahooo.de':'yahoo.de','yaho.de':'yahoo.de' };
+  function emailTypo(email) {
+    const at = email.lastIndexOf('@'); if (at < 0) return null;
+    const dom = email.slice(at + 1).toLowerCase();
+    return MAIL_FIX[dom] ? email.slice(0, at + 1) + MAIL_FIX[dom] : null;
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
   // ── Formular absenden ──
@@ -442,6 +450,14 @@
       setTimeout(() => bad.focus({ preventScroll: true }), 400);
       return;
     }
+    const typo = emailTypo(email);
+    if (typo && f.dataset.typoChecked !== email) {
+      f.dataset.typoChecked = email;
+      err.innerHTML = 'Meintest du <b>' + esc(typo) + '</b>? <button type="button" id="typo-fix" style="background:none;border:none;color:#1a2332;text-decoration:underline;cursor:pointer;font:inherit;">Übernehmen</button> – oder klick nochmal auf „Absenden“, wenn deine Adresse stimmt.';
+      err.style.display = 'block';
+      document.getElementById('typo-fix').onclick = function () { f.email.value = typo; f.dataset.typoChecked = typo; err.style.display = 'none'; saveDraft(); };
+      return;
+    }
     err.style.display = 'none';
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -452,6 +468,7 @@
       if (payload[k] !== undefined) { payload[k] = [].concat(payload[k], v); }
       else { payload[k] = v; }
     }
+    payload.name = name; payload.email = email;
     payload.eingereicht_am = new Date().toISOString();
 
     try {
@@ -461,7 +478,8 @@
         body: JSON.stringify({ payload: payload })
       });
       if (!res.ok) throw new Error(await res.text());
-      clearDraft();
+      clearDraft(); submitted = true;
+      document.getElementById('sent-to').textContent = email;
       document.getElementById('form-view').style.display = 'none';
       document.getElementById('thanks').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -487,7 +505,7 @@
     }
     try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (e) {}
   }
-  function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+  function clearDraft() { clearTimeout(draftTimer); try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
   function restoreDraft() {
     let data = null;
     try { data = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
@@ -506,8 +524,9 @@
       note.textContent = '💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.';
     };
   }
-  fbForm.addEventListener('input', function () { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); });
-  fbForm.addEventListener('change', saveDraft);
+  let submitted = false;
+  fbForm.addEventListener('input', function () { if (submitted) return; clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); });
+  fbForm.addEventListener('change', function () { if (!submitted) saveDraft(); });
   restoreDraft();
 
   // ── Admin ──
