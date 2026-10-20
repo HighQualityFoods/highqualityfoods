@@ -120,6 +120,10 @@
     .admin-panel { display: none; background: #1a2332; color: #f5f2ec; border-radius: 12px; padding: 24px; margin-bottom: 40px; }
     .admin-panel h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 4px; }
     .admin-panel .sub { color: #8fa8b8; font-size: 13px; margin-bottom: 18px; }
+    .refresh-btn { background: transparent; border: 1px solid rgba(255,255,255,.25); color: #f5f2ec; font-size: 12px; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
+    .refresh-btn:hover { border-color: #8fa8b8; color: #8fa8b8; }
+    .draft-note { font-size: 13px; color: rgba(26,35,50,.5); font-weight: 300; margin: -6px 0 22px; }
+    .draft-note button { background: none; border: none; color: #8fa8b8; font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; padding: 0; text-decoration: underline; }
     .req-item { background: rgba(255,255,255,.06); border-radius: 8px; padding: 16px 18px; margin-bottom: 12px; }
     .req-item .rh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
     .req-item .rname { font-weight: 500; font-size: 16px; }
@@ -177,7 +181,10 @@
 
   <!-- Admin: Anfragen -->
   <div class="admin-panel" id="admin-panel">
-    <h3>Fragebogen-Anfragen</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <h3>Fragebogen-Anfragen</h3>
+      <button type="button" class="refresh-btn" id="refresh-btn" onclick="loadRequests()">↻ Aktualisieren</button>
+    </div>
     <div class="sub" id="admin-sub">Lädt…</div>
     <div id="req-list"></div>
   </div>
@@ -224,6 +231,7 @@
 
 
     <form id="fb-form">
+      <p class="draft-note" id="draft-note">💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.</p>
 
       <div class="section-label">01 — Über dich</div>
       <div class="q">
@@ -440,6 +448,7 @@
         body: JSON.stringify({ payload: payload })
       });
       if (!res.ok) throw new Error(await res.text());
+      clearDraft();
       document.getElementById('form-view').style.display = 'none';
       document.getElementById('thanks').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -450,6 +459,40 @@
       btn.disabled = false; btn.textContent = 'Fragebogen absenden';
     }
   });
+
+  // ── Entwurf: Antworten lokal im Browser merken (wie die Favoriten) ──
+  const DRAFT_KEY = 'hqf-fragebogen-entwurf-v1';
+  const fbForm = document.getElementById('fb-form');
+  let draftTimer = null;
+  function saveDraft() {
+    const data = {};
+    for (const [k, v] of new FormData(fbForm).entries()) {
+      if (data[k] !== undefined) data[k] = [].concat(data[k], v); else data[k] = v;
+    }
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+  function restoreDraft() {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
+    if (!data || !Object.values(data).some(v => [].concat(v).some(x => String(x).trim()))) return;
+    for (const el of fbForm.elements) {
+      if (!el.name || !(el.name in data)) continue;
+      const val = data[el.name];
+      if (el.type === 'checkbox' || el.type === 'radio') el.checked = [].concat(val).includes(el.value);
+      else el.value = Array.isArray(val) ? val[0] : val;
+    }
+    const note = document.getElementById('draft-note');
+    note.innerHTML = '👋 Willkommen zurück – deine bisherigen Antworten sind noch da. <button type="button" id="draft-reset">Neu beginnen</button>';
+    document.getElementById('draft-reset').onclick = function () {
+      if (!confirm('Alle bisherigen Antworten löschen und neu beginnen?')) return;
+      clearDraft(); fbForm.reset();
+      note.textContent = '💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.';
+    };
+  }
+  fbForm.addEventListener('input', function () { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); });
+  fbForm.addEventListener('change', saveDraft);
+  restoreDraft();
 
   // ── Admin ──
   function openLogin() { document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display = 'none'; setTimeout(() => document.getElementById('pw-input').focus(), 60); }
@@ -477,12 +520,19 @@
     panel.style.display = 'block';
     document.getElementById('footer-admin-btn').textContent = 'Abmelden';
     document.getElementById('footer-admin-btn').onclick = function(){ isAdmin=false; if(window.hqfLogout) window.hqfLogout(); location.reload(); };
+    loadRequests();
+  }
+
+  async function loadRequests() {
     const sub = document.getElementById('admin-sub');
+    const rb = document.getElementById('refresh-btn');
     const list = document.getElementById('req-list');
+    sub.textContent = 'Lädt…'; if (rb) rb.disabled = true;
     try {
       const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?select=*&order=created_at.desc', { headers: window.hqfWriteHeaders() });
       const rows = await res.json();
-      if (!Array.isArray(rows) || rows.length === 0) { sub.textContent = 'Noch keine Anfragen.'; return; }
+      if (!res.ok || !Array.isArray(rows)) { sub.textContent = 'Fehler beim Laden – bitte neu einloggen.'; return; }
+      if (rows.length === 0) { sub.textContent = 'Noch keine Anfragen.'; list.innerHTML = ''; return; }
       sub.textContent = rows.length + ' Anfrage' + (rows.length === 1 ? '' : 'n');
       list.innerHTML = rows.map(function (r) {
         const p = r.payload || {};
@@ -499,6 +549,7 @@
                '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
       }).join('');
     } catch (e) { sub.textContent = 'Fehler beim Laden.'; console.error(e); }
+    finally { if (rb) rb.disabled = false; }
   }
 
   async function deleteRequest(id, btn) {
