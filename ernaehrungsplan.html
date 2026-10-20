@@ -106,7 +106,9 @@
     .submit-btn { width: 100%; background: #1a2332; color: #e8dfd0; border: none; padding: 16px; font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: opacity .15s; }
     .submit-btn:hover { opacity: .85; }
     .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
-    .form-err { color: #b06a4f; font-size: 14px; margin-top: 14px; text-align: center; display: none; }
+    .form-err { color: #b06a4f; font-size: 14px; margin-top: 14px; text-align: center; display: none; line-height: 1.6; }
+    .form-err a.mail-fallback { display: inline-block; margin-top: 12px; background: #1a2332; color: #f5f2ec; text-decoration: none; padding: 11px 20px; border-radius: 6px; font-size: 13.5px; font-weight: 500; }
+    .field-err { border-color: #b06a4f !important; box-shadow: 0 0 0 3px rgba(176,106,79,.15); }
 
     .thanks { text-align: center; padding: 60px 20px; display: none; }
     .thanks i { font-size: 56px; color: #8fa8b8; }
@@ -230,7 +232,7 @@
     <div id="hqf-partners" style="margin-bottom:48px;"></div>
 
 
-    <form id="fb-form">
+    <form id="fb-form" novalidate>
       <p class="draft-note" id="draft-note">💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.</p>
 
       <div class="section-label">01 — Über dich</div>
@@ -260,9 +262,9 @@
       </div>
       <div class="q">
         <div class="row">
-          <div><span class="col-label">Alter</span><input type="number" name="alter" min="0"></div>
-          <div><span class="col-label">Größe (cm)</span><input type="number" name="groesse" min="0"></div>
-          <div><span class="col-label">Gewicht (kg)</span><input type="number" name="gewicht" min="0"></div>
+          <div><span class="col-label">Alter</span><input type="text" name="alter" inputmode="numeric" placeholder="z. B. 28"></div>
+          <div><span class="col-label">Größe (cm)</span><input type="text" name="groesse" inputmode="decimal" placeholder="z. B. 178"></div>
+          <div><span class="col-label">Gewicht (kg)</span><input type="text" name="gewicht" inputmode="decimal" placeholder="z. B. 72,5"></div>
         </div>
         <div class="hint" style="margin-top:8px;">Freiwillige Angabe — hilft mir bei realistischen Portionsempfehlungen.</div>
       </div>
@@ -428,7 +430,18 @@
     const f = e.target;
     const err = document.getElementById('form-err');
     const name = f.name.value.trim(), email = f.email.value.trim();
-    if (!name || !email || !document.getElementById('consent').checked) { err.style.display = 'block'; return; }
+    f.querySelectorAll('.field-err').forEach(el => el.classList.remove('field-err'));
+    let bad = null, msg = '';
+    if (!name) { bad = f.name; msg = 'Bitte trag deinen Namen ein.'; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { bad = f.email; msg = 'Bitte prüf deine E-Mail-Adresse – sie scheint nicht vollständig zu sein.'; }
+    else if (!document.getElementById('consent').checked) { bad = document.getElementById('consent'); msg = 'Bitte setz noch den Haken bei der Einwilligung.'; }
+    if (bad) {
+      err.textContent = msg; err.style.display = 'block';
+      bad.classList.add('field-err');
+      bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => bad.focus({ preventScroll: true }), 400);
+      return;
+    }
     err.style.display = 'none';
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -454,8 +467,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e2) {
       console.error('[fragebogen]', e2);
-      err.textContent = 'Es gab ein Problem beim Senden. Bitte versuch es später erneut oder schreib an kontakt@highqualityfoods.de.';
+      const lines = Object.keys(payload).filter(k => k !== 'eingereicht_am' && String(payload[k]).trim()).map(k => (LABELS[k] || k) + ': ' + [].concat(payload[k]).join(', '));
+      const mailto = 'mailto:kontakt@highqualityfoods.de?subject=' + encodeURIComponent('Fragebogen von ' + name) + '&body=' + encodeURIComponent(lines.join('\n').slice(0, 1800));
+      err.innerHTML = 'Das Senden hat leider nicht geklappt – deine Antworten sind aber nicht verloren.<br><a class="mail-fallback" href="' + mailto + '">Antworten per E-Mail an mich schicken</a><br><span style="font-size:12.5px;color:rgba(26,35,50,.5);">Oder versuch es in ein paar Minuten noch einmal.</span>';
       err.style.display = 'block';
+      err.scrollIntoView({ behavior: 'smooth', block: 'center' });
       btn.disabled = false; btn.textContent = 'Fragebogen absenden';
     }
   });
@@ -504,7 +520,7 @@
   }
 
   const LABELS = {
-    name:'Name', email:'E-Mail', wohnort:'Wohnort', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
+    name:'Name', email:'E-Mail', wohnort:'Wohnort', empfehlung:'Empfohlen von', student:'Student/in', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
     ziel:'Ziel', normaler_tag:'Normaler Tag', sport_haeufigkeit:'Sport-Häufigkeit', sport_welcher:'Welcher Sport',
     lieblingsessen:'Lieblingsessen', lieblingsdessert:'Lieblings-Dessert', weglassen:'Würde gerne weglassen', mag_nicht:'Mag gar nicht',
     kochzeit:'Kochzeit/Tag', mahlzeiten:'Mahlzeiten/Tag', fruehstueck:'Frühstück', auswaerts:'Isst auswärts', kochen_fuer:'Kocht für', kocht_gerne:'Kocht gerne',
