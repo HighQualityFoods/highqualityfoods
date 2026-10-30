@@ -64,7 +64,8 @@
     .price-box .pb-foot { font-size: 12.5px; color: rgba(26,35,50,.55); font-weight: 300; line-height: 1.6; margin: 16px auto 0; max-width: 420px; }
     .why-included { display: grid; grid-template-columns: 1fr; gap: 34px; align-items: center; }
     .why-included.has-img { grid-template-columns: 200px 1fr; }
-    .why-included .inc-img { width: 100%; height: auto; display: block; }
+    .why-included .inc-imgs { display: grid; gap: 12px; align-items: center; }
+    .why-included .inc-img { width: 100%; height: auto; display: block; border-radius: 10px; }
     .why-included .inc-kicker { font-size: 12px; color: #8fa8b8; font-weight: 500; margin-bottom: 4px; }
     .why-included h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -.8px; margin-bottom: 12px; }
     .why-included ul { list-style: none; }
@@ -72,7 +73,7 @@
     .why-included li:last-child { border-bottom: 0; }
     .why-included .inc-price { margin-top: 16px; font-size: 12.5px; color: rgba(26,35,50,.5); }
     .why-included .inc-price a { color: #1a2332; text-decoration: none; border-bottom: 1px solid rgba(26,35,50,.2); }
-    @media (max-width: 560px) { .why-included, .why-included.has-img { grid-template-columns: 1fr; gap: 22px; } .why-included .inc-img { max-width: 160px; margin: 0 auto; } .price-box .pb-row { gap: 22px; } .price-box .pb-price { font-size: 24px; } }
+    @media (max-width: 560px) { .why-included, .why-included.has-img { grid-template-columns: 1fr; gap: 22px; } .why-included .inc-imgs { grid-template-columns: 1fr 1fr; } .why-included .inc-img:only-child { grid-column: 1 / -1; max-width: 240px; margin: 0 auto; } .price-box .pb-row { gap: 22px; } .price-box .pb-price { font-size: 24px; } }
     .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
 
     .q { margin-bottom: 26px; }
@@ -209,7 +210,11 @@
         <div><i class="ti ti-shopping-cart"></i><div class="b-t">Fertige Einkaufsliste</div><div class="b-d">Einmal einkaufen, entspannt durch die Woche.</div></div>
         <div><i class="ti ti-adjustments-heart"></i><div class="b-t">Auf dich zugeschnitten</div><div class="b-d">Deine Allergien, dein Geschmack, deine Zeit.</div></div>
       </div>
-      <div class="why-included">
+      <div class="why-included has-img">
+        <div class="inc-imgs">
+          <img class="inc-img" src="img/hqf-mappe-foto.jpg" alt="HighQualityFoods-Mappe mit herausschauendem 4-Wochen-Plan" width="840" height="875" loading="lazy">
+          <img class="inc-img" src="img/hqf-logbuch-kuehlschrank.jpg" alt="4-Wochen-Logbuch mit Magnet am Kühlschrank" width="840" height="991" loading="lazy">
+        </div>
         <div>
           <div class="inc-kicker">Dein 4-Wochen-Plan</div>
           <h3>Alles drin.</h3>
@@ -220,6 +225,7 @@
             <li>Nährwerte</li>
             <li>4-Wochen-Abhakliste</li>
             <li>Auf Wunsch anpassbar</li>
+            <li>Gedruckte Mappe per Post – auf Wunsch kostenlos</li>
           </ul>
           <div class="inc-price">Ab 49,99 € · <a href="#preis">Preis &amp; Details am Ende des Fragebogens</a></div>
         </div>
@@ -368,6 +374,23 @@
       <div class="q"><label class="q-title">Was hast du schon probiert, das nicht funktioniert hat?</label><div class="hint">Damit wir es nicht wiederholen.</div><textarea name="probiert"></textarea></div>
       <div class="q"><label class="q-title">Was möchtest du mir noch mitgeben?</label><div class="hint">Alles, was dir wichtig ist und oben keinen Platz gefunden hat.</div><textarea name="sonstiges"></textarea></div>
 
+      <div class="q" id="q-mappe">
+        <label class="q-title">Möchtest du deinen Plan auch gedruckt? <span class="req">*</span></label>
+        <div class="hint">Ich schicke dir deinen Plan kostenlos in der HighQualityFoods-Mappe nach Hause (innerhalb Deutschlands). Die PDF bekommst du in jedem Fall per E-Mail.</div>
+        <div class="opts" id="mappe-opts">
+          <span class="opt"><input type="radio" name="mappe" id="map1" value="Ja"><label for="map1">Ja, Mappe kostenlos nach Hause</label></span>
+          <span class="opt"><input type="radio" name="mappe" id="map2" value="Nein"><label for="map2">Nein, mir reicht die PDF</label></span>
+        </div>
+        <div id="mappe-adresse" hidden style="margin-top:18px;">
+          <div style="margin-bottom:14px;"><span class="col-label">Straße und Hausnummer <span class="req">*</span></span><input type="text" name="post_strasse" autocomplete="address-line1" placeholder="z. B. Musterstraße 12"></div>
+          <div style="margin-bottom:14px;"><span class="col-label">Adresszusatz <span style="color:rgba(26,35,50,.4);font-weight:400;">(optional)</span></span><input type="text" name="post_zusatz" autocomplete="address-line2" placeholder="z. B. c/o, Hinterhaus"></div>
+          <div class="row">
+            <div style="flex:0 1 130px;min-width:110px;"><span class="col-label">PLZ <span class="req">*</span></span><input type="text" name="post_plz" autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="z. B. 65232"></div>
+            <div><span class="col-label">Ort <span class="req">*</span></span><input type="text" name="post_ort" autocomplete="address-level2" placeholder="z. B. Taunusstein"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="price-box" id="preis">
         <div class="pb-kicker">Dein 4-Wochen-Plan</div>
         <div class="pb-row">
@@ -442,6 +465,10 @@
     let bad = null, msg = '';
     if (!name) { bad = f.name; msg = 'Bitte trag deinen Namen ein.'; }
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { bad = f.email; msg = 'Bitte prüf deine E-Mail-Adresse – sie scheint nicht vollständig zu sein.'; }
+    else if (!f.mappe.value) { bad = document.getElementById('mappe-opts'); msg = 'Bitte wähl noch aus, ob du die gedruckte Mappe möchtest.'; }
+    else if (f.mappe.value === 'Ja' && !f.post_strasse.value.trim()) { bad = f.post_strasse; msg = 'Bitte trag Straße und Hausnummer für die Mappe ein.'; }
+    else if (f.mappe.value === 'Ja' && !/^\d{5}$/.test(f.post_plz.value.trim())) { bad = f.post_plz; msg = 'Bitte trag eine fünfstellige Postleitzahl ein – die Mappe verschicke ich innerhalb Deutschlands.'; }
+    else if (f.mappe.value === 'Ja' && !f.post_ort.value.trim()) { bad = f.post_ort; msg = 'Bitte trag deinen Ort für die Mappe ein.'; }
     else if (!document.getElementById('consent').checked) { bad = document.getElementById('consent'); msg = 'Bitte setz noch den Haken bei der Einwilligung.'; }
     if (bad) {
       err.textContent = msg; err.style.display = 'block';
@@ -469,6 +496,7 @@
       else { payload[k] = v; }
     }
     payload.name = name; payload.email = email;
+    ['post_strasse', 'post_zusatz', 'post_plz', 'post_ort'].forEach(k => { if (payload[k] !== undefined) payload[k] = payload[k].trim(); });
     payload.eingereicht_am = new Date().toISOString();
 
     try {
@@ -485,7 +513,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e2) {
       console.error('[fragebogen]', e2);
-      const lines = Object.keys(payload).filter(k => k !== 'eingereicht_am' && String(payload[k]).trim()).map(k => (LABELS[k] || k) + ': ' + [].concat(payload[k]).join(', '));
+      const isPost = k => k === 'mappe' || k.startsWith('post_');
+      const lines = Object.keys(payload).filter(k => k !== 'eingereicht_am' && String(payload[k]).trim()).sort((a, b) => isPost(b) - isPost(a)).map(k => (LABELS[k] || k) + ': ' + [].concat(payload[k]).join(', '));
       const mailto = 'mailto:kontakt@highqualityfoods.de?subject=' + encodeURIComponent('Fragebogen von ' + name) + '&body=' + encodeURIComponent(lines.join('\n').slice(0, 1800));
       err.innerHTML = 'Das Senden hat leider nicht geklappt – deine Antworten sind aber nicht verloren.<br><a class="mail-fallback" href="' + mailto + '">Antworten per E-Mail an mich schicken</a><br><span style="font-size:12.5px;color:rgba(26,35,50,.5);">Oder versuch es in ein paar Minuten noch einmal.</span>';
       err.style.display = 'block';
@@ -520,14 +549,23 @@
     note.innerHTML = '👋 Willkommen zurück – deine bisherigen Antworten sind noch da. <button type="button" id="draft-reset">Neu beginnen</button>';
     document.getElementById('draft-reset').onclick = function () {
       if (!confirm('Alle bisherigen Antworten löschen und neu beginnen?')) return;
-      clearDraft(); fbForm.reset();
+      clearDraft(); fbForm.reset(); syncMappe();
       note.textContent = '💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.';
     };
   }
   let submitted = false;
   fbForm.addEventListener('input', function () { if (submitted) return; clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); });
   fbForm.addEventListener('change', function () { if (!submitted) saveDraft(); });
+  // Adressfeld nur bei "Ja": sonst deaktiviert, damit keine Adresse mitgeschickt oder gespeichert wird
+  function syncMappe() {
+    const ja = fbForm.mappe.value === 'Ja';
+    document.getElementById('mappe-adresse').hidden = !ja;
+    ['post_strasse', 'post_zusatz', 'post_plz', 'post_ort'].forEach(k => { fbForm[k].disabled = !ja; });
+  }
+  fbForm.addEventListener('change', function (e) { if (e.target.name === 'mappe') syncMappe(); });
+  syncMappe();
   restoreDraft();
+  syncMappe();
 
   // ── Admin ──
   function openLogin() { document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display = 'none'; setTimeout(() => document.getElementById('pw-input').focus(), 60); }
@@ -539,14 +577,14 @@
   }
 
   const LABELS = {
-    name:'Name', email:'E-Mail', wohnort:'Wohnort', empfehlung:'Empfohlen von', student:'Student/in', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
+    name:'Name', email:'E-Mail', wohnort:'Wohnort', empfehlung:'Empfohlen von', student:'Student/in', mappe:'Gedruckte Mappe', post_strasse:'Straße', post_zusatz:'Adresszusatz', post_plz:'PLZ', post_ort:'Ort', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
     ziel:'Ziel', normaler_tag:'Normaler Tag', sport_haeufigkeit:'Sport-Häufigkeit', sport_welcher:'Welcher Sport',
     lieblingsessen:'Lieblingsessen', lieblingsdessert:'Lieblings-Dessert', weglassen:'Würde gerne weglassen', mag_nicht:'Mag gar nicht',
     kochzeit:'Kochzeit/Tag', mahlzeiten:'Mahlzeiten/Tag', fruehstueck:'Frühstück', auswaerts:'Isst auswärts', kochen_fuer:'Kocht für', kocht_gerne:'Kocht gerne',
     prinzip:'Ernährungsprinzip', unvertraeglichkeiten:'Unverträglichkeiten',
     stolpersteine:'Stolpersteine', probiert:'Schon probiert', sonstiges:'Mitteilung'
   };
-  const ORDER = ['wohnort','alter','groesse','gewicht','ziel','normaler_tag','sport_haeufigkeit','sport_welcher','lieblingsessen','lieblingsdessert','weglassen','mag_nicht','kochzeit','mahlzeiten','fruehstueck','auswaerts','kochen_fuer','kocht_gerne','prinzip','unvertraeglichkeiten','stolpersteine','probiert','sonstiges'];
+  const ORDER = ['mappe','wohnort','alter','groesse','gewicht','ziel','normaler_tag','sport_haeufigkeit','sport_welcher','lieblingsessen','lieblingsdessert','weglassen','mag_nicht','kochzeit','mahlzeiten','fruehstueck','auswaerts','kochen_fuer','kocht_gerne','prinzip','unvertraeglichkeiten','stolpersteine','probiert','sonstiges'];
 
   async function showAdmin() {
     document.getElementById('form-view').style.display = 'none';
@@ -580,6 +618,7 @@
                '<div class="rmail">' + esc(p.email || '') + '</div>' +
                (p.empfehlung ? '<div style="margin-top:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🏷️ Empfohlen von: ' + esc(p.empfehlung) + '</div>' : '') +
                (p.student === 'Ja' ? '<div style="margin-top:6px;margin-left:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🎓 Student/in · 49,99 €</div>' : '') +
+               (p.mappe === 'Ja' ? '<div style="margin-top:8px;font-size:13.5px;line-height:1.5;">📦 <b>Mappe an:</b> ' + esc([p.name, p.post_strasse, p.post_zusatz, [p.post_plz, p.post_ort].filter(Boolean).join(' ')].filter(Boolean).join(', ')) + '</div>' : '') +
                '<details><summary>Alle Antworten anzeigen</summary>' + kv + '</details>' +
                '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
       }).join('');
