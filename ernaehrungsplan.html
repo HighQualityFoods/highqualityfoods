@@ -75,6 +75,36 @@
     .why-included .inc-price a { color: #1a2332; text-decoration: none; border-bottom: 1px solid rgba(26,35,50,.2); }
     @media (max-width: 560px) { .why-included, .why-included.has-img { grid-template-columns: 1fr; gap: 22px; } .why-included .inc-imgs { grid-template-columns: 1fr 1fr; } .why-included .inc-img:only-child { grid-column: 1 / -1; max-width: 240px; margin: 0 auto; } .price-box .pb-row { gap: 22px; } .price-box .pb-price { font-size: 24px; } }
     .why-story { margin-top: 22px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: #1a2332; line-height: 1.7; }
+    .why-sign { margin-top: 8px; font-size: 13px; color: rgba(26,35,50,.55); }
+
+    .hero-price { margin: 24px 0 6px; font-size: 15px; color: rgba(26,35,50,.6); }
+    .hero-price b { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 22px; color: #1a2332; letter-spacing: -.4px; }
+    .hero-cta { display: inline-block; margin-top: 16px; background: #1a2332; color: #e8dfd0; text-decoration: none; padding: 15px 30px; font-size: 13px; font-weight: 500; letter-spacing: .8px; text-transform: uppercase; border-radius: 6px; transition: opacity .15s; }
+    .hero-cta:hover { opacity: .85; }
+    .hero-note { margin-top: 12px; font-size: 13px; color: rgba(26,35,50,.5); font-weight: 300; }
+
+    .sample { margin-bottom: 48px; text-align: center; }
+    .sample h2, .steps h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 26px; margin-bottom: 8px; }
+    .sample > p { color: rgba(26,35,50,.6); font-size: 15px; font-weight: 300; line-height: 1.7; margin-bottom: 22px; }
+    .sample-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    .sample-imgs img { width: 100%; height: auto; display: block; border-radius: 6px; box-shadow: 0 6px 20px rgba(26,35,50,.1); }
+    .sample a { color: #1a2332; font-size: 14px; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(26,35,50,.3); }
+    .sample .sample-note { margin-top: 12px; font-size: 12.5px; color: rgba(26,35,50,.45); font-weight: 300; }
+
+    .steps { margin-bottom: 48px; }
+    .steps ol { list-style: none; margin-top: 18px; }
+    .steps li { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid #e0d9ce; font-size: 15px; line-height: 1.55; color: #3a4454; }
+    .steps li:last-child { border-bottom: 0; }
+    .steps .s-n { font-family: 'Playfair Display', serif; font-size: 20px; color: #8fa8b8; width: 18px; flex-shrink: 0; line-height: 1.2; }
+
+    .form-head { margin-bottom: 8px; scroll-margin-top: 90px; }
+    .form-head h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 28px; margin-bottom: 8px; }
+    .form-head p { color: rgba(26,35,50,.6); font-size: 15px; font-weight: 300; line-height: 1.7; }
+    .code-toggle { margin-bottom: 26px; font-size: 14px; color: rgba(26,35,50,.6); }
+    .code-toggle summary { cursor: pointer; margin-bottom: 10px; }
+    .skip-btn { display: block; width: 100%; margin-top: 12px; background: none; border: none; color: rgba(26,35,50,.55); font-family: 'Inter', sans-serif; font-size: 14px; cursor: pointer; text-decoration: underline; padding: 6px; }
+    .req-status { margin-top: 10px; font-size: 13px; color: #e8dfd0; }
+    .copy-btn { margin-left: 8px; background: transparent; border: 1px solid rgba(255,255,255,.25); color: #f5f2ec; font-size: 12px; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; }
 
     .q { margin-bottom: 26px; }
     .q > label.q-title { display: block; font-weight: 500; font-size: 16px; margin-bottom: 4px; }
@@ -194,12 +224,36 @@
 
   <!-- Formular -->
   <div id="form-view">
+    <div id="landing">
     <div class="fb-head">
       <div class="mark">High<span>Quality</span>Foods</div>
       <div class="rule"></div>
-      <h1>Dein persönlicher Ernährungsplan</h1>
-      <div class="eyebrow">Fragebogen</div>
-      <p>Damit dein Plan wirklich zu dir passt, brauche ich ein Gefühl für deinen Alltag und deinen Geschmack. Nimm dir fünf Minuten Zeit und antworte so ehrlich wie möglich — es gibt keine falschen Antworten.</p>
+      <h1>Dein 4-Wochen-Ernährungsplan, gebaut für deinen Alltag</h1>
+      <p>Rezepte, Einkaufslisten und Nährwerte, abgestimmt auf deinen Tag und deinen Geschmack.</p>
+      <div class="hero-price"><b>64,99 €</b> einmalig · Studierende 49,99 €</div>
+      <a class="hero-cta" href="#anfrage">Unverbindlich anfragen</a>
+      <div class="hero-note">Dauert 1 Minute. Du zahlst erst nach meinem Angebot.</div>
+    </div>
+
+    <div class="sample">
+      <h2>So sieht dein Plan aus</h2>
+      <p>Kein Standard-PDF, sondern ein Plan aus deinen eigenen Antworten.</p>
+      <div class="sample-imgs">
+        <img src="img/hqf-beispielplan-a.jpg" alt="Beispielseite: Zusammenfassung von Alltag, Vorlieben und Stolpersteinen" loading="lazy">
+        <img src="img/hqf-beispielplan-b.jpg" alt="Beispielseite: Wochenplan mit Frühstück, Mittag, Snack und Abendessen" loading="lazy">
+      </div>
+      <a href="img/hqf-beispielplan.pdf" target="_blank" rel="noopener">Ganzen Beispielplan ansehen (PDF)</a>
+      <div class="sample-note">Beispiel mit der fiktiven Person „Lena“. Dein Plan wird anders aussehen.</div>
+    </div>
+
+    <div class="steps">
+      <h2>So läuft es ab</h2>
+      <ol>
+        <li><span class="s-n">1</span><span>Du fragst kurz und unverbindlich an.</span></li>
+        <li><span class="s-n">2</span><span>Du bekommst mein Angebot per E-Mail und zahlst per Überweisung.</span></li>
+        <li><span class="s-n">3</span><span>Du erzählst mir von deinem Alltag und Geschmack (ca. 5 Minuten).</span></li>
+        <li><span class="s-n">4</span><span>Dein fertiger Plan kommt in der Regel innerhalb von 3 Werktagen nach Zahlungseingang.</span></li>
+      </ol>
     </div>
 
     <div class="why">
@@ -227,21 +281,26 @@
             <li>Auf Wunsch anpassbar</li>
             <li>Auf Wunsch eine kostenlose Mappe mit dem Ernährungsplan per Post nach Hause</li>
           </ul>
-          <div class="inc-price">Ab 49,99 € · <a href="#preis">Preis &amp; Details am Ende des Fragebogens</a></div>
+          <div class="inc-price">Einmalig 64,99 € · Studierende 49,99 € · <a href="#anfrage">Jetzt anfragen</a></div>
         </div>
       </div>
       <p class="why-story">Ich esse dank meiner Mom seit ich denken kann gesund — und genau dieses Mindset möchte ich mit dir teilen. Für alle, die sich einfach mal was Gutes tun wollen. ❤️</p>
+      <p class="why-sign">Leon, Taunusstein</p>
     </div>
 
     <div id="hqf-reviews" data-variant="light" data-limit="4" style="margin-bottom:48px;"></div>
 
     <div id="hqf-partners" style="margin-bottom:48px;"></div>
-
+    </div>
 
     <form id="fb-form" novalidate>
-      <p class="draft-note" id="draft-note">💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.</p>
+      <div id="step1">
+      <div class="form-head" id="anfrage">
+        <h2>Unverbindlich anfragen</h2>
+        <p>Ein paar Angaben reichen. Ich melde mich mit meinem Angebot per E-Mail.</p>
+      </div>
+      <p class="draft-note" id="draft-note" style="margin-top:12px;">💾 Deine Antworten werden automatisch auf diesem Gerät zwischengespeichert.</p>
 
-      <div class="section-label">01 — Über dich</div>
       <div class="q">
         <div class="row">
           <div><span class="col-label">Name <span class="req">*</span></span><input type="text" name="name" autocomplete="name" required></div>
@@ -249,14 +308,9 @@
         </div>
       </div>
       <div class="q">
-        <span class="col-label">Wohnort (Stadt / Region)</span>
-        <input type="text" name="wohnort" autocomplete="address-level2" placeholder="z. B. Köln">
-        <div class="hint" style="margin-top:8px;">Hilft mir bei saisonalen und regional verfügbaren Zutaten.</div>
-      </div>
-      <div class="q">
-        <span class="col-label">Empfohlen von / Aktionscode <span style="color:rgba(26,35,50,.4);font-weight:400;">(optional)</span></span>
-        <input type="text" name="empfehlung" placeholder="z. B. GYM-MUSTERFIT">
-        <div class="hint" style="margin-top:8px;">Falls dich ein Studio, Trainer oder Partner empfohlen hat — trag hier den Code ein.</div>
+        <label class="q-title">Was ist dein Ziel?</label>
+        <div class="hint">Ein Satz reicht. Beschreibe in eigenen Worten, was du erreichen möchtest.</div>
+        <textarea name="ziel"></textarea>
       </div>
       <div class="q">
         <label class="q-title">Bist du Student/in?</label>
@@ -266,18 +320,52 @@
           <span class="opt"><input type="radio" name="student" id="stu2" value="Nein"><label for="stu2">Nein</label></span>
         </div>
       </div>
+      <details class="code-toggle" id="code-toggle">
+        <summary>Ich habe einen Aktionscode</summary>
+        <input type="text" name="empfehlung" placeholder="z. B. GYM-MUSTERFIT">
+        <div class="hint" style="margin-top:8px;">Falls dich ein Studio, Trainer oder Partner empfohlen hat — trag hier den Code ein.</div>
+      </details>
+
+      <div class="price-box" id="preis">
+        <div class="pb-kicker">Dein 4-Wochen-Plan</div>
+        <div class="pb-row">
+          <div><div class="pb-label">Regulär</div><div class="pb-price">64,99 €</div><div class="pb-note">einmalig</div></div>
+          <div class="pb-div"></div>
+          <div><div class="pb-label">Für Studierende</div><div class="pb-price">49,99 €</div><div class="pb-note">mit gültigem Nachweis</div></div>
+        </div>
+        <p class="pb-foot">Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.</p>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Wichtiger Hinweis.</strong> Die Vorschläge dienen der allgemeinen Information rund um Genuss und Alltagsgestaltung. Sie sind keine medizinische oder diätetische Beratung und ersetzen keine Diagnose oder Behandlung durch Ärztinnen, Ärzte oder zugelassene Ernährungsfachkräfte. Bei Erkrankungen, in Schwangerschaft und Stillzeit, bei Medikamenteneinnahme oder einem auffälligen Verhältnis zum Essen wende dich bitte an eine Fachperson. Angaben zu Alter, Größe und Gewicht sind freiwillig; teile hier keine Diagnosen oder Befunde mit. Deine Daten werden nur für deinen Vorschlag genutzt, nicht weitergegeben und auf Wunsch gelöscht.
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent" required>
+        <span>Ich willige ein, dass meine Angaben – einschließlich gesundheitsbezogener Angaben wie Allergien und Unverträglichkeiten – verarbeitet werden, um mich zu kontaktieren und meinen persönlichen Plan zu erstellen. Diese Einwilligung kann ich jederzeit per E-Mail widerrufen. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>. Das Absenden ist unverbindlich; es gelten die <a href="agb.html">AGB</a>.</span>
+      </label>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Unverbindlich anfragen</button>
+      </div>
+
+      <div id="step2" hidden>
+      <div class="form-head">
+        <h2 id="step2-title">Erzähl mir von deinem Alltag</h2>
+        <p id="step2-text">Damit dein Plan wirklich zu dir passt, brauche ich ein Gefühl für deinen Alltag und deinen Geschmack. Nimm dir fünf Minuten Zeit und antworte so ehrlich wie möglich — es gibt keine falschen Antworten.</p>
+      </div>
+
+      <div class="section-label">01 — Über dich</div>
+      <div class="q">
+        <span class="col-label">Wohnort (Stadt / Region)</span>
+        <input type="text" name="wohnort" autocomplete="address-level2" placeholder="z. B. Köln">
+        <div class="hint" style="margin-top:8px;">Hilft mir bei saisonalen und regional verfügbaren Zutaten.</div>
+      </div>
       <div class="q">
         <div class="row">
           <div><span class="col-label">Alter</span><input type="text" name="alter" inputmode="numeric" placeholder="z. B. 28"></div>
           <div><span class="col-label">Größe (cm)</span><input type="text" name="groesse" inputmode="decimal" placeholder="z. B. 178"></div>
           <div><span class="col-label">Gewicht (kg)</span><input type="text" name="gewicht" inputmode="decimal" placeholder="z. B. 72,5"></div>
         </div>
-        <div class="hint" style="margin-top:8px;">Freiwillige Angabe — hilft mir bei realistischen Portionsempfehlungen.</div>
-      </div>
-      <div class="q">
-        <label class="q-title">Was ist dein Ziel?</label>
-        <div class="hint">Beschreibe in eigenen Worten, was du erreichen möchtest.</div>
-        <textarea name="ziel"></textarea>
+        <div class="hint" style="margin-top:8px;">Freiwillige Angabe — hilft mir bei realistischen Portionsempfehlungen. Bitte keine Diagnosen oder Befunde.</div>
       </div>
       <div class="q">
         <label class="q-title">Wie sieht ein normaler Tag bei dir aus?</label>
@@ -391,25 +479,10 @@
         </div>
       </div>
 
-      <div class="price-box" id="preis">
-        <div class="pb-kicker">Dein 4-Wochen-Plan</div>
-        <div class="pb-row">
-          <div><div class="pb-label">Regulär</div><div class="pb-price">64,99 €</div><div class="pb-note">einmalig</div></div>
-          <div class="pb-div"></div>
-          <div><div class="pb-label">Für Studierende</div><div class="pb-price">49,99 €</div><div class="pb-note">mit gültigem Nachweis</div></div>
-        </div>
-        <p class="pb-foot">Unverbindliche Anfrage — du zahlst erst, nachdem ich mich bei dir gemeldet habe.</p>
+      <button type="submit" class="submit-btn" id="details-btn" style="margin-top:12px;">Details absenden</button>
+      <button type="button" class="skip-btn" id="skip-btn">Später ergänzen</button>
       </div>
 
-      <div class="disclaimer">
-        <strong>Wichtiger Hinweis.</strong> Die Vorschläge dienen der allgemeinen Information rund um Genuss und Alltagsgestaltung. Sie sind keine medizinische oder diätetische Beratung und ersetzen keine Diagnose oder Behandlung durch Ärztinnen, Ärzte oder zugelassene Ernährungsfachkräfte. Bei Erkrankungen, in Schwangerschaft und Stillzeit, bei Medikamenteneinnahme oder einem auffälligen Verhältnis zum Essen wende dich bitte an eine Fachperson. Angaben zu Alter, Größe und Gewicht sind freiwillig; teile hier keine Diagnosen oder Befunde mit. Deine Daten werden nur für deinen Vorschlag genutzt, nicht weitergegeben und auf Wunsch gelöscht.
-      </div>
-      <label class="consent">
-        <input type="checkbox" id="consent" required>
-        <span>Ich willige ein, dass meine Angaben – einschließlich gesundheitsbezogener Angaben wie Allergien und Unverträglichkeiten – verarbeitet werden, um mich zu kontaktieren und meinen persönlichen Plan zu erstellen. Diese Einwilligung kann ich jederzeit per E-Mail widerrufen. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>. Das Absenden ist unverbindlich; es gelten die <a href="agb.html">AGB</a>.</span>
-      </label>
-
-      <button type="submit" class="submit-btn" id="submit-btn">Fragebogen absenden</button>
       <div class="form-err" id="form-err">Bitte fülle Name, E-Mail und die Einwilligung aus.</div>
     </form>
   </div>
@@ -418,7 +491,8 @@
   <div class="thanks" id="thanks">
     <i class="ti ti-circle-check"></i>
     <h2>Vielen Dank!</h2>
-    <p>Deine Angaben sind bei mir angekommen. Ich melde mich in Kürze per E-Mail bei dir – an <b id="sent-to"></b>.</p>
+    <p>Deine Angaben sind bei mir angekommen. Ich melde mich in Kürze per E-Mail bei dir<span id="sent-to-wrap"> – an <b id="sent-to"></b></span>.</p>
+    <p id="later-note" style="font-size:13.5px;margin-top:14px;" hidden>Den Link für deine Details schicke ich dir zusammen mit meinem Angebot.</p>
     <p style="font-size:13.5px;margin-top:14px;">Schau zur Sicherheit auch in deinen Spam-Ordner. Falls die Adresse nicht stimmt, schreib mir einfach an <a href="mailto:kontakt@highqualityfoods.de" style="color:#8fa8b8;">kontakt@highqualityfoods.de</a>.</p>
   </div>
 
@@ -455,6 +529,37 @@
   }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+  // ── Zwei Stufen: 1 = Kurzanfrage, 2 = Details (direkt danach oder später über ?details=ID) ──
+  const STEP1_FIELDS = ['name', 'email', 'ziel', 'student', 'empfehlung'];
+  const urlParams = new URLSearchParams(location.search);
+  const detailsParam = urlParams.get('details');
+  let stage = 1;
+  let anfrageId = detailsParam && /^[A-Za-z0-9-]{8,64}$/.test(detailsParam) ? detailsParam : null;
+  let viaLink = !!anfrageId;
+  function newAnfrageId() { return window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + '-' + Math.random().toString(36).slice(2); }
+  function showStep2(email) {
+    stage = 2;
+    document.getElementById('landing').hidden = true;
+    document.getElementById('step1').hidden = true;
+    document.getElementById('step2').hidden = false;
+    document.getElementById('form-err').style.display = 'none';
+    if (viaLink) document.getElementById('skip-btn').hidden = true;
+    else {
+      document.getElementById('step2-title').textContent = 'Deine Anfrage ist angekommen.';
+      document.getElementById('step2-text').textContent = 'Mein Angebot schicke ich dir an ' + email + '. Damit dein Plan wirklich zu dir passt, brauche ich noch ein Gefühl für deinen Alltag und Geschmack. Das dauert etwa fünf Minuten und geht jetzt oder später über den Link in meiner Mail.';
+    }
+    window.scrollTo(0, 0);
+  }
+  function showThanks(email, later) {
+    submitted = true; clearDraft();
+    document.getElementById('sent-to').textContent = email;
+    document.getElementById('sent-to-wrap').hidden = !email;
+    document.getElementById('later-note').hidden = !later;
+    document.getElementById('form-view').style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   // ── Formular absenden ──
   document.getElementById('fb-form').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -463,13 +568,16 @@
     const name = f.name.value.trim(), email = f.email.value.trim();
     f.querySelectorAll('.field-err').forEach(el => el.classList.remove('field-err'));
     let bad = null, msg = '';
-    if (!name) { bad = f.name; msg = 'Bitte trag deinen Namen ein.'; }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { bad = f.email; msg = 'Bitte prüf deine E-Mail-Adresse – sie scheint nicht vollständig zu sein.'; }
-    else if (!f.mappe.value) { bad = document.getElementById('mappe-opts'); msg = 'Bitte wähl noch aus, ob du die gedruckte Mappe möchtest.'; }
-    else if (f.mappe.value === 'Ja' && !f.post_strasse.value.trim()) { bad = f.post_strasse; msg = 'Bitte trag Straße und Hausnummer für die Mappe ein.'; }
-    else if (f.mappe.value === 'Ja' && !/^\d{5}$/.test(f.post_plz.value.trim())) { bad = f.post_plz; msg = 'Bitte trag eine fünfstellige Postleitzahl ein – die Mappe verschicke ich innerhalb Deutschlands.'; }
-    else if (f.mappe.value === 'Ja' && !f.post_ort.value.trim()) { bad = f.post_ort; msg = 'Bitte trag deinen Ort für die Mappe ein.'; }
-    else if (!document.getElementById('consent').checked) { bad = document.getElementById('consent'); msg = 'Bitte setz noch den Haken bei der Einwilligung.'; }
+    if (stage === 1) {
+      if (!name) { bad = f.name; msg = 'Bitte trag deinen Namen ein.'; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { bad = f.email; msg = 'Bitte prüf deine E-Mail-Adresse – sie scheint nicht vollständig zu sein.'; }
+      else if (!document.getElementById('consent').checked) { bad = document.getElementById('consent'); msg = 'Bitte setz noch den Haken bei der Einwilligung.'; }
+    } else {
+      if (!f.mappe.value) { bad = document.getElementById('mappe-opts'); msg = 'Bitte wähl noch aus, ob du die gedruckte Mappe möchtest.'; }
+      else if (f.mappe.value === 'Ja' && !f.post_strasse.value.trim()) { bad = f.post_strasse; msg = 'Bitte trag Straße und Hausnummer für die Mappe ein.'; }
+      else if (f.mappe.value === 'Ja' && !/^\d{5}$/.test(f.post_plz.value.trim())) { bad = f.post_plz; msg = 'Bitte trag eine fünfstellige Postleitzahl ein – die Mappe verschicke ich innerhalb Deutschlands.'; }
+      else if (f.mappe.value === 'Ja' && !f.post_ort.value.trim()) { bad = f.post_ort; msg = 'Bitte trag deinen Ort für die Mappe ein.'; }
+    }
     if (bad) {
       err.textContent = msg; err.style.display = 'block';
       bad.classList.add('field-err');
@@ -477,7 +585,7 @@
       setTimeout(() => bad.focus({ preventScroll: true }), 400);
       return;
     }
-    const typo = emailTypo(email);
+    const typo = stage === 1 ? emailTypo(email) : null;
     if (typo && f.dataset.typoChecked !== email) {
       f.dataset.typoChecked = email;
       err.innerHTML = 'Meintest du <b>' + esc(typo) + '</b>? <button type="button" id="typo-fix" style="background:none;border:none;color:#1a2332;text-decoration:underline;cursor:pointer;font:inherit;">Übernehmen</button> – oder klick nochmal auf „Absenden“, wenn deine Adresse stimmt.';
@@ -486,17 +594,24 @@
       return;
     }
     err.style.display = 'none';
-    const btn = document.getElementById('submit-btn');
+    const btn = document.getElementById(stage === 1 ? 'submit-btn' : 'details-btn');
+    const btnText = btn.textContent;
     btn.disabled = true; btn.textContent = 'Wird gesendet…';
 
+    if (!anfrageId) anfrageId = newAnfrageId();
     const fd = new FormData(f);
     const payload = {};
     for (const [k, v] of fd.entries()) {
+      if (stage === 1 && !STEP1_FIELDS.includes(k)) continue;
+      if (v === '') continue;
       if (payload[k] !== undefined) { payload[k] = [].concat(payload[k], v); }
       else { payload[k] = v; }
     }
-    payload.name = name; payload.email = email;
+    if (name) payload.name = name;
+    if (email) payload.email = email;
     ['post_strasse', 'post_zusatz', 'post_plz', 'post_ort'].forEach(k => { if (payload[k] !== undefined) payload[k] = payload[k].trim(); });
+    payload.anfrage_id = anfrageId;
+    payload.stufe = stage === 1 ? 'kurz' : 'details';
     payload.eingereicht_am = new Date().toISOString();
 
     try {
@@ -506,22 +621,24 @@
         body: JSON.stringify({ payload: payload })
       });
       if (!res.ok) throw new Error(await res.text());
-      clearDraft(); submitted = true;
-      document.getElementById('sent-to').textContent = email;
-      document.getElementById('form-view').style.display = 'none';
-      document.getElementById('thanks').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      btn.disabled = false; btn.textContent = btnText;
+      if (stage === 1) {
+        // Neu laden landet wieder bei den Details statt bei einer zweiten Anfrage
+        history.replaceState(null, '', location.pathname + '?details=' + encodeURIComponent(anfrageId));
+        showStep2(email);
+      } else showThanks(email, false);
     } catch (e2) {
       console.error('[fragebogen]', e2);
       const isPost = k => k === 'mappe' || k.startsWith('post_');
-      const lines = Object.keys(payload).filter(k => k !== 'eingereicht_am' && String(payload[k]).trim()).sort((a, b) => isPost(b) - isPost(a)).map(k => (LABELS[k] || k) + ': ' + [].concat(payload[k]).join(', '));
-      const mailto = 'mailto:kontakt@highqualityfoods.de?subject=' + encodeURIComponent('Fragebogen von ' + name) + '&body=' + encodeURIComponent(lines.join('\n').slice(0, 1800));
+      const lines = Object.keys(payload).filter(k => k !== 'eingereicht_am' && k !== 'stufe' && String(payload[k]).trim()).sort((a, b) => isPost(b) - isPost(a)).map(k => (LABELS[k] || k) + ': ' + [].concat(payload[k]).join(', '));
+      const mailto = 'mailto:kontakt@highqualityfoods.de?subject=' + encodeURIComponent('Fragebogen von ' + (name || anfrageId)) + '&body=' + encodeURIComponent(lines.join('\n').slice(0, 1800));
       err.innerHTML = 'Das Senden hat leider nicht geklappt – deine Antworten sind aber nicht verloren.<br><a class="mail-fallback" href="' + mailto + '">Antworten per E-Mail an mich schicken</a><br><span style="font-size:12.5px;color:rgba(26,35,50,.5);">Oder versuch es in ein paar Minuten noch einmal.</span>';
       err.style.display = 'block';
       err.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      btn.disabled = false; btn.textContent = 'Fragebogen absenden';
+      btn.disabled = false; btn.textContent = btnText;
     }
   });
+  document.getElementById('skip-btn').addEventListener('click', function () { showThanks(document.getElementById('fb-form').email.value.trim(), true); });
 
   // ── Entwurf: Antworten lokal im Browser merken (wie die Favoriten) ──
   const DRAFT_KEY = 'hqf-fragebogen-entwurf-v1';
@@ -566,6 +683,13 @@
   syncMappe();
   restoreDraft();
   syncMappe();
+  // Aktionscode aus dem QR-Link (?ref=CODE) übernehmen
+  const refCode = (urlParams.get('ref') || '').trim();
+  if (/^[\w-]{1,40}$/.test(refCode) && !fbForm.empfehlung.value) {
+    fbForm.empfehlung.value = refCode;
+    document.getElementById('code-toggle').open = true;
+  }
+  if (viaLink) showStep2('');
 
   // ── Admin ──
   function openLogin() { document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display = 'none'; setTimeout(() => document.getElementById('pw-input').focus(), 60); }
@@ -577,7 +701,7 @@
   }
 
   const LABELS = {
-    name:'Name', email:'E-Mail', wohnort:'Wohnort', empfehlung:'Empfohlen von', student:'Student/in', mappe:'Gedruckte Mappe', post_strasse:'Straße', post_zusatz:'Adresszusatz', post_plz:'PLZ', post_ort:'Ort', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
+    anfrage_id:'Anfrage-Nr.', name:'Name', email:'E-Mail', wohnort:'Wohnort', empfehlung:'Empfohlen von', student:'Student/in', mappe:'Gedruckte Mappe', post_strasse:'Straße', post_zusatz:'Adresszusatz', post_plz:'PLZ', post_ort:'Ort', alter:'Alter', groesse:'Größe (cm)', gewicht:'Gewicht (kg)',
     ziel:'Ziel', normaler_tag:'Normaler Tag', sport_haeufigkeit:'Sport-Häufigkeit', sport_welcher:'Welcher Sport',
     lieblingsessen:'Lieblingsessen', lieblingsdessert:'Lieblings-Dessert', weglassen:'Würde gerne weglassen', mag_nicht:'Mag gar nicht',
     kochzeit:'Kochzeit/Tag', mahlzeiten:'Mahlzeiten/Tag', fruehstueck:'Frühstück', auswaerts:'Isst auswärts', kochen_fuer:'Kocht für', kocht_gerne:'Kocht gerne',
@@ -603,9 +727,10 @@
     sub.textContent = 'Lädt…'; if (rb) rb.disabled = true;
     try {
       const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?select=*&order=created_at.desc', { headers: window.hqfWriteHeaders() });
-      const rows = await res.json();
-      if (!res.ok || !Array.isArray(rows)) { sub.textContent = 'Fehler beim Laden – bitte neu einloggen.'; return; }
-      if (rows.length === 0) { sub.textContent = 'Noch keine Anfragen.'; list.innerHTML = ''; return; }
+      const rawRows = await res.json();
+      if (!res.ok || !Array.isArray(rawRows)) { sub.textContent = 'Fehler beim Laden – bitte neu einloggen.'; return; }
+      if (rawRows.length === 0) { sub.textContent = 'Noch keine Anfragen.'; list.innerHTML = ''; return; }
+      const rows = mergeRequests(rawRows);
       sub.textContent = rows.length + ' Anfrage' + (rows.length === 1 ? '' : 'n');
       list.innerHTML = rows.map(function (r) {
         const p = r.payload || {};
@@ -619,18 +744,44 @@
                (p.empfehlung ? '<div style="margin-top:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🏷️ Empfohlen von: ' + esc(p.empfehlung) + '</div>' : '') +
                (p.student === 'Ja' ? '<div style="margin-top:6px;margin-left:6px;display:inline-block;background:#1a2332;color:#8fa8b8;font-weight:600;font-size:12px;letter-spacing:.5px;padding:4px 10px;border-radius:6px;">🎓 Student/in · 49,99 €</div>' : '') +
                (p.mappe === 'Ja' ? '<div style="margin-top:8px;font-size:13.5px;line-height:1.5;">📦 <b>Mappe an:</b> ' + esc([p.name, p.post_strasse, p.post_zusatz, [p.post_plz, p.post_ort].filter(Boolean).join(' ')].filter(Boolean).join(', ')) + '</div>' : '') +
+               (r.detailsFehlen ? '<div class="req-status">⏳ Details fehlen noch<button type="button" class="copy-btn" data-id="' + esc(p.anfrage_id) + '" onclick="copyDetailsLink(this)">Link kopieren</button></div>' : '') +
                '<details><summary>Alle Antworten anzeigen</summary>' + kv + '</details>' +
-               '<button class="del-btn" onclick="deleteRequest(\'' + r.id + '\', this)">Löschen</button></div>';
+               '<button class="del-btn" onclick="deleteRequest(\'' + r.ids.join(',') + '\', \'' + r.id + '\', this)">Löschen</button></div>';
       }).join('');
     } catch (e) { sub.textContent = 'Fehler beim Laden.'; console.error(e); }
     finally { if (rb) rb.disabled = false; }
   }
 
-  async function deleteRequest(id, btn) {
+  // Kurzanfrage und Details derselben Anfrage zu einem Eintrag zusammenführen
+  function mergeRequests(rows) {
+    const byId = {}, merged = [];
+    rows.slice().reverse().forEach(function (r) {
+      const p = r.payload || {}, a = p.anfrage_id;
+      if (a && byId[a]) {
+        const m = byId[a];
+        m.payload = Object.assign({}, m.payload, p);
+        m.ids.push(r.id);
+        if (p.stufe === 'details') m.detailsFehlen = false;
+        return;
+      }
+      const m = Object.assign({}, r, { ids: [r.id], detailsFehlen: p.stufe === 'kurz' });
+      if (a) byId[a] = m;
+      merged.push(m);
+    });
+    return merged.reverse();
+  }
+
+  async function copyDetailsLink(btn) {
+    const link = location.origin + location.pathname + '?details=' + encodeURIComponent(btn.dataset.id);
+    try { await navigator.clipboard.writeText(link); btn.textContent = 'Kopiert'; }
+    catch (e) { prompt('Link für die Details:', link); }
+  }
+
+  async function deleteRequest(ids, id, btn) {
     if (!confirm('Diese Anfrage wirklich löschen? Das kann nicht rückgängig gemacht werden.')) return;
     btn.disabled = true; btn.textContent = 'Löscht…';
     try {
-      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?id=eq.' + id, {
+      const res = await fetch(window.SUPABASE_URL + '/rest/v1/' + TABLE + '?id=in.(' + ids + ')', {
         method: 'DELETE', headers: window.hqfWriteHeaders({ Prefer: 'return=minimal' })
       });
       if (!res.ok) throw new Error(await res.text());
