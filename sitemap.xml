@@ -26,11 +26,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://highqualityfoods.de/rezepte/chicken-rice-bowl.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://highqualityfoods.de/rezepte/everyday-herbst-bowl.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -96,32 +91,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://highqualityfoods.de/rezepte/avocado-brot-teller.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://highqualityfoods.de/rezepte/matchday-breakfast.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://highqualityfoods.de/rezepte/herbst-fruehstuecks-plate.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://highqualityfoods.de/rezepte/spiegelei-teller-mit-gurken-brot.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://highqualityfoods.de/rezepte/skyr-herbstobst-bowl.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://highqualityfoods.de/rezepte/mamas-abendbrot.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
