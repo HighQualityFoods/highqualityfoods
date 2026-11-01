@@ -79,7 +79,7 @@
     mount.innerHTML =
       '<div class="hqf-rev-inner">' +
         '<div class="hqf-rev-head">' +
-          '<div class="hqf-rev-kicker">Das sagen meine Kunden</div>' +
+          '<div class="hqf-rev-kicker">Stimmen zu HighQualityFoods</div>' +
           '<div class="hqf-rev-avg">' +
             '<span class="hqf-rev-avgnum">' + avg.toFixed(1).replace('.', ',') + '</span>' +
             stars(avg) +
