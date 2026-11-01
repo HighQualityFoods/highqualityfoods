@@ -179,6 +179,7 @@ def page_html(r, slug, img):
   </script>
   <style>{STYLE}</style>
   <script src="/consent.js" defer></script>
+  <script src="/social.js" defer></script>
 </head>
 <body>
 {NAV}
@@ -335,6 +336,7 @@ def blog_page_html(p, slug, img):
   </script>
   <style>{BLOG_STYLE}</style>
   <script src="/consent.js" defer></script>
+  <script src="/social.js" defer></script>
 </head>
 <body>
 {NAV}
