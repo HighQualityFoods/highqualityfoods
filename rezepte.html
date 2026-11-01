@@ -1897,16 +1897,12 @@
   recipes = loadRecipes();
   render();
   (async () => {
-    const localCount = recipes.length;
     await db.sync('hqf_recipes');
     await db.sync('hqf_filters');
     await db.sync('hqf_filter_meta');
     await db.sync('hqf_filter_groups');
-    const afterSync = loadRecipes();
-    if (afterSync.length >= localCount) {
-      recipes = afterSync;
-      render();
-    }
+    recipes = loadRecipes();
+    render();
   })();
 </script>
 </body>

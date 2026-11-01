@@ -107,18 +107,8 @@ window.store = {
       if (!isConfigured()) return;
       const rows = await req('GET', 'kv_store?key=eq.' + lsKey + '&select=value');
       if (!rows || rows.length === 0) return;
-      var remote = rows[0].value;
-      var localRaw = window.store.getItem(lsKey);
-      if (Array.isArray(remote) && localRaw) {
-        try {
-          var local = JSON.parse(localRaw);
-          if (Array.isArray(local) && local.length > remote.length) {
-            await req('POST', 'kv_store', { key: lsKey, value: stripBase64Images(local) });
-            return;
-          }
-        } catch(e) {}
-      }
-      window.store.setItem(lsKey, JSON.stringify(remote));
+      // Supabase ist maßgeblich: lokale Kopien werden nie zurückgeschrieben
+      window.store.setItem(lsKey, JSON.stringify(rows[0].value));
     },
 
     async save(lsKey) {
