@@ -206,6 +206,7 @@ def page_html(r, slug, img):
   {SITE_CSS}
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
+  <script src="/nav.js" defer></script>
 </head>
 <body>
 {NAV.replace('<a href="/rezepte.html">', '<a href="/rezepte.html" class="active">', 1)}
@@ -362,6 +363,7 @@ def blog_page_html(p, slug, img):
   {SITE_CSS}
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
+  <script src="/nav.js" defer></script>
 </head>
 <body>
 {NAV.replace('<a href="/blog.html">', '<a href="/blog.html" class="active">', 1)}
