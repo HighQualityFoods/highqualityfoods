@@ -206,6 +206,16 @@
     .sample > p, .why > p { color: var(--ink-soft); font-weight: 400; font-size: 16px; }
     .sample-imgs { gap: 16px; margin: 28px 0 22px; }
     .sample-imgs img { border-radius: 20px; box-shadow: 0 20px 50px -20px rgba(26,35,50,.35); }
+    .sample-shot { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px -20px rgba(26,35,50,.35); }
+    .sample-shot img { border-radius: 0; box-shadow: none; }
+    .sample-shot::after {
+      content: ''; position: absolute; inset: 0;
+      -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+      background: linear-gradient(180deg, rgba(245,242,236,0) 30%, rgba(245,242,236,.35) 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 28%, #000 48%);
+              mask-image: linear-gradient(180deg, transparent 28%, #000 48%);
+      pointer-events: none;
+    }
     .sample a { display: inline-flex; padding: 12px 20px; border-radius: 999px; background: var(--bg); border: none; }
     .steps { background: var(--ink); color: #fff; }
     .steps ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px; }
@@ -292,8 +302,8 @@
       <h2>So sieht dein Plan aus</h2>
       <p>Kein Standard-PDF, sondern ein Plan aus deinen eigenen Antworten.</p>
       <div class="sample-imgs">
-        <img src="img/hqf-beispielplan-a.jpg" alt="Beispielseite: Zusammenfassung von Alltag, Vorlieben und Stolpersteinen" loading="lazy">
-        <img src="img/hqf-beispielplan-b.jpg" alt="Beispielseite: Wochenplan mit Frühstück, Mittag, Snack und Abendessen" loading="lazy">
+        <div class="sample-shot"><img src="img/hqf-beispielplan-a.jpg" alt="Beispielseite: Zusammenfassung von Alltag, Vorlieben und Stolpersteinen" loading="lazy"></div>
+        <div class="sample-shot"><img src="img/hqf-beispielplan-b.jpg" alt="Beispielseite: Wochenplan mit Frühstück, Mittag, Snack und Abendessen" loading="lazy"></div>
       </div>
       <a href="img/hqf-beispielplan.pdf" target="_blank" rel="noopener">Ganzen Beispielplan ansehen (PDF)</a>
       <div class="sample-note">Beispiel mit der fiktiven Person „Lena“. Dein Plan wird anders aussehen.</div>
