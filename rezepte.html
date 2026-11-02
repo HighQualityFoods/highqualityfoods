@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gesunde Rezepte, einfach & schnell | HighQualityFoods</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=DM+Sans:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <script src="data.js"></script>
   <script src="config.js"></script>
@@ -48,7 +47,7 @@
       border-radius: 999px;
     }
     .logo {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 20px;
       color: #1a2332;
       letter-spacing: .3px;
@@ -167,7 +166,7 @@
       margin-bottom: 5px;
     }
     .stack-card-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 14px;
       color: #1a2332;
       line-height: 1.35;
@@ -180,7 +179,7 @@
       margin-bottom: 14px;
     }
     .hero h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 48px;
       font-weight: 500;
       color: #1a2332;
@@ -366,7 +365,7 @@
     .nutr-row:last-child { border-bottom: none; }
     .nutr-row span:last-child { font-weight: 600; color: #fff; }
     .card-body h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 20px;
       color: #1a2332;
       margin-bottom: 8px;
@@ -530,7 +529,7 @@
     }
     .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: .3; }
     .empty h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 22px;
       color: #1a2332;
       margin-bottom: 8px;
@@ -604,7 +603,7 @@
       border-radius: 4px 4px 0 0;
     }
     .modal-hdr h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 20px;
       color: #1a2332;
       font-weight: 500;
@@ -750,7 +749,7 @@
     .detail-body { padding: 36px; }
     .detail-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
     .detail-top h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', 'Inter', sans-serif;
       font-size: 30px;
       color: #1a2332;
       line-height: 1.25;
@@ -806,7 +805,7 @@
     .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
     .hamburger i { font-size: 22px; line-height: 1; }
     .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
-    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Inter Tight', 'Inter', sans-serif; }
     .mobile-menu.open { display: flex; }
     @media (max-width: 640px) {
       nav, main, footer, .hero { padding-left: 20px; padding-right: 20px; }
@@ -834,37 +833,75 @@
   </style>
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* ── Neues Design: Rezeptübersicht ── */
+    main { max-width: 1280px; margin: 0 auto; padding: 8px 32px 120px; }
+    .search-wrap { max-width: 520px; }
+    .search-wrap i { left: 20px; color: var(--ink-soft); }
+    .search-input { padding: 16px 20px 16px 48px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; }
+    .search-input:focus { border-color: var(--ink); }
+    .fav-tab, .filter-dropdown-btn, .filter-reset-btn, .filter-active-tag {
+      border-radius: 999px; padding: 10px 18px; font-size: 13px; font-weight: 500;
+      background: var(--card); border: 1px solid var(--line); color: var(--ink);
+    }
+    .fav-tab:hover, .fav-tab.active, .filter-dropdown-btn:hover, .filter-dropdown-btn.active, .filter-reset-btn { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .filter-panel { border: 1px solid var(--line); border-radius: 20px; padding: 10px; box-shadow: 0 20px 50px -12px rgba(26,35,50,.25); }
+    .filter-option { border-radius: 10px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px 20px; }
+    .card { background: transparent; border: none; border-radius: 0; overflow: visible; }
+    .card:hover { transform: none; }
+    .card-img { height: auto; aspect-ratio: 4 / 5; border-radius: var(--radius); background: var(--cream); }
+    .card-img img { transition: transform .8s var(--ease); }
+    .card:hover .card-img img { transform: scale(1.06); }
+    .card-cat { top: 14px; left: 14px; background: rgba(255,255,255,.9); color: var(--ink); font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; padding: 7px 12px; border-radius: 999px; backdrop-filter: blur(8px); }
+    .card-body { padding: 16px 4px 4px; }
+    .card-meta span { color: var(--ink-soft); font-size: 13px; }
+    .card-body h3 { font: 600 21px/1.25 var(--head); letter-spacing: -.02em; }
+    .card-body p { color: var(--ink-soft); font-size: 14px; }
+    .card-footer { padding: 10px 4px 0; border-top: none; }
+    .pill { background: var(--card); border: 1px solid var(--line); color: var(--ink-soft); font-size: 12px; padding: 4px 11px; border-radius: 999px; }
+    .card-admin { padding: 10px 4px 0; border-top: none; }
+    .card-admin-btn { border-radius: 999px; }
+    @media (max-width: 640px) {
+      main { padding: 0 16px 80px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 22px 12px; }
+      .card-body h3 { font-size: 16px; }
+      .card-body p, .card-footer { display: none; }
+      .card-meta { gap: 8px; }
+      .card-meta span { font-size: 12px; }
+      .card-meta span:nth-child(2), .card-meta .nutr-btn { display: none; }
+      .card-cat { font-size: 10px; padding: 5px 9px; top: 10px; left: 10px; }
+      .card-img { border-radius: 20px; }
+    }
+  </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <a href="index.html" class="logo">HighQualityFoods</a>
   <div class="nav-links">
     <a href="index.html">Home</a>
-    <a href="rezepte.html" style="color:#e8dfd0;">Rezepte</a>
+    <a href="rezepte.html" class="active">Rezepte</a>
     <a href="blog.html">Blog</a>
     <a href="about.html">About</a>
     <a href="ernaehrungsplan.html">Ernährungsplan</a>
   </div>
-  <div id="nav-right">
-    <span class="nav-tag">Rezept-Blog</span>
-    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
   </div>
 </nav>
-<div class="mobile-menu" id="mobile-menu">
-  <a href="index.html">Startseite</a>
-  <a href="rezepte.html">Rezepte</a>
-  <a href="blog.html">Blog</a>
-    <a href="about.html">About</a>
-    <a href="ernaehrungsplan.html">Ernährungsplan</a>
-</div>
 
 <div class="design-panel" id="design-panel"></div>
 
-<div class="hero" style="text-align:left; display:block; padding:48px 48px 32px;">
-  <div class="eyebrow">Alle Rezepte</div>
-  <h1 style="font-size:36px; max-width:none;">Unsere <em>Küche</em> für euch</h1>
-</div>
+<header class="page-head">
+  <div class="kicker">Alle Rezepte</div>
+  <h1>Unsere <em>Küche</em> für euch.</h1>
+  <p>Frühstück, Bowls, Salate und Hauptgerichte — echte Zutaten, in 5 bis 30 Minuten gekocht.</p>
+</header>
 
 <main>
   <div class="search-wrap">
@@ -886,21 +923,42 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<section id="kontakt" style="background:#1a2332; padding:80px 48px; text-align:center; border-top:1px solid rgba(143,168,184,.15);">
-  <div style="max-width:520px; margin:0 auto;">
-    <div style="color:#8fa8b8; font-size:11px; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;">Kontakt</div>
-    <h2 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:500; color:#e8dfd0; line-height:1.25; margin-bottom:16px;">Fragen, Feedback<br>oder einfach Hallo?</h2>
-    <p style="color:rgba(232,223,208,.55); font-size:15px; font-weight:300; line-height:1.8; margin-bottom:40px;">Ich freue mich über jede Nachricht — ob Fragen zu Rezepten, Verbesserungsvorschläge oder einfach um zu sagen dass euch etwas geschmeckt hat.</p>
-    <a href="mailto:kontakt@highqualityfoods.de" style="display:inline-flex; align-items:center; gap:10px; background:#8fa8b8; color:#1a2332; text-decoration:none; padding:14px 32px; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; letter-spacing:.8px; border-radius:2px;">
-      <i class="ti ti-mail" style="font-size:16px;"></i> NACHRICHT SCHREIBEN
-    </a>
-    <div style="margin-top:20px; color:rgba(143,168,184,.5); font-size:13px;">kontakt@highqualityfoods.de</div>
+<section id="kontakt" class="cta-section">
+  <div class="cta-band">
+    <div class="kicker">Kontakt</div>
+    <h2>Fragen, Feedback oder einfach Hallo?</h2>
+    <p>Ich freue mich über jede Nachricht — ob Fragen zu Rezepten, Verbesserungsvorschläge oder einfach um zu sagen, dass euch etwas geschmeckt hat.</p>
+    <a href="mailto:kontakt@highqualityfoods.de" class="btn btn-dark"><i class="ti ti-mail"></i> Nachricht schreiben</a>
+    <div class="mail">kontakt@highqualityfoods.de</div>
   </div>
 </section>
 
-<footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html" style="color:inherit;text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:inherit;text-decoration:none;">Cookie-Einstellungen</a></span>
-  <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="rezepte.html">Rezepte</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+          <a href="ernaehrungsplan.html">Ernährungsplan</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+    </div>
+  </div>
 </footer>
 
 <!-- Login Modal -->
@@ -1246,9 +1304,6 @@
     if (isAdmin) {
       n.innerHTML = `
         <span class="admin-badge">Admin</span>
-        <button class="btn-design-toggle" id="design-toggle-btn" onclick="toggleDesignPanel()">
-          <i class="ti ti-typography"></i> Schrift
-        </button>
         <button class="btn-design-toggle" onclick="openFilterManager()">
           <i class="ti ti-tag"></i> Filter
         </button>
@@ -1891,7 +1946,6 @@
   }
 
   // Init
-  applyDesign(loadDesign());
   updateNav();
   const _urlFilter = new URLSearchParams(location.search).get('filter');
   if (_urlFilter) activeFilters.add(_urlFilter);

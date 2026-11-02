@@ -7,7 +7,6 @@
   <script src="db.js"></script>
   <title>About — HighQualityFoods</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,7 +33,7 @@
       background: #8fa8b8;
       border-radius: 999px;
     }
-    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 20px; color: #1a2332; text-decoration: none; }
     .logo span { color: #8fa8b8; }
     .nav-links { display: flex; gap: 28px; align-items: center; position: absolute; left: 50%; transform: translateX(-50%); }
     .nav-links a { color: rgba(26,35,50,.45); text-decoration: none; font-size: 14px; transition: color .15s; }
@@ -51,17 +50,17 @@
       border-bottom: 1px solid rgba(26,35,50,.1);
     }
     .eyebrow { color: #8fa8b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 500; color: #1a2332; line-height: 1.2; max-width: 580px; }
+    .hero h1 { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 48px; font-weight: 500; color: #1a2332; line-height: 1.2; max-width: 580px; }
 
     .content { max-width: 720px; margin: 0 auto; padding: 72px 48px; }
 
     .intro-block { display: grid; grid-template-columns: 120px 1fr; gap: 48px; align-items: start; margin-bottom: 64px; }
-    .avatar { width: 120px; height: 120px; border-radius: 50%; background: #1a2332; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 40px; color: #8fa8b8; flex-shrink: 0; }
-    .intro-text h2 { font-family: 'Playfair Display', serif; font-size: 28px; color: #1a2332; margin-bottom: 6px; font-weight: 500; }
+    .avatar { width: 120px; height: 120px; border-radius: 50%; background: #1a2332; display: flex; align-items: center; justify-content: center; font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 40px; color: #8fa8b8; flex-shrink: 0; }
+    .intro-text h2 { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 28px; color: #1a2332; margin-bottom: 6px; font-weight: 500; }
     .intro-text p { color: #4a5568; font-size: 16px; line-height: 1.9; font-weight: 300; }
 
     .cta-block { background: transparent; border: none; padding: 56px 48px; text-align: center; margin-top: 0; }
-    .cta-block h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: #1a2332; margin-bottom: 12px; font-weight: 500; }
+    .cta-block h3 { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 26px; color: #1a2332; margin-bottom: 12px; font-weight: 500; }
     .cta-block p { color: rgba(26,35,50,.5); font-size: 15px; margin-bottom: 28px; font-weight: 300; }
     .cta-btn { background: #1a2332; border: none; color: #e8dfd0; padding: 13px 32px; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: .8px; cursor: pointer; border-radius: 2px; text-decoration: none; display: inline-block; }
 
@@ -86,7 +85,7 @@
     .modal { background: #fff; border-radius: 4px; width: 100%; max-width: 480px; box-shadow: 0 16px 48px rgba(26,35,50,.18); }
     .modal-wide { max-width: 640px; }
     .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid #e0d9ce; }
-    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; }
+    .modal-hdr h2 { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 20px; font-weight: 500; }
     .modal-close { background: none; border: none; cursor: pointer; color: rgba(26,35,50,.4); font-size: 20px; }
     .modal-body { padding: 28px; }
     .fg { margin-bottom: 18px; }
@@ -103,7 +102,7 @@
     .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1a2332; }
     .hamburger i { font-size: 22px; line-height: 1; }
     .mobile-menu { display: none; background: #f5f2ec; border-bottom: 2px solid #1a2332; padding: 20px; flex-direction: column; gap: 20px; position: sticky; top: 59px; z-index: 49; }
-    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Playfair Display', serif; }
+    .mobile-menu a { color: #1a2332; text-decoration: none; font-size: 18px; font-family: 'Inter Tight', 'Inter', sans-serif; }
     .mobile-menu.open { display: flex; }
     @media (max-width: 640px) {
       nav, .content, footer, .hero { padding-left: 20px; padding-right: 20px; }
@@ -121,35 +120,41 @@
       .overlay { padding: 10px; }
     }
   </style>
-  <script>(function(){var d=JSON.parse(localStorage.getItem('hqf_design')||'{}');if(!d.headingFont)return;var s=document.createElement('style'),sc=d.size==='small'?0.88:d.size==='large'?1.14:1;s.textContent='.logo,h1,h2,h3,h4{font-family:"'+d.headingFont+'",serif!important;}body,p,span,a,button{font-family:"'+d.bodyFont+'",sans-serif!important;}body{font-size:'+(sc*16)+'px!important;}';document.head.appendChild(s);})();</script>
   <script src="/social.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* ── Neues Design: Geschichte ── */
+    .content { max-width: 880px; padding: 8px 32px 40px; }
+    .intro-block { display: block; background: #fff; border-radius: var(--radius); padding: 44px; margin: 0; }
+    .avatar { width: 120px; height: 120px; border-radius: 28px; font: 700 44px var(--head); margin-bottom: 26px; }
+    .intro-text h2 { font: 700 clamp(28px, 3vw, 40px)/1.08 var(--head); letter-spacing: -.035em; margin-bottom: 16px; }
+    .intro-text p { color: var(--ink-soft); font-size: 17px; line-height: 1.8; font-weight: 400; }
+    @media (max-width: 640px) { .content { padding: 0 16px 24px !important; } .intro-block { padding: 28px; } .avatar { margin: 0 0 22px; } }
+  </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
+  <a href="index.html" class="logo">HighQualityFoods</a>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="rezepte.html">Rezepte</a>
     <a href="blog.html">Blog</a>
     <a href="about.html" class="active">About</a>
+    <a href="ernaehrungsplan.html">Ernährungsplan</a>
   </div>
-  <div class="nav-right" id="nav-right">
-    <span class="nav-tag">Rezept-Blog</span>
-    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
   </div>
 </nav>
-<div class="mobile-menu" id="mobile-menu">
-  <a href="index.html">Startseite</a>
-  <a href="rezepte.html">Rezepte</a>
-  <a href="blog.html">Blog</a>
-  <a href="about.html">About</a>
-</div>
 
-<div class="hero">
-  <div class="eyebrow">Wer steckt dahinter</div>
-  <h1>About</h1>
-</div>
+<header class="page-head">
+  <div class="kicker">Wer steckt dahinter</div>
+  <h1>About.</h1>
+</header>
 
 <div class="content">
   <div class="intro-block">
@@ -160,16 +165,42 @@
     </div>
   </div>
 
-  <div class="cta-block">
-    <h3>Viel Spaß beim Kochen!</h3>
-    <p>Stöber durch die Rezepte und lass dich inspirieren.</p>
-    <a href="rezepte.html" class="cta-btn">ZU DEN REZEPTEN</a>
-  </div>
 </div>
 
-<footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht.</span>
-  <button class="footer-admin-btn" id="footer-admin-btn" onclick="openLogin()">Admin</button>
+<section class="cta-section">
+  <div class="cta-band">
+    <h2>Viel Spaß beim Kochen!</h2>
+    <p>Stöber durch die Rezepte und lass dich inspirieren.</p>
+    <a href="rezepte.html" class="btn btn-dark">Zu den Rezepten <i class="ti ti-arrow-right"></i></a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="rezepte.html">Rezepte</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+          <a href="ernaehrungsplan.html">Ernährungsplan</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+    </div>
+  </div>
 </footer>
 
 <!-- Login Modal -->

@@ -77,7 +77,7 @@ blog_src = open(os.path.join(ROOT, 'blog.html'), encoding='utf-8').read()
 BLOG_STYLE = re.search(r'<style>(.*?)</style>', blog_src, re.S).group(1)
 
 NAV = '''<nav>
-  <a href="/index.html" class="logo">High<span>Quality</span>Foods</a>
+  <a href="/index.html" class="logo">HighQualityFoods</a>
   <div class="nav-links">
     <a href="/index.html">Home</a>
     <a href="/rezepte.html">Rezepte</a>
@@ -85,18 +85,43 @@ NAV = '''<nav>
     <a href="/about.html">About</a>
     <a href="/ernaehrungsplan.html">Ernährungsplan</a>
   </div>
-  <div>
-    <span class="nav-tag">Rezept-Blog</span>
-    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="/ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
   </div>
-</nav>
-<div class="mobile-menu" id="mobile-menu">
-  <a href="/index.html">Startseite</a>
-  <a href="/rezepte.html">Rezepte</a>
-  <a href="/blog.html">Blog</a>
-  <a href="/about.html">About</a>
-  <a href="/ernaehrungsplan.html">Ernährungsplan</a>
-</div>'''
+</nav>'''
+
+FOOTER = '''<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="/rezepte.html">Rezepte</a>
+          <a href="/blog.html">Blog</a>
+          <a href="/about.html">About</a>
+          <a href="/ernaehrungsplan.html">Ernährungsplan</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="/agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+    </div>
+  </div>
+</footer>'''
+
+FONTS = '''<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">'''
+
+SITE_CSS = '''<link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>'''
 
 def build_schema(r, slug, img):
     steps = parse_steps(r.get('steps'))
@@ -172,17 +197,18 @@ def page_html(r, slug, img):
   <meta property="og:url" content="{canonical}">
   {f'<meta property="og:image" content="{esc(img)}">' if img else ''}
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  {FONTS}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <script type="application/ld+json">
 {build_schema(r, slug, img)}
   </script>
   <style>{STYLE}</style>
+  {SITE_CSS}
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
 </head>
 <body>
-{NAV}
+{NAV.replace('<a href="/rezepte.html">', '<a href="/rezepte.html" class="active">', 1)}
 
 <div id="page">
   <div class="recipe-layout">
@@ -193,7 +219,7 @@ def page_html(r, slug, img):
       <a href="/rezepte.html" class="back-link"><i class="ti ti-arrow-left"></i> Alle Rezepte</a>
       <div class="eyebrow">{esc(r.get('category',''))}</div>
       <h1 class="recipe-title">{esc(title)}</h1>
-      <div style="display:inline-flex;align-items:center;gap:6px;font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#8fa8b8;margin:0 0 14px;"><i class="ti ti-heart" style="font-size:14px;"></i>Aus Mamas Küche</div>
+      <div style="display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:14px;color:#8fa8b8;margin:0 0 14px;"><i class="ti ti-heart" style="font-size:14px;"></i>Aus Mamas Küche</div>
       <div class="recipe-meta">{meta_tag(r)}</div>
       {tags_html}
       {desc_block}
@@ -209,9 +235,7 @@ def page_html(r, slug, img):
   </div>
 </div>
 
-<footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="/agb.html" style="color:inherit;text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:inherit;text-decoration:none;">Cookie-Einstellungen</a></span>
-</footer>
+{FOOTER}
 
 <script>
   function shareRecipe() {{
@@ -329,17 +353,18 @@ def blog_page_html(p, slug, img):
   <meta property="og:url" content="{canonical}">
   {f'<meta property="og:image" content="{esc(img)}">' if img else ''}
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  {FONTS}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <script type="application/ld+json">
 {blog_schema(p, slug, img)}
   </script>
   <style>{BLOG_STYLE}</style>
+  {SITE_CSS}
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
 </head>
 <body>
-{NAV}
+{NAV.replace('<a href="/blog.html">', '<a href="/blog.html" class="active">', 1)}
 
 <div id="page-root">
   <div class="post-detail">
@@ -359,9 +384,7 @@ def blog_page_html(p, slug, img):
   </div>
 </div>
 
-<footer>
-  <span class="footer-copy">© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="/impressum.html" style="color:inherit;text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="/agb.html" style="color:inherit;text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:inherit;text-decoration:none;">Cookie-Einstellungen</a></span>
-</footer>
+{FOOTER}
 
 <script>
   var SHARE_TITLE = {json.dumps(title + ' — HighQualityFoods')};
