@@ -10,7 +10,6 @@
   <meta name="robots" content="noindex">
   <title>Deine Bewertung | HighQualityFoods</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
   <script src="data.js"></script>
   <script src="config.js"></script>
@@ -20,15 +19,15 @@
     body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
     nav { background: #f5f2ec; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
     nav::after { content: ''; position: absolute; bottom: 0; left: 48px; right: 48px; height: 1.5px; background: #8fa8b8; border-radius: 999px; }
-    .logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+    .logo { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 20px; color: #1a2332; text-decoration: none; }
     .logo span { color: #8fa8b8; }
     .nav-tag { color: rgba(26,35,50,.35); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
 
     .wrap { max-width: 600px; margin: 0 auto; padding: 56px 24px 100px; }
     .head { text-align: center; margin-bottom: 40px; }
-    .head .mark { font-family: 'Playfair Display', serif; font-size: 19px; margin-bottom: 16px; }
+    .head .mark { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 19px; margin-bottom: 16px; }
     .head .mark span { color: #8fa8b8; }
-    .head h1 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 36px; line-height: 1.2; margin-bottom: 12px; }
+    .head h1 { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 500; font-size: 36px; line-height: 1.2; margin-bottom: 12px; }
     .head p { color: rgba(26,35,50,.55); font-size: 15px; font-weight: 300; line-height: 1.8; }
 
     .stars-input { display: flex; justify-content: center; gap: 10px; margin: 10px 0 28px; }
@@ -49,7 +48,7 @@
 
     .thanks { text-align: center; padding: 50px 20px; display: none; }
     .thanks i { font-size: 56px; color: #8fa8b8; }
-    .thanks h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 28px; margin: 16px 0 10px; }
+    .thanks h2 { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 500; font-size: 28px; margin: 16px 0 10px; }
     .thanks p { color: rgba(26,35,50,.6); font-weight: 300; line-height: 1.8; max-width: 400px; margin: 0 auto; }
 
     .foot { text-align: center; padding: 30px; }
@@ -57,7 +56,7 @@
 
     /* Admin */
     .admin-panel { display: none; background: #1a2332; color: #f5f2ec; border-radius: 12px; padding: 24px; margin-bottom: 36px; }
-    .admin-panel h3 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; margin-bottom: 4px; }
+    .admin-panel h3 { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 500; font-size: 22px; margin-bottom: 4px; }
     .admin-panel .sub { color: #8fa8b8; font-size: 13px; margin-bottom: 18px; }
     .rev-item { background: rgba(255,255,255,.06); border-radius: 8px; padding: 16px 18px; margin-bottom: 12px; }
     .rev-item.pending { border: 1px solid #e9963c; }
@@ -79,7 +78,7 @@
     .overlay.open { display: flex; }
     .modal { background: #fff; border-radius: 10px; width: 100%; max-width: 400px; overflow: hidden; }
     .modal-hdr { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid #eee; }
-    .modal-hdr h2 { font-family: 'Playfair Display', serif; font-weight: 500; font-size: 22px; }
+    .modal-hdr h2 { font-family: 'Inter Tight', 'Inter', sans-serif; font-weight: 500; font-size: 22px; }
     .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; }
     .modal-body { padding: 22px; }
     .modal-body label { display: block; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8fa8b8; margin-bottom: 8px; }
@@ -90,12 +89,39 @@
   </style>
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* ── Neues Design: Bewertung ── */
+    .wrap { max-width: 680px; padding: 40px 24px 40px; }
+    .head { text-align: left; }
+    .head .kicker { margin-bottom: 16px; }
+    .head h1 { font: 700 clamp(36px, 5.4vw, 64px)/1.03 var(--head); letter-spacing: -.04em; margin-bottom: 16px; }
+    .head p { color: var(--ink-soft); font-size: 17px; font-weight: 400; }
+    #rev-form, .thanks { background: #fff; border-radius: var(--radius); padding: 40px; }
+    #rev-form input, #rev-form textarea { background: var(--bg); border: 1px solid transparent; border-radius: 14px; }
+    #rev-form input:focus, #rev-form textarea:focus { border-color: var(--ink); }
+    .submit-btn { border-radius: 999px; text-transform: none; letter-spacing: 0; font-size: 16px; font-weight: 600; padding: 18px; }
+    .admin-panel { border-radius: var(--radius); }
+    @media (max-width: 640px) { .wrap { padding: 8px 16px 24px; } #rev-form, .thanks { padding: 26px 20px; } }
+  </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">High<span>Quality</span>Foods</a>
-  <span class="nav-tag">Rezept-Blog</span>
+  <a href="index.html" class="logo">HighQualityFoods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="ernaehrungsplan.html">Ernährungsplan</a>
+  </div>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
+  </div>
 </nav>
 
 <div class="wrap">
@@ -110,7 +136,7 @@
   <!-- Formular -->
   <div id="form-view">
     <div class="head">
-      <div class="mark">High<span>Quality</span>Foods</div>
+      <div class="kicker">Bewertung</div>
       <h1>Wie war dein Ernährungsplan?</h1>
       <p>Deine ehrliche Meinung hilft mir enorm — und anderen, die noch unsicher sind. Dauert nur eine Minute. 🙏</p>
     </div>
@@ -149,10 +175,33 @@
 
 </div>
 
-<div class="foot">
-  <div class="foot-links" style="margin-bottom:10px;font-size:12px;letter-spacing:0;"><a href="impressum.html" style="color:rgba(26,35,50,.45);text-decoration:none;">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html" style="color:rgba(26,35,50,.45);text-decoration:none;">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;" style="color:rgba(26,35,50,.45);text-decoration:none;">Cookie-Einstellungen</a></div>
-  <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
-</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="rezepte.html">Rezepte</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+          <a href="ernaehrungsplan.html">Ernährungsplan</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+    </div>
+  </div>
+</footer>
 
 <div class="overlay" id="login-overlay">
   <div class="modal">
