@@ -39,14 +39,18 @@
     var css = document.createElement('style');
     css.id = 'hqf-cc-style';
     css.textContent = [
-      '#hqf-cc{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:560px;margin:0 auto;background:#fdfcfa;color:#1a2332;border:1px solid #e0d9ce;border-radius:14px;box-shadow:0 12px 40px rgba(26,35,50,.18);padding:20px 22px;font-family:Inter,sans-serif;}',
-      '#hqf-cc .t{font-size:15px;font-weight:500;margin-bottom:6px;}',
-      '#hqf-cc p{font-size:13.5px;line-height:1.6;color:#4a5568;font-weight:300;margin:0 0 14px;}',
-      '#hqf-cc a{color:#1a2332;}',
+      "#hqf-cc{position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:520px;margin:0 auto;background:rgba(26,35,50,.92);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);color:#fff;border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 24px 60px -12px rgba(26,35,50,.45);padding:24px;font-family:Inter,sans-serif;animation:hqf-cc-in .6s cubic-bezier(.22,1,.36,1) both;}",
+      '@keyframes hqf-cc-in{from{opacity:0;transform:translateY(24px);}}',
+      "#hqf-cc .t{font:700 20px/1.2 'Inter Tight',Inter,sans-serif;letter-spacing:-.02em;margin-bottom:8px;}",
+      '#hqf-cc p{font-size:14px;line-height:1.6;color:rgba(255,255,255,.72);font-weight:400;margin:0 0 18px;}',
+      '#hqf-cc a{color:#b4c8d4;}',
       '#hqf-cc .b{display:flex;gap:10px;flex-wrap:wrap;}',
-      '#hqf-cc button{flex:1;min-width:150px;padding:11px 16px;border-radius:8px;font-family:Inter,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;border:1px solid #1a2332;}',
-      '#hqf-cc .no{background:#fdfcfa;color:#1a2332;}',
-      '#hqf-cc .yes{background:#1a2332;color:#f5f2ec;}'
+      '#hqf-cc button{flex:1;min-width:140px;padding:14px 18px;border-radius:999px;font-family:Inter,sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:transform .3s cubic-bezier(.22,1,.36,1),background .2s;}',
+      '#hqf-cc button:hover{transform:translateY(-2px);}',
+      '#hqf-cc .no{background:rgba(255,255,255,.1);color:#fff;}',
+      '#hqf-cc .no:hover{background:rgba(255,255,255,.16);}',
+      '#hqf-cc .yes{background:#8fa8b8;color:#1a2332;}',
+      '@media (prefers-reduced-motion:reduce){#hqf-cc{animation:none;}#hqf-cc button{transition:none;}}'
     ].join('');
     document.head.appendChild(css);
   }
