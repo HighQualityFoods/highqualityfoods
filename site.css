@@ -74,6 +74,8 @@ nav {
   color: #fff;
 }
 nav::before, nav::after { display: none !important; }
+nav { transition: transform .45s var(--ease); will-change: transform; }
+nav.nav-hidden { transform: translate(-50%, calc(-100% - 24px)); }
 nav .logo {
   font: 800 18px/1 var(--head); letter-spacing: -.03em;
   text-decoration: none; color: #fff;
