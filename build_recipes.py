@@ -178,6 +178,11 @@ def page_html(r, slug, img):
     tags_html = (f'<div class="recipe-tags">' + ''.join(f'<span class="pill">{esc(t)}</span>' for t in tags) + '</div>') if tags else ''
     desc_block = (f'<div class="section-label">Beschreibung</div><p class="desc-text">{esc(r["desc"])}</p><hr class="divider">' if r.get('desc') else '')
     ing_block = (f'<div><div class="section-label">Zutaten</div><ul class="ingredients-list">{format_ingredients(r.get("ingredients"))}</ul></div>' if r.get('ingredients') else '<div></div>')
+    nut = r.get('nutrition') or {}
+    share_json = json.dumps({'title': title, 'img': img or '', 'category': r.get('category') or '',
+                             'time': r.get('time') or '', 'kcal': nut.get('kcal') or '',
+                             'protein': nut.get('protein') or '', 'url': canonical},
+                            ensure_ascii=False).replace('</', '<\\/')
     steps_block = (f'<div><div class="section-label">Zubereitung</div><div>{steps_html(parse_steps(r.get("steps")))}</div></div>' if r.get('steps') else '<div></div>')
 
     return f'''<!DOCTYPE html>
@@ -207,6 +212,7 @@ def page_html(r, slug, img):
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 {NAV.replace('<a href="/rezepte.html">', '<a href="/rezepte.html" class="active">', 1)}
@@ -239,15 +245,8 @@ def page_html(r, slug, img):
 {FOOTER}
 
 <script>
-  function shareRecipe() {{
-    const url = window.location.href;
-    const title = {json.dumps(title + ' — HighQualityFoods')};
-    if (navigator.share) {{ navigator.share({{ title, url }}); }}
-    else {{ navigator.clipboard.writeText(url).then(() => {{
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }}); }}
-  }}
+  const SHARE_DATA = {share_json};
+  function shareRecipe() {{ HQFShare.open(SHARE_DATA); }}
 </script>
 </body>
 </html>'''

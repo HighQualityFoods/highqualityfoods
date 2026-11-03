@@ -435,6 +435,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site.css">
   <script>document.documentElement.classList.add('js');</script>
@@ -551,6 +552,7 @@
     if (afterSync) renderPage(afterSync);
   })();
   function renderPage(r) {
+  currentRecipe = r;
   const page = document.getElementById('page');
 
   if (!r) {
@@ -622,7 +624,7 @@
           </div>
 
           <hr class="divider">
-          <button class="share-btn" onclick="shareRecipe('${r.title.replace(/'/g,"\\'")}')">
+          <button class="share-btn" onclick="shareRecipe()">
             <i class="ti ti-share"></i> Rezept teilen
           </button>
           <button class="pdf-btn" onclick="window.print()">
@@ -652,17 +654,11 @@
     btn.innerHTML = '<i class="ti ti-heart' + (active ? '-filled' : '') + '"></i> ' + (active ? 'Favorit' : 'Favorisieren');
   }
 
-  function shareRecipe(title) {
-    const url = window.location.href;
-    if (navigator.share) {
-      navigator.share({ title: title + ' — HighQualityFoods', url });
-    } else {
-      navigator.clipboard.writeText(url).then(() => {
-        const t = document.getElementById('share-toast');
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-      });
-    }
+  var currentRecipe = null;
+  function shareRecipe() {
+    var r = currentRecipe || {};
+    HQFShare.open({ title: r.title, img: r.img, category: r.category, time: r.time,
+      kcal: r.nutrition && r.nutrition.kcal, protein: r.nutrition && r.nutrition.protein });
   }
 </script>
 </body>

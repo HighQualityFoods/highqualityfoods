@@ -498,6 +498,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -569,15 +570,8 @@ Zarte Garnelen auf feinen Glasnudeln und knackigem Salat – leicht, proteinreic
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Garnelen Glasnudel Bowl\ud83c\udf64 \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Garnelen Glasnudel Bowl🍤", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783513056539-ub3nhal5wc.jpg", "category": "Salat", "time": "10 min", "kcal": "200", "protein": "10g", "url": "https://highqualityfoods.de/rezepte/garnelen-glasnudel-bowl.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

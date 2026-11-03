@@ -501,6 +501,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -571,15 +572,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "S\u00fc\u00dfkartoffel Bowl mit Avocado \ud83e\udd51 \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Süßkartoffel Bowl mit Avocado 🥑", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1793555540009-brl8j99vt56.jpg", "category": "Hauptgericht", "time": "45 Min.", "kcal": "720 kcal", "protein": "42g", "url": "https://highqualityfoods.de/rezepte/suesskartoffel-bowl-mit-avocado.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

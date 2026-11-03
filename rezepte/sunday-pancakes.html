@@ -491,6 +491,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -561,15 +562,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Sunday Pancakes \ud83e\udd5e \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Sunday Pancakes 🥞", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1793555471605-c9q4816vn5.jpg", "category": "Frühstück", "time": "15 Min.", "kcal": "340 kcal", "protein": "11g", "url": "https://highqualityfoods.de/rezepte/sunday-pancakes.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

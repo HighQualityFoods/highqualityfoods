@@ -492,6 +492,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -562,15 +563,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Marinierte H\u00e4hnchenspie\u00dfe auf Rucolasalat mit Champingons \ud83e\udd57 \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Marinierte Hähnchenspieße auf Rucolasalat mit Champingons 🥗", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783512646422-y1wi704w7y.jpg", "category": "Hauptgericht", "time": "20 Min.", "kcal": "250 kcal", "protein": "20g", "url": "https://highqualityfoods.de/rezepte/marinierte-haehnchenspiesse-auf-rucolasalat-mit-champingons.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

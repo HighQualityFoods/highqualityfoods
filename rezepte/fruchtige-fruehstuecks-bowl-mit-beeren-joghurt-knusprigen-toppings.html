@@ -481,6 +481,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -551,15 +552,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Fruchtige Fr\u00fchst\u00fccks-bowl mit Beeren, Joghurt & knusprigen Toppings \ud83e\uded0 \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Fruchtige Frühstücks-bowl mit Beeren, Joghurt & knusprigen Toppings 🫐", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783512660984-4d3rozuudmt.jpg", "category": "Frühstück", "time": "5 Min.", "kcal": "250 kcal", "protein": "15g", "url": "https://highqualityfoods.de/rezepte/fruchtige-fruehstuecks-bowl-mit-beeren-joghurt-knusprigen-toppings.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

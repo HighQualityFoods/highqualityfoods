@@ -499,6 +499,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -569,15 +570,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Go-to Pasta vor dem Training \ud83c\udf5d \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Go-to Pasta vor dem Training 🍝", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1793554062838-c4gxjg9j89i.jpg", "category": "Hauptgericht", "time": "25 Min.", "kcal": "560 kcal", "protein": "18g", "url": "https://highqualityfoods.de/rezepte/go-to-pasta-vor-dem-training.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>
