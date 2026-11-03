@@ -509,6 +509,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -579,15 +580,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Lachs auf pikanter S\u00fc\u00dfkartoffelcreme mit Landkartoffel\ud83c\udf63\ud83e\udd57 \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Lachs auf pikanter Süßkartoffelcreme mit Landkartoffel🍣🥗", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1784135800216-dj4wb1r84ub.jpg", "category": "Hauptgericht", "time": "30 min", "kcal": "690 kcal", "protein": "40g", "url": "https://highqualityfoods.de/rezepte/lachs-auf-pikanter-suesskartoffelcreme-mit-landkartoffel.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

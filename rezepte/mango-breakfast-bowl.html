@@ -485,6 +485,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -555,15 +556,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Mango-breakfast-Bowl \ud83e\udd6d \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Mango-breakfast-Bowl 🥭", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783678138221-a0v4bsi9u9.jpg", "category": "Frühstück", "time": "10 Min", "kcal": "380 kcal", "protein": "5g", "url": "https://highqualityfoods.de/rezepte/mango-breakfast-bowl.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

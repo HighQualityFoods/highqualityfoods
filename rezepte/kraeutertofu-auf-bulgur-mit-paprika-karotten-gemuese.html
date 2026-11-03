@@ -496,6 +496,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -566,15 +567,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Kr\u00e4utertofu auf Bulgur mit Paprika-Karotten-Gem\u00fcse \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Kräutertofu auf Bulgur mit Paprika-Karotten-Gemüse", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783512591560-yovmaqusx5.jpg", "category": "Hauptgericht", "time": "25 Min.", "kcal": "270 kcal", "protein": "15g", "url": "https://highqualityfoods.de/rezepte/kraeutertofu-auf-bulgur-mit-paprika-karotten-gemuese.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

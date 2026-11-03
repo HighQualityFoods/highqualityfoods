@@ -493,6 +493,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -563,15 +564,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Matchday Breakfast \ud83c\udf4c \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Matchday Breakfast 🍌", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1793554064949-0lzgcgia58j.jpg", "category": "Frühstück", "time": "15 Min.", "kcal": "680 kcal", "protein": "19g", "url": "https://highqualityfoods.de/rezepte/matchday-breakfast.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>

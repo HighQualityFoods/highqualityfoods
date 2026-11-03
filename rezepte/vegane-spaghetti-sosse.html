@@ -511,6 +511,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/share.js" defer></script>
 </head>
 <body>
 <nav>
@@ -581,15 +582,8 @@
 </footer>
 
 <script>
-  function shareRecipe() {
-    const url = window.location.href;
-    const title = "Vegane Spaghetti (So\u00dfe) \ud83c\udf5d \u2014 HighQualityFoods";
-    if (navigator.share) { navigator.share({ title, url }); }
-    else { navigator.clipboard.writeText(url).then(() => {
-      const t = document.getElementById('share-toast'); t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }); }
-  }
+  const SHARE_DATA = {"title": "Vegane Spaghetti (Soße) 🍝", "img": "https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783534915315-bqd69vs0dwb.jpg", "category": "Hauptgericht", "time": "20 min", "kcal": "440 kcal", "protein": "15g", "url": "https://highqualityfoods.de/rezepte/vegane-spaghetti-sosse.html"};
+  function shareRecipe() { HQFShare.open(SHARE_DATA); }
 </script>
 </body>
 </html>
