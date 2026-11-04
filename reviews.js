@@ -49,7 +49,23 @@
       '#hqf-reviews[data-variant="dark"] .hqf-rev-text{color:#3a4454;}',
       '#hqf-reviews[data-variant="dark"] .hqf-rev-bar{background:rgba(255,255,255,.14);}',
       '#hqf-reviews[data-variant="dark"] .hqf-rev-thumb{background:#8fa8b8;}',
-      '@media(max-width:700px){#hqf-reviews .hqf-rev-card{width:260px;}}'
+      // Klickbar + Weiterlesen
+      '#hqf-reviews .hqf-rev-card{cursor:pointer;}',
+      '#hqf-reviews .hqf-rev-card:focus-visible{outline:2px solid #1a2332;outline-offset:3px;}',
+      '#hqf-reviews .hqf-rev-more{display:none;margin-top:10px;font-size:13px;font-weight:500;color:#1a2332;text-decoration:underline;text-underline-offset:3px;}',
+      '#hqf-reviews .hqf-rev-card.clamped .hqf-rev-more{display:block;}',
+      // Fenster mit ganzer Bewertung
+      '.hqf-rev-modal{position:fixed;inset:0;z-index:1000;background:rgba(26,35,50,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px;}',
+      '.hqf-rev-modal.open{display:flex;}',
+      '.hqf-rev-box{position:relative;background:#fff;border-radius:24px;padding:36px 32px 30px;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(26,35,50,.25);box-sizing:border-box;}',
+      '.hqf-rev-box .hqf-rev-stars{color:#e9963c;font-size:20px;letter-spacing:2px;}',
+      '.hqf-rev-box .hqf-rev-empty{color:rgba(26,35,50,.18);}',
+      ".hqf-rev-box .hqf-rev-full{margin-top:16px;font-family:'Inter',sans-serif;font-size:17px;line-height:1.7;color:#3a4454;white-space:pre-line;}",
+      ".hqf-rev-box .hqf-rev-name{margin-top:20px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1a2332;}",
+      '.hqf-rev-box .hqf-rev-name::before{content:"— ";color:#8fa8b8;}',
+      '.hqf-rev-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:#f5f2ec;color:#1a2332;font-size:20px;line-height:1;cursor:pointer;}',
+      '.hqf-rev-close:hover{background:#e8dfd0;}',
+      '@media(max-width:700px){#hqf-reviews .hqf-rev-card{width:260px;}.hqf-rev-box{padding:32px 22px 24px;}}'
     ].join('');
     document.head.appendChild(css);
   }
@@ -63,10 +79,12 @@
     var avg = rows.reduce(function(s,r){ return s + (r.stars||0); }, 0) / rows.length;
     var unique = rows.slice(0, 12);
 
-    function cardHTML(r){
-      return '<div class="hqf-rev-card">' +
+    function cardHTML(r, i){
+      var idx = i % unique.length;
+      return '<div class="hqf-rev-card" data-i="' + idx + '" role="button" tabindex="0" aria-label="Bewertung von ' + esc(r.name || 'Anonym') + ' ganz lesen">' +
         stars(r.stars) +
         '<div class="hqf-rev-text">' + esc(r.text || '') + '</div>' +
+        '<span class="hqf-rev-more">Weiterlesen</span>' +
         '<div class="hqf-rev-name">' + esc(r.name || 'Anonym') + '</div>' +
       '</div>';
     }
@@ -91,9 +109,66 @@
       '</div>';
 
     initSlideshow(unique.length * times);
-    requestAnimationFrame(function(){ mount.classList.add('ready'); });
+    initModal(unique);
+    requestAnimationFrame(function(){ mount.classList.add('ready'); markClamped(); });
+    window.addEventListener('resize', markClamped);
   })
   .catch(function(){ mount.style.display = 'none'; });
+
+  // Karten markieren, deren Text abgeschnitten ist (zeigt „Weiterlesen“)
+  function markClamped(){
+    mount.querySelectorAll('.hqf-rev-card').forEach(function(c){
+      var t = c.querySelector('.hqf-rev-text');
+      c.classList.toggle('clamped', t.scrollHeight > t.clientHeight + 2);
+    });
+  }
+
+  // ── Ganze Bewertung im Fenster ──
+  var swipeMoved = false;
+  function initModal(list){
+    var modal = document.createElement('div');
+    modal.className = 'hqf-rev-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = '<div class="hqf-rev-box"><button type="button" class="hqf-rev-close" aria-label="Schließen">×</button><div class="hqf-rev-body"></div></div>';
+    document.body.appendChild(modal);
+    var body = modal.querySelector('.hqf-rev-body');
+    var track = mount.querySelector('.hqf-rev-track');
+    var lastFocus = null;
+
+    function open(i){
+      var r = list[i]; if (!r) return;
+      body.innerHTML = stars(r.stars) +
+        '<div class="hqf-rev-full">' + esc(r.text || '') + '</div>' +
+        '<div class="hqf-rev-name">' + esc(r.name || 'Anonym') + '</div>';
+      lastFocus = document.activeElement;
+      modal.classList.add('open');
+      if (track) track.classList.add('paused');
+      document.documentElement.style.overflow = 'hidden';
+      modal.querySelector('.hqf-rev-close').focus();
+    }
+    function close(){
+      if (!modal.classList.contains('open')) return;
+      modal.classList.remove('open');
+      if (track) track.classList.remove('paused');
+      document.documentElement.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    mount.addEventListener('click', function(e){
+      var card = e.target.closest('.hqf-rev-card');
+      if (!card || swipeMoved) return;
+      open(+card.getAttribute('data-i'));
+    });
+    mount.addEventListener('keydown', function(e){
+      var card = e.target.closest && e.target.closest('.hqf-rev-card');
+      if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(+card.getAttribute('data-i')); }
+    });
+    modal.addEventListener('click', function(e){
+      if (e.target === modal || e.target.closest('.hqf-rev-close')) close();
+    });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  }
 
   // ── Slideshow-Logik (analog zur Rezept-Slideshow der Startseite) ──
   function initSlideshow(halfCount){
@@ -150,6 +225,7 @@
     var pxPerSec = (track.offsetWidth / 2) / dur;
     track.addEventListener('touchstart', function(e){
       touchActive = true;
+      swipeMoved = false;
       touchStartX = e.touches[0].clientX;
       touchStartDelay = parseFloat(getComputedStyle(track).animationDelay) || 0;
       track.style.animationDelay = touchStartDelay + 's';
@@ -158,10 +234,12 @@
     track.addEventListener('touchmove', function(e){
       if (!touchActive) return;
       var dx = e.touches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 8) swipeMoved = true;
       track.style.animationDelay = (touchStartDelay + dx / pxPerSec) + 's';
     }, { passive: true });
     track.addEventListener('touchend', function(){
       touchActive = false;
+      setTimeout(function(){ swipeMoved = false; }, 350);
       track.classList.remove('paused');
     });
   }
