@@ -127,12 +127,14 @@
 
 <div class="wrap">
 
-  <!-- Admin: Moderation -->
+  <!-- Admin: Moderation (nur nach Login über /admin.html) -->
+  <template data-admin>
   <div class="admin-panel" id="admin-panel">
     <h3>Bewertungen verwalten</h3>
     <div class="sub" id="admin-sub">Lädt…</div>
     <div id="rev-list"></div>
   </div>
+  </template>
 
   <!-- Formular -->
   <div id="form-view">
@@ -199,26 +201,14 @@
     <div class="wordmark">High<span>Quality</span>Foods</div>
     <div class="foot-bottom">
       <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
-      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
+      <template data-admin><button id="footer-admin-btn" onclick="window.hqfLogout();location.reload();">Abmelden</button></template>
     </div>
   </div>
 </footer>
 
-<div class="overlay" id="login-overlay">
-  <div class="modal">
-    <div class="modal-hdr"><h2>Admin-Login</h2><button class="modal-close" onclick="closeLogin()"><i class="ti ti-x"></i></button></div>
-    <div class="modal-body">
-      <label>Passwort</label>
-      <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
-      <div class="err" id="pw-err">Falsches Passwort.</div>
-      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
-    </div>
-  </div>
-</div>
-
 <script>
   const TABLE = 'reviews';
-  let rating = 0, isAdmin = false;
+  let rating = 0, isAdmin = window.hqfMountAdmin();
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
   // ── Sterne-Eingabe ──
@@ -266,21 +256,12 @@
   });
 
   // ── Admin ──
-  function openLogin(){ document.getElementById('login-overlay').classList.add('open'); document.getElementById('pw-err').style.display='none'; setTimeout(()=>document.getElementById('pw-input').focus(),60); }
-  function closeLogin(){ document.getElementById('login-overlay').classList.remove('open'); }
-  async function doLogin(){
-    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
-    if (ok) { isAdmin = true; closeLogin(); showAdmin(); }
-    else { document.getElementById('pw-err').style.display='block'; document.getElementById('pw-input').value=''; }
-  }
   function starStr(n){ return '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5-n); }
 
   async function showAdmin(){
     document.getElementById('form-view').style.display='none';
     document.getElementById('thanks').style.display='none';
     document.getElementById('admin-panel').style.display='block';
-    document.getElementById('footer-admin-btn').textContent='Abmelden';
-    document.getElementById('footer-admin-btn').onclick=function(){ isAdmin=false; if(window.hqfLogout)window.hqfLogout(); location.reload(); };
     await loadAdmin();
   }
   async function loadAdmin(){
@@ -329,7 +310,7 @@
       const el=document.getElementById('rev-'+id); if(el) el.remove();
     } catch(e){ btn.disabled=false; alert('Fehler.'); console.error(e); }
   }
-  document.addEventListener('keydown', e => { if (e.key==='Escape') closeLogin(); });
+  if (isAdmin) showAdmin();
 </script>
 </body>
 </html>
