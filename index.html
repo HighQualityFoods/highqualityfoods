@@ -317,6 +317,21 @@
 
     /* ── Reviews / Partner (bestehende Skripte, nur Optik angepasst) ── */
     .social-proof { padding-top: 40px; }
+
+    /* ── Über mich ── */
+    #ueber-mich { padding-top: 0; }
+    .partners-sec { padding-top: 0; }
+    .me { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; align-items: center; max-width: 1040px; }
+    .me-photo { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; background: var(--cream); }
+    .me-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block; }
+    .me h2 { font-size: clamp(36px, 4.6vw, 60px); margin: 14px 0 22px; }
+    .me p { font-size: 18px; line-height: 1.7; color: var(--ink-soft); max-width: 560px; }
+    .me p + p { margin-top: 14px; }
+    .me-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .me-facts span { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--card); font-size: 14px; font-weight: 500; }
+    .me-facts i { color: var(--accent); font-size: 18px; }
+    .me-sign { margin-top: 26px; font: 600 16px var(--head); }
+    .offer-note { margin-top: 22px; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.6); }
     body #hqf-reviews .hqf-rev-card { border-radius: 24px; box-shadow: none; border: 1px solid var(--line); }
     body #hqf-reviews .hqf-rev-avgnum { font-family: 'Anton', sans-serif; color: var(--ink); }
     body #hqf-reviews .hqf-rev-kicker, body #hqf-partners .hqf-p-kicker { color: var(--ink-soft); font-weight: 600; letter-spacing: .14em; }
@@ -376,7 +391,9 @@
     @media (max-width: 980px) {
       .step { grid-template-columns: 1fr; gap: 8px; }
       .step-num { position: static; }
-      .offers, .split-grid { grid-template-columns: 1fr; }
+      .offers, .split-grid, .me { grid-template-columns: 1fr; }
+      .me { gap: 32px; }
+      .me-photo { width: 220px; order: -1; }
     }
     @media (max-width: 640px) {
       .hero { padding-top: 160px; }
@@ -488,7 +505,7 @@
         <div class="kicker">So funktioniert's</div>
         <h2 class="display">In 3 Schritten zu deinem Ernährungsplan.</h2>
       </div>
-      <p>Kein Kalorienzählen, kein Verzicht, keine komplizierten Rezepte.</p>
+      <p>Fragebogen ausfüllen, Angebot per E-Mail bezahlen, und ca. 3 Werktage später ist dein Plan da.</p>
     </div>
 
     <div class="step">
@@ -504,31 +521,30 @@
           <div class="quiz-opts"><span>Keine Vorgaben</span><span class="on">Vegetarisch</span><span>Vegan</span><span>Pescetarisch</span></div>
         </div>
         <div class="step-copy">
-          <div class="kicker">Anfrage in 1 Minute</div>
-          <h3>Du beantwortest ein paar Fragen.</h3>
-          <p>Ziel, Geschmack, Allergien und wie viel Zeit du zum Kochen hast — mehr brauche ich nicht.</p>
+          <div class="kicker">Fragebogen · 1 Minute · unverbindlich</div>
+          <h3>Du füllst den Fragebogen aus.</h3>
+          <p>Ziel, Geschmack, Allergien und wie viel Zeit du zum Kochen hast. Das kostet dich noch nichts.</p>
         </div>
       </div>
     </div>
     <div class="step">
       <div class="step-num reveal">02</div>
       <div class="step-card reveal">
-        <img src="img/hqf-mappe-foto.jpg" alt="" loading="lazy">
+        <img src="img/hqf-angebot-laptop.jpg" alt="" loading="lazy" style="object-position:50% 42%;">
         <div class="step-copy">
-          <div class="kicker">Ganz auf dich</div>
-          <h3>Ich erstelle deinen persönlichen Plan.</h3>
-          <p>Mit Rezepten, die zu dir passen, und einer fertigen Einkaufsliste für die ganze Woche.</p>
+          <div class="kicker">Angebot per E-Mail</div>
+          <h3>Du bekommst mein Angebot und zahlst.</h3>
+          <p>Ich melde mich persönlich per E-Mail mit Preis und Zahlungsinfos. Danach erzählst du mir in ca. 5 Minuten mehr über deinen Alltag.</p>
         </div>
       </div>
     </div>
     <div class="step">
       <div class="step-num reveal">03</div>
       <div class="step-card reveal">
-        <img src="https://tanfmnfniphqqjnecbbm.supabase.co/storage/v1/object/public/image/1783512625299-t1ljz7iuou.jpg" alt="" loading="lazy">
+        <img src="img/hqf-mappe-foto.jpg" alt="" loading="lazy">
         <div class="step-copy">
-          <div class="kicker">5–30 Min.</div>
-          <h3>Einkaufen, kochen, genießen.</h3>
-          <p>Einmal einkaufen und entspannt durch die Woche — alltagstauglich, auch mit wenig Zeit.</p>
+          <h3>Dein Plan kommt per Post.</h3>
+          <p>In der HighQualityFoods-Mappe zu dir nach Hause, die PDF zusätzlich per E-Mail. Dann heißt es: einkaufen, kochen, genießen.</p>
         </div>
       </div>
     </div>
@@ -540,17 +556,20 @@
     <div class="offers">
       <div class="offer dark reveal">
         <div class="kicker">Ernährungsplan</div>
-        <h3>Dein Plan. Deine Ziele. Dein Geschmack.</h3>
-        <p>Ich übernehme die 60&#8239;% Ernährung für dich — individuell zusammengestellt.</p>
+        <h3>Dein persönlicher 4-Wochen-Plan in der Mappe.</h3>
+        <p>Kein Standard-PDF, sondern ein Booklet, das ich aus deinen Antworten für dich schreibe.</p>
         <ul>
-          <li><i class="ti ti-check"></i>In 5–30 Minuten gekocht</li>
-          <li><i class="ti ti-check"></i>Fertige Einkaufsliste für die Woche</li>
-          <li><i class="ti ti-check"></i>Allergien, Geschmack &amp; Ziel berücksichtigt</li>
+          <li><i class="ti ti-check"></i>Booklet mit 10–15 Seiten, nur für dich zusammengestellt</li>
+          <li><i class="ti ti-check"></i>30 Gerichte, in 5–30 Minuten gekocht, mit Einkaufslisten &amp; Nährwerten</li>
+          <li><i class="ti ti-check"></i>4-Wochen-Logbuch zum Abhaken für den Kühlschrank</li>
+          <li><i class="ti ti-check"></i>Wöchentliche Check-ups mit mir</li>
+          <li><i class="ti ti-check"></i>Alles in einer Mappe per Post zu dir nach Hause, plus PDF per E-Mail</li>
         </ul>
         <div class="offer-foot">
           <div class="price">64,99 €<small>einmalig · Studierende 49,99 €</small></div>
-          <a href="ernaehrungsplan.html" class="btn btn-accent">Unverbindlich anfragen <i class="ti ti-arrow-right"></i></a>
+          <a href="ernaehrungsplan.html#anfrage" class="btn btn-accent">Fragebogen starten <i class="ti ti-arrow-right"></i></a>
         </div>
+        <p class="offer-note">Fragebogen (1 Min.) → Angebot &amp; Bezahlung per E-Mail → Plan in ca. 3 Werktagen per Post. Du zahlst erst, wenn du mein Angebot annimmst.</p>
       </div>
       <div class="offer reveal">
         <div class="kicker">Rezepte &amp; Blog</div>
@@ -568,7 +587,30 @@
 
 <section class="social-proof">
   <div id="hqf-reviews" data-variant="light" data-limit="6"></div>
-  <div id="hqf-partners" style="margin-top:64px;"></div>
+</section>
+
+<section id="ueber-mich">
+  <div class="wrap me">
+    <div class="reveal">
+      <div class="kicker">Wer dahinter steckt</div>
+      <h2 class="display">Hi, ich bin Leon.</h2>
+      <p>Ich bin Student aus Wiesbaden, spiele viermal die Woche Fußball und gehe zusätzlich dreimal ins Gym. Ohne gutes Essen funktioniert das alles nicht, und gesund kochen habe ich von meiner Mom gelernt.</p>
+      <p>Jeden Plan schreibe ich selbst, für Menschen, die etwas verändern wollen. Wenn du Fragen hast, schreib mir gerne.</p>
+      <div class="me-facts">
+        <span><i class="ti ti-school"></i>Student</span>
+        <span><i class="ti ti-ball-football"></i>4× pro Woche Fußball</span>
+        <span><i class="ti ti-barbell"></i>3× pro Woche Gym</span>
+      </div>
+      <div class="me-sign">Leon, Wiesbaden · <a href="about.html" style="color:inherit;">Mehr über mich</a></div>
+    </div>
+    <div class="me-photo reveal">
+      <img src="img/leon.jpg" alt="Leon, der Gründer von HighQualityFoods" width="800" height="1067" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="partners-sec">
+  <div id="hqf-partners"></div>
 </section>
 
 <section id="kontakt" style="padding-top:40px;">
@@ -604,35 +646,12 @@
     <div class="wordmark">High<span>Quality</span>Foods</div>
     <div class="foot-bottom">
       <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
-      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
     </div>
   </div>
 </footer>
 
 
-<!-- Login Modal -->
-<div class="overlay" id="login-overlay">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h2>Admin-Login</h2>
-      <button class="modal-close" onclick="closeLogin()" aria-label="Schließen"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="fg">
-        <label>Passwort</label>
-        <input type="password" id="pw-input" placeholder="••••••••"
-               onkeydown="if(event.key==='Enter') doLogin()">
-        <div class="err" id="pw-err">Falsches Passwort. Bitte erneut versuchen.</div>
-      </div>
-      <button class="btn btn-dark btn-primary-full" onclick="doLogin()">Einloggen</button>
-      <div class="info-box" style="margin-top:16px;">
-        Login läuft über Supabase. Passwort ändern: im Supabase-Dashboard unter
-        <strong>Authentication → Users</strong>.
-      </div>
-    </div>
-  </div>
-</div>
-
+<template data-admin>
 <!-- Recipe Editor Modal -->
 <div class="overlay" id="editor-overlay">
   <div class="modal modal-wide">
@@ -703,11 +722,11 @@
     </div>
   </div>
 </div>
+</template>
 
 <script>
-  // Login läuft über Supabase Auth (window.hqfLogin) — kein Passwort im Code
-
-  let isAdmin = false;
+  // Admin-Modus nur nach Login über /admin.html (Token in sessionStorage)
+  let isAdmin = window.hqfMountAdmin();
   let editId  = null;
   let imgData = null;
 
@@ -744,47 +763,22 @@
   }
 
   // ── Auth ──
-  function openLogin() {
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-err').style.display = 'none';
-    document.getElementById('login-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('pw-input').focus(), 60);
-  }
-  function closeLogin() {
-    document.getElementById('login-overlay').classList.remove('open');
-  }
-  async function doLogin() {
-    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
-    if (ok) {
-      isAdmin = true;
-      closeLogin();
-      updateNav();
-    } else {
-      document.getElementById('pw-err').style.display = 'block';
-      document.getElementById('pw-input').value = '';
-      document.getElementById('pw-input').focus();
-    }
-  }
   function logout() {
-    isAdmin = false;
-    if (window.hqfLogout) window.hqfLogout();
-    updateNav();
+    window.hqfLogout();
+    location.reload();
   }
 
   function updateNav() {
     const n = document.getElementById('nav-right');
-    const fb = document.getElementById('footer-admin-btn');
     const social = n.querySelector('.hqf-social');
     if (isAdmin) {
       n.innerHTML = `
         <span class="admin-badge">Admin</span>
         <button class="btn-add" onclick="openEditor()"><i class="ti ti-plus"></i> Rezept</button>
         <button class="btn-logout" onclick="logout()"><i class="ti ti-logout"></i> Abmelden</button>`;
-      fb.style.display = 'none';
     } else {
       n.innerHTML = `<span class="nav-tag"></span>`;
       if (social) n.prepend(social);
-      fb.style.display = 'block';
     }
   }
 
@@ -879,7 +873,7 @@
   }
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeEditor(); closeLogin(); }
+    if (e.key === 'Escape' && isAdmin) closeEditor();
   });
 
   // ── Reveal on scroll ──

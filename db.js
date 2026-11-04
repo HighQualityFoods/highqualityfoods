@@ -41,27 +41,62 @@ window.store = {
       window.SUPABASE_KEY !== 'DEIN_ANON_KEY';
   }
 
-  // ── Admin-Auth über Supabase (Passwort wird serverseitig geprüft) ──
-  window.HQF_ADMIN_EMAIL = 'leonradanovic@icloud.com';
-  window._hqfToken = null;
+  // ── Admin-Auth über Supabase Auth ──
+  // Login nur über /admin.html. Das Token liegt in der sessionStorage dieses Tabs
+  // und läuft nach spätestens 1 h ab. Schreibrechte prüft Supabase serverseitig (RLS).
+  var SESSION_KEY = 'hqf_admin_session';
+  function readSession() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+      if (s && s.token && s.exp && s.exp * 1000 > Date.now() + 30000) return s;
+      if (s) sessionStorage.removeItem(SESSION_KEY);
+    } catch (e) {}
+    return null;
+  }
+  function jwtExp(t) {
+    try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp || 0; } catch (e) { return 0; }
+  }
+  var _sess = readSession();
+  window._hqfToken = _sess ? _sess.token : null;
 
-  // Login: gibt true bei Erfolg, false bei falschem Passwort
-  window.hqfLogin = async function (password) {
+  // Login: gibt true bei Erfolg, false bei falschen Zugangsdaten
+  window.hqfLogin = async function (email, password) {
     if (!isConfigured()) return false;
     try {
       const r = await fetch(window.SUPABASE_URL + '/auth/v1/token?grant_type=password', {
         method: 'POST',
         headers: { apikey: window.SUPABASE_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: window.HQF_ADMIN_EMAIL, password: password })
+        body: JSON.stringify({ email: email, password: password })
       });
       if (!r.ok) return false;
       const d = await r.json();
-      if (d && d.access_token) { window._hqfToken = d.access_token; return true; }
-      return false;
+      if (!d || !d.access_token) return false;
+      window._hqfToken = d.access_token;
+      try { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ token: d.access_token, exp: jwtExp(d.access_token) })); } catch (e) {}
+      return true;
     } catch (e) { return false; }
   };
-  window.hqfLogout = function () { window._hqfToken = null; };
-  window.hqfLoggedIn = function () { return !!window._hqfToken; };
+  window.hqfLogout = function () {
+    var t = window._hqfToken;
+    window._hqfToken = null;
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    if (t && isConfigured()) {
+      try { fetch(window.SUPABASE_URL + '/auth/v1/logout', { method: 'POST', headers: { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + t } }); } catch (e) {}
+    }
+  };
+  window.hqfLoggedIn = function () {
+    if (!readSession()) { window._hqfToken = null; return false; }
+    return !!window._hqfToken;
+  };
+  // Admin-Oberflächen liegen in <template data-admin>; sie werden nur für eingeloggte
+  // Admins in die Seite eingesetzt und sind für Besucher weder sichtbar noch im Text.
+  window.hqfMountAdmin = function () {
+    if (!window.hqfLoggedIn()) return false;
+    document.querySelectorAll('template[data-admin]').forEach(function (t) {
+      t.replaceWith(t.content.cloneNode(true));
+    });
+    return true;
+  };
   // Header für Schreibzugriffe: nutzt Login-Token wenn vorhanden, sonst anon
   window.hqfWriteHeaders = function (extra) {
     var h = { apikey: window.SUPABASE_KEY, Authorization: 'Bearer ' + (window._hqfToken || window.SUPABASE_KEY) };

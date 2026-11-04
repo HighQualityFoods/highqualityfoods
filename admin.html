@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Intern | HighQualityFoods</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@600;700&display=swap" rel="stylesheet">
+  <script src="config.js"></script>
+  <script src="db.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; -webkit-font-smoothing: antialiased; }
+    .box { background: #fff; border-radius: 24px; padding: 36px 32px; width: 100%; max-width: 420px; }
+    .logo { font: 700 15px 'Inter Tight', sans-serif; letter-spacing: -.02em; margin-bottom: 28px; display: block; color: #1a2332; text-decoration: none; }
+    h1 { font: 700 26px/1.15 'Inter Tight', sans-serif; letter-spacing: -.03em; margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 500; margin: 14px 0 6px; }
+    input { width: 100%; font: inherit; font-size: 15px; padding: 13px 14px; border: 1px solid transparent; background: #f5f2ec; border-radius: 12px; outline: none; }
+    input:focus { border-color: #1a2332; }
+    button, .tile { font: inherit; }
+    .btn { width: 100%; margin-top: 22px; padding: 14px; border: 0; border-radius: 999px; background: #1a2332; color: #f5f2ec; font-weight: 600; font-size: 15px; cursor: pointer; }
+    .btn:disabled { opacity: .5; cursor: default; }
+    .err { color: #b3261e; font-size: 13px; margin-top: 12px; display: none; }
+    .tiles { display: grid; gap: 10px; margin-top: 8px; }
+    .tile { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #f5f2ec; color: #1a2332; text-decoration: none; font-size: 15px; font-weight: 500; }
+    .tile i { font-size: 20px; color: #6b7f8f; }
+    .tile:hover { background: #e8dfd0; }
+    .muted { color: #6b7f8f; font-size: 13px; line-height: 1.5; margin-top: 18px; }
+    .link { background: none; border: 0; color: #6b7f8f; text-decoration: underline; cursor: pointer; font-size: 13px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <a class="logo" href="index.html">HighQualityFoods</a>
+
+    <form id="login" hidden>
+      <h1>Anmelden</h1>
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" autocomplete="username" required>
+      <label for="pw">Passwort</label>
+      <input type="password" id="pw" autocomplete="current-password" required>
+      <div class="err" id="err">Anmeldung fehlgeschlagen.</div>
+      <button class="btn" id="go" type="submit">Anmelden</button>
+    </form>
+
+    <div id="dash" hidden>
+      <h1>Bearbeiten</h1>
+      <div class="tiles">
+        <a class="tile" href="rezepte.html"><i class="ti ti-tools-kitchen-2"></i>Rezepte &amp; Filter</a>
+        <a class="tile" href="index.html"><i class="ti ti-home"></i>Startseite (Rezept anlegen)</a>
+        <a class="tile" href="blog.html"><i class="ti ti-article"></i>Blog</a>
+        <a class="tile" href="about.html"><i class="ti ti-user"></i>About-Text &amp; Foto</a>
+        <a class="tile" href="ernaehrungsplan.html"><i class="ti ti-inbox"></i>Fragebogen-Anfragen</a>
+        <a class="tile" href="bewertung.html"><i class="ti ti-star"></i>Bewertungen freigeben</a>
+      </div>
+      <p class="muted">Die Anmeldung gilt nur in diesem Tab und läuft nach spätestens einer Stunde ab.</p>
+      <button class="link" id="out" type="button">Abmelden</button>
+    </div>
+  </div>
+
+  <script>
+    const loginEl = document.getElementById('login');
+    const dashEl = document.getElementById('dash');
+    function show() {
+      const ok = window.hqfLoggedIn();
+      loginEl.hidden = ok; dashEl.hidden = !ok;
+      if (!ok) setTimeout(() => document.getElementById('email').focus(), 30);
+    }
+    let fails = 0;
+    loginEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const go = document.getElementById('go'), err = document.getElementById('err');
+      go.disabled = true; err.style.display = 'none';
+      const ok = await window.hqfLogin(document.getElementById('email').value.trim(), document.getElementById('pw').value);
+      document.getElementById('pw').value = '';
+      if (ok) { fails = 0; go.disabled = false; show(); return; }
+      fails++;
+      err.style.display = 'block';
+      // kleine Sperre nach Fehlversuchen (Supabase begrenzt zusätzlich serverseitig)
+      setTimeout(() => { go.disabled = false; }, Math.min(30000, 1000 * Math.pow(2, fails - 1)));
+    });
+    document.getElementById('out').addEventListener('click', () => { window.hqfLogout(); show(); });
+    show();
+  </script>
+</body>
+</html>

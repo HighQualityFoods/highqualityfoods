@@ -548,18 +548,21 @@
   </div>
   <div class="nav-end">
     <div class="nav-right" id="nav-right"><span class="nav-tag"></span>
-    <button class="btn-admin" id="admin-btn" onclick="handleAdminBtn()">Admin</button></div>
+    <template data-admin><button class="btn-admin active" id="admin-btn" onclick="logoutAdmin()">Abmelden</button></template></div>
     <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
   </div>
 </nav>
 
-<div class="admin-banner" id="admin-banner">
+<template data-admin>
+<div class="admin-banner show" id="admin-banner">
   <i class="ti ti-shield-check"></i>
   Admin-Modus — Blogbeiträge schreiben, bearbeiten und löschen
 </div>
+</template>
 
 <div id="page-root"></div>
 
+<template data-admin>
 <!-- Editor modal -->
 <div class="overlay" id="editor-overlay">
   <div class="editor-modal">
@@ -636,19 +639,7 @@
   </div>
 </div>
 
-<!-- Login modal -->
-<div class="overlay" id="login-overlay">
-  <div class="login-modal">
-    <h2>Admin-Login</h2>
-    <input class="login-field" type="password" id="login-pw" placeholder="Passwort"
-      onkeydown="if(event.key==='Enter')doLogin()">
-    <div class="login-error" id="login-error">Falsches Passwort.</div>
-    <div class="login-actions">
-      <button class="btn-primary" onclick="doLogin()">Anmelden</button>
-      <button class="btn-secondary" onclick="closeLogin()">Abbrechen</button>
-    </div>
-  </div>
-</div>
+</template>
 
 <footer class="site-footer">
   <div class="wrap">
@@ -679,8 +670,9 @@
 </footer>
 
 <script>
-  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
-  let isAdmin = false;
+  // Admin-Modus nur nach Login über /admin.html (Token in sessionStorage)
+  let isAdmin = window.hqfMountAdmin();
+  if (isAdmin) document.body.classList.add('admin-mode');
   let editingId = null;
   let coverDataUrl = null;
 
@@ -705,36 +697,9 @@
   }
 
   /* ── Admin auth ── */
-  function handleAdminBtn() { isAdmin ? logoutAdmin() : openLogin(); }
-  function openLogin() {
-    document.getElementById('login-pw').value = '';
-    document.getElementById('login-error').classList.remove('show');
-    document.getElementById('login-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('login-pw').focus(), 50);
-  }
-  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
-  async function doLogin() {
-    const ok = await window.hqfLogin(document.getElementById('login-pw').value);
-    if (ok) {
-      isAdmin = true;
-      closeLogin();
-      document.body.classList.add('admin-mode');
-      document.getElementById('admin-btn').classList.add('active');
-      document.getElementById('admin-btn').textContent = 'Abmelden';
-      document.getElementById('admin-banner').classList.add('show');
-      render();
-    } else {
-      document.getElementById('login-error').classList.add('show');
-    }
-  }
   function logoutAdmin() {
-    isAdmin = false;
-    if (window.hqfLogout) window.hqfLogout();
-    document.body.classList.remove('admin-mode');
-    document.getElementById('admin-btn').classList.remove('active');
-    document.getElementById('admin-btn').textContent = 'Admin';
-    document.getElementById('admin-banner').classList.remove('show');
-    render();
+    window.hqfLogout();
+    location.reload();
   }
 
   /* ── Render ── */
@@ -755,7 +720,7 @@
           <h1>Der <em>Blog</em>.</h1>
           <p>Wissen rund um Ernährung, Darmgesundheit und gutes Essen — verständlich erklärt.</p>
         </div>
-        <button class="btn-new-post" onclick="openEditor()"><i class="ti ti-plus"></i> Neuer Beitrag</button>
+        ${isAdmin ? '<button class="btn-new-post" onclick="openEditor()"><i class="ti ti-plus"></i> Neuer Beitrag</button>' : ''}
       </header>
       <div class="posts-wrap">
         ${posts.length === 0 ? `
@@ -780,10 +745,10 @@
           <div class="post-title">${p.title}</div>
           <div class="post-excerpt">${p.excerpt || ''}</div>
           <a class="post-read-more" href="${postUrl(p)}" style="text-decoration:none;">Weiterlesen <i class="ti ti-arrow-right"></i></a>
-          <div class="post-card-actions">
+          ${isAdmin ? `<div class="post-card-actions">
             <button class="btn-edit-post" onclick="openEditor(${p.id})"><i class="ti ti-pencil"></i> Bearbeiten</button>
             <button class="btn-del-post" onclick="deletePost(${p.id})"><i class="ti ti-trash"></i> Löschen</button>
-          </div>
+          </div>` : ''}
         </div>
         <div class="post-img">
           ${p.img ? `<img src="${p.img}" alt="${p.title}">` : '<i class="ti ti-article" style="font-size:40px;color:#c8c0b4;"></i>'}
@@ -862,10 +827,10 @@
             <i class="ti ti-dots" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="detail-admin-actions">
+        ${isAdmin ? `<div class="detail-admin-actions">
           <button class="btn-edit-post" onclick="openEditor(${p.id})"><i class="ti ti-pencil"></i> Beitrag bearbeiten</button>
           <button class="btn-del-post" onclick="deletePost(${p.id}, true)"><i class="ti ti-trash"></i> Löschen</button>
-        </div>
+        </div>` : ''}
       </div>`;
   }
 
@@ -1124,10 +1089,9 @@
 
   /* ── Keyboard & overlay close ── */
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeEditor(); closeLogin(); }
+    if (e.key === 'Escape' && isAdmin) closeEditor();
   });
-  document.getElementById('login-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLogin(); });
-  document.getElementById('editor-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditor(); });
+  if (isAdmin) document.getElementById('editor-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditor(); });
 
   render();
   (async () => {

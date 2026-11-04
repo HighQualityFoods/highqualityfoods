@@ -960,40 +960,11 @@
     <div class="wordmark">High<span>Quality</span>Foods</div>
     <div class="foot-bottom">
       <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
-      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
     </div>
   </div>
 </footer>
 
-<!-- Login Modal -->
-<div class="overlay" id="login-overlay">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h2>Admin-Login</h2>
-      <button class="modal-close" onclick="closeLogin()" aria-label="Schließen"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="modal-body">
-      <!-- Touch ID button (shown if registered) -->
-      <div id="touchid-section" style="display:none; text-align:center; margin-bottom:20px;">
-        <button class="btn-primary-full" id="touchid-btn" onclick="doTouchIDLogin()" style="background:#1a2332; display:flex; align-items:center; justify-content:center; gap:10px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.243 2 7 4.243 7 7v5c0 2.757 2.243 5 5 5s5-2.243 5-5V7c0-2.757-2.243-5-5-5z"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-          Mit Touch ID einloggen
-        </button>
-        <div id="touchid-err" style="display:none; color:#c05050; font-size:13px; margin-top:10px;">Touch ID fehlgeschlagen.</div>
-        <div style="margin:16px 0; color:rgba(26,35,50,.3); font-size:12px; text-align:center;">— oder mit Passwort —</div>
-      </div>
-      <!-- Password fallback -->
-      <div class="fg">
-        <label>Passwort</label>
-        <input type="password" id="pw-input" placeholder="••••••••"
-               onkeydown="if(event.key==='Enter') doLogin()">
-        <div class="err" id="pw-err">Falsches Passwort. Bitte erneut versuchen.</div>
-      </div>
-      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
-    </div>
-  </div>
-</div>
-
+<template data-admin>
 <!-- Filter Manager Modal -->
 <div class="overlay" id="filter-manager-overlay">
   <div class="modal modal-wide" style="max-width:680px;">
@@ -1104,6 +1075,7 @@
     </div>
   </div>
 </div>
+</template>
 
 <!-- Recipe Detail Overlay -->
 <div class="detail-overlay" id="detail-overlay">
@@ -1111,12 +1083,8 @@
 </div>
 
 <script>
-  // ─────────────────────────────────────────────
-  //  PASSWORT HIER ÄNDERN ↓
-  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
-  // ─────────────────────────────────────────────
-
-  let isAdmin = false;
+  // Admin-Modus nur nach Login über /admin.html (Token in sessionStorage)
+  let isAdmin = window.hqfMountAdmin();
   let editId  = null;
   let imgData = null;
   let activeFilters = new Set();
@@ -1204,107 +1172,13 @@
   }
 
   // ── Auth ──
-  // ── Touch ID / WebAuthn ──
-  const WEBAUTHN_KEY = 'hqf_webauthn_cred';
-
-  function hasWebAuthn() {
-    return window.PublicKeyCredential && typeof window.PublicKeyCredential === 'function';
-  }
-
-  function credCookieGet() {
-    const m = document.cookie.match('(?:^|;)\\s*' + WEBAUTHN_KEY + '=([^;]+)');
-    return m ? decodeURIComponent(m[1]) : null;
-  }
-  function credCookieSet(val) {
-    document.cookie = WEBAUTHN_KEY + '=' + encodeURIComponent(val) + '; max-age=31536000; path=/; SameSite=Strict';
-  }
-
-  function storedCredId() {
-    return credCookieGet() || window.store.getItem(WEBAUTHN_KEY);
-  }
-
-  async function registerTouchID() {
-    if (!hasWebAuthn()) return;
-    try {
-      const cred = await navigator.credentials.create({
-        publicKey: {
-          challenge: crypto.getRandomValues(new Uint8Array(32)),
-          rp: { name: 'HighQualityFoods' },
-          user: { id: new Uint8Array(16), name: 'admin', displayName: 'Admin' },
-          pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
-          authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
-          timeout: 60000
-        }
-      });
-      const val = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
-      credCookieSet(val);
-      window.store.setItem(WEBAUTHN_KEY, val);
-    } catch(e) { /* user declined, no problem */ }
-  }
-
-  async function doTouchIDLogin() {
-    const credIdB64 = storedCredId();
-    if (!credIdB64 || !hasWebAuthn()) return;
-    document.getElementById('touchid-err').style.display = 'none';
-    try {
-      const credId = Uint8Array.from(atob(credIdB64), c => c.charCodeAt(0));
-      await navigator.credentials.get({
-        publicKey: {
-          challenge: crypto.getRandomValues(new Uint8Array(32)),
-          allowCredentials: [{ type: 'public-key', id: credId }],
-          userVerification: 'required',
-          timeout: 60000
-        }
-      });
-      isAdmin = true;
-      closeLogin();
-      updateNav();
-      render();
-    } catch(e) {
-      document.getElementById('touchid-err').style.display = 'block';
-    }
-  }
-
-  function openLogin() {
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-err').style.display = 'none';
-    // Show Touch ID section if registered
-    const tid = document.getElementById('touchid-section');
-    if (hasWebAuthn() && storedCredId()) {
-      tid.style.display = 'block';
-      setTimeout(() => doTouchIDLogin(), 100);
-    } else {
-      tid.style.display = 'none';
-    }
-    document.getElementById('login-overlay').classList.add('open');
-    if (!storedCredId()) setTimeout(() => document.getElementById('pw-input').focus(), 60);
-  }
-  function closeLogin() {
-    document.getElementById('login-overlay').classList.remove('open');
-  }
-  async function doLogin() {
-    const ok = await window.hqfLogin(document.getElementById('pw-input').value);
-    if (ok) {
-      isAdmin = true;
-      closeLogin();
-      updateNav();
-      render();
-    } else {
-      document.getElementById('pw-err').style.display = 'block';
-      document.getElementById('pw-input').value = '';
-      document.getElementById('pw-input').focus();
-    }
-  }
   function logout() {
-    isAdmin = false;
-    if (window.hqfLogout) window.hqfLogout();
-    updateNav();
-    render();
+    window.hqfLogout();
+    location.reload();
   }
 
   function updateNav() {
     const n = document.getElementById('nav-right');
-    const fb = document.getElementById('footer-admin-btn');
     if (isAdmin) {
       n.innerHTML = `
         <span class="admin-badge">Admin</span>
@@ -1317,11 +1191,9 @@
         <button class="btn-logout" onclick="logout()">
           <i class="ti ti-logout"></i> Abmelden
         </button>`;
-      fb.style.display = 'none';
       renderDesignPanel();
     } else {
       n.innerHTML = `<span class="nav-tag">Rezept-Blog</span><button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
-      fb.style.display = 'block';
       document.getElementById('design-panel').classList.remove('open');
     }
   }
@@ -1853,8 +1725,7 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       closeDetail();
-      closeEditor();
-      closeLogin();
+      if (isAdmin) closeEditor();
     }
   });
 

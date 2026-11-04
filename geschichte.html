@@ -199,63 +199,13 @@
     <div class="wordmark">High<span>Quality</span>Foods</div>
     <div class="foot-bottom">
       <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
-      <button id="footer-admin-btn" onclick="openLogin()">Admin</button>
     </div>
   </div>
 </footer>
 
-<!-- Login Modal -->
-<div class="overlay" id="login-overlay">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h2>Admin-Login</h2>
-      <button class="modal-close" onclick="closeLogin()"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="modal-body">
-      <div id="touchid-section" style="display:none; text-align:center; margin-bottom:20px;">
-        <button class="btn-primary-full" onclick="doTouchIDLogin()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.243 2 7 4.243 7 7v5c0 2.757 2.243 5 5 5s5-2.243 5-5V7c0-2.757-2.243-5-5-5z"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-          Mit Touch ID einloggen
-        </button>
-        <div id="touchid-err" style="display:none; color:#c05050; font-size:13px; margin-top:10px;">Touch ID fehlgeschlagen.</div>
-        <div style="margin:16px 0; color:rgba(26,35,50,.3); font-size:12px;">— oder mit Passwort —</div>
-      </div>
-      <div class="fg">
-        <label>Passwort</label>
-        <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
-        <div class="err" id="pw-err">Falsches Passwort.</div>
-      </div>
-      <button class="btn-primary-full" onclick="doLogin()">Einloggen</button>
-    </div>
-  </div>
-</div>
-
-<!-- About Text Editor Modal -->
-<div class="overlay" id="about-editor-overlay">
-  <div class="modal modal-wide">
-    <div class="modal-hdr">
-      <h2>About-Text bearbeiten</h2>
-      <button class="modal-close" onclick="closeAboutEditor()"><i class="ti ti-x"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="fg">
-        <label>Text</label>
-        <textarea id="about-editor-input" placeholder="Schreib hier deinen About-Text…"></textarea>
-      </div>
-    </div>
-    <div class="modal-ftr">
-      <button class="btn-cancel" onclick="closeAboutEditor()">Abbrechen</button>
-      <button class="btn-save" onclick="saveAboutText()">Speichern</button>
-    </div>
-  </div>
-</div>
-
 <script>
-  // Login läuft jetzt über Supabase Auth (window.hqfLogin) — kein Passwort mehr im Code
-  const WEBAUTHN_KEY = 'hqf_webauthn_cred';
   const DEFAULT_TEXT = 'Mein Name ist Leon und ich mache es kurz und knapp. Meine Mom macht sehr gesundes und vor allem leckeres Essen und ich möchte den Rezepten eine Plattform geben und mein Glück teilen. Hier findest du einfache, gesunde, süße, salzige und natürlich sehr leckere Rezepte. Ob Frühstück, Mittag- oder Abendessen oder einen Snack zwischendurch. Das wars schon, viel Spaß beim Zubereiten :)';
 
-  let isAdmin = false;
 
   // ── Render about text ──
   function renderAbout() {
@@ -263,80 +213,8 @@
     document.getElementById('about-text').textContent = text;
   }
 
-  // ── Nav ──
-  function updateNav() {
-    const n = document.getElementById('nav-right');
-    if (isAdmin) {
-      n.innerHTML = `
-        <span class="admin-badge">Admin</span>
-        <button class="btn-edit" onclick="openAboutEditor()"><i class="ti ti-edit"></i> Text bearbeiten</button>
-        <button class="btn-logout" onclick="logout()">Abmelden</button>
-        <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
-      document.getElementById('footer-admin-btn').style.display = 'none';
-    } else {
-      n.innerHTML = `<span class="nav-tag">Rezept-Blog</span><button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menü"><i class="ti ti-menu-2"></i></button>`;
-      document.getElementById('footer-admin-btn').style.display = 'block';
-    }
-  }
-
-  // ── Auth ──
-  function hasWebAuthn() { return window.PublicKeyCredential && typeof window.PublicKeyCredential === 'function'; }
-  function storedCredId() { return localStorage.getItem(WEBAUTHN_KEY); }
-
-  async function doTouchIDLogin() {
-    const credIdB64 = storedCredId();
-    if (!credIdB64 || !hasWebAuthn()) return;
-    document.getElementById('touchid-err').style.display = 'none';
-    try {
-      const credId = Uint8Array.from(atob(credIdB64), c => c.charCodeAt(0));
-      await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), allowCredentials: [{ type: 'public-key', id: credId }], userVerification: 'required', timeout: 60000 } });
-      isAdmin = true; closeLogin(); updateNav();
-    } catch(e) { document.getElementById('touchid-err').style.display = 'block'; }
-  }
-
-  function openLogin() {
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-err').style.display = 'none';
-    const tid = document.getElementById('touchid-section');
-    if (hasWebAuthn() && storedCredId()) { tid.style.display = 'block'; setTimeout(() => doTouchIDLogin(), 100); }
-    else { tid.style.display = 'none'; }
-    document.getElementById('login-overlay').classList.add('open');
-    if (!storedCredId()) setTimeout(() => document.getElementById('pw-input').focus(), 60);
-  }
-  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
-
-  async function doLogin() {
-    const ok = window.hqfLogin ? await window.hqfLogin(document.getElementById('pw-input').value) : false;
-    if (ok) {
-      isAdmin = true; closeLogin(); updateNav();
-    } else {
-      document.getElementById('pw-err').style.display = 'block';
-      document.getElementById('pw-input').value = '';
-      document.getElementById('pw-input').focus();
-    }
-  }
-  function logout() { isAdmin = false; if (window.hqfLogout) window.hqfLogout(); updateNav(); }
-
-  // ── About editor ──
-  function openAboutEditor() {
-    const text = localStorage.getItem('hqf_about') || DEFAULT_TEXT;
-    document.getElementById('about-editor-input').value = text;
-    document.getElementById('about-editor-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('about-editor-input').focus(), 60);
-  }
-  function closeAboutEditor() { document.getElementById('about-editor-overlay').classList.remove('open'); }
-  function saveAboutText() {
-    const text = document.getElementById('about-editor-input').value.trim();
-    if (!text) return;
-    localStorage.setItem('hqf_about', text);
-    renderAbout();
-    closeAboutEditor();
-  }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLogin(); closeAboutEditor(); } });
 
   renderAbout();
-  updateNav();
 </script>
 </body>
 </html>
