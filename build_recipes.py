@@ -102,6 +102,7 @@ FOOTER = '''<footer class="site-footer">
           <a href="/blog.html">Blog</a>
           <a href="/about.html">About</a>
           <a href="/ernaehrungsplan.html">Ernährungsplan</a>
+          <a href="/ernaehrungsplan-taunusstein.html">Ernährungsplan Taunusstein</a>
         </div>
         <div class="foot-col">
           <h4>Folgen</h4>
@@ -452,6 +453,7 @@ def main():
         ('/', 'weekly', '1.0'),
         ('/rezepte.html', 'weekly', '0.9'),
         ('/ernaehrungsplan.html', 'monthly', '0.8'),
+        ('/ernaehrungsplan-taunusstein.html', 'monthly', '0.8'),
         ('/blog.html', 'weekly', '0.8'),
         ('/about.html', 'monthly', '0.5'),
     ]
