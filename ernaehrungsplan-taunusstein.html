@@ -92,7 +92,7 @@
     .lp { max-width: 1080px; margin: 0 auto; padding: 40px 32px 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 
     /* Hero */
-    .lp-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; margin-bottom: 44px; }
+    .lp-hero { max-width: 760px; margin-bottom: 44px; }
     .lp-hero .kicker { margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .lp-hero h1 { font: 700 clamp(40px, 6vw, 76px)/1.02 var(--head); letter-spacing: -.04em; margin-bottom: 22px; text-wrap: balance; }
     .lp-hero p { font-size: 18px; line-height: 1.65; color: var(--ink-soft); max-width: 540px; }
@@ -101,8 +101,6 @@
     .nw { white-space: nowrap; }
     .lp-cta { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .lp-note { margin-top: 12px; font-size: 13.5px; color: var(--ink-soft); }
-    .lp-photo { border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(26,35,50,.45); aspect-ratio: 4 / 5; max-width: 100%; }
-    .lp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     /* Cards */
     .lp-card { background: #fff; border-radius: var(--radius); padding: 48px; min-width: 0; }
@@ -168,8 +166,6 @@
     body #hqf-partners .hqf-p-card { border-radius: 20px; box-shadow: none; border: 1px solid var(--line); }
 
     @media (max-width: 900px) {
-      .lp-hero { grid-template-columns: 1fr; gap: 32px; }
-      .lp-photo { max-width: 440px; aspect-ratio: 4 / 3; }
       .lp-steps { grid-template-columns: 1fr 1fr; }
       .why-included { grid-template-columns: 1fr; gap: 28px; }
       .why-included .inc-imgs { grid-template-columns: 1fr 1fr; max-width: 520px; }
@@ -215,9 +211,6 @@
         <a class="btn btn-soft" href="#beispiel">Beispielplan ansehen</a>
       </div>
       <div class="lp-note">Dauert 1 Minute und ist unverbindlich. Du zahlst erst nach meinem Angebot.</div>
-    </div>
-    <div class="lp-photo">
-      <img src="img/hqf-mappe-foto.jpg" alt="Die HighQualityFoods-Mappe mit dem gedruckten 4-Wochen-Ernährungsplan">
     </div>
   </section>
 
