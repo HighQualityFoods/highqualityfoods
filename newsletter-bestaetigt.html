@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Du bist dabei! | HighQualityFoods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+    nav { background: #f5f2ec; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+    .logo { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+  </style>
+  <script src="/consent.js" defer></script>
+  <script src="/social.js" defer></script>
+  <script src="/nav.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    .ok { max-width: 980px; margin: 0 auto; padding: 48px 32px 24px; }
+    .ok-hero { background: var(--ink); color: #fff; border-radius: var(--radius); padding: 64px 56px; position: relative; overflow: hidden; }
+    .ok-hero .badge { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: var(--ink); display: grid; place-items: center; font-size: 34px; margin-bottom: 28px; }
+    .ok-hero .kicker { color: var(--accent-light); margin-bottom: 14px; }
+    .ok-hero h1 { font: 700 clamp(44px, 7vw, 88px)/1 var(--head); letter-spacing: -.045em; }
+    .ok-hero h1 span { color: var(--accent-light); }
+    .ok-hero p { margin-top: 22px; max-width: 560px; font-size: 18px; line-height: 1.65; opacity: .78; }
+    .ok-hero::after { content: ''; position: absolute; right: -120px; top: -120px; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, rgba(143,168,184,.35), transparent 70%); pointer-events: none; }
+
+    .ok-next { margin-top: 48px; }
+    .ok-next h2 { font: 700 clamp(28px, 3.4vw, 40px)/1.05 var(--head); letter-spacing: -.035em; margin: 12px 0 24px; }
+    .ok-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ok-card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 10px; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+    .ok-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(26,35,50,.35); }
+    .ok-card i.ico { width: 48px; height: 48px; border-radius: 14px; background: var(--bg); display: grid; place-items: center; font-size: 24px; margin-bottom: 8px; }
+    .ok-card h3 { font: 700 22px/1.15 var(--head); letter-spacing: -.02em; }
+    .ok-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.55; flex: 1; }
+    .ok-card .go { font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; }
+    .ok-card.dark { background: var(--accent); border-color: transparent; }
+    .ok-card.dark i.ico { background: rgba(255,255,255,.45); }
+    .ok-card.dark p { color: var(--ink); opacity: .75; }
+
+    @media (max-width: 820px) {
+      .ok { padding: 16px 16px 8px; }
+      .ok-hero { padding: 44px 24px; }
+      .ok-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">HighQualityFoods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="ernaehrungsplan.html">Ernährungsplan</a>
+  </div>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
+  </div>
+</nav>
+
+<main class="ok">
+  <section class="ok-hero">
+    <div class="badge"><i class="ti ti-check"></i></div>
+    <div class="kicker">Anmeldung bestätigt</div>
+    <h1>Du bist dabei! <span>🎉</span></h1>
+    <p>Danke fürs Bestätigen. Ab jetzt bekommst du einmal pro Woche neue Inspiration von mir: ein frisches Rezept, Tipps für deinen Alltag und exklusive Rabatte.</p>
+  </section>
+
+  <section class="ok-next">
+    <div class="kicker">Bis dahin</div>
+    <h2>Worauf hast du Lust?</h2>
+    <div class="ok-grid">
+      <a class="ok-card" href="rezepte.html">
+        <i class="ti ti-tools-kitchen-2 ico"></i>
+        <h3>Rezepte entdecken</h3>
+        <p>Über 30 Gerichte mit echten Zutaten, in 5 bis 30 Minuten gekocht.</p>
+        <span class="go">Zu den Rezepten <i class="ti ti-arrow-right"></i></span>
+      </a>
+      <a class="ok-card" href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">
+        <i class="ti ti-brand-instagram ico"></i>
+        <h3>Auf Instagram folgen</h3>
+        <p>Neue Reels, schnelle Ideen und ein Blick hinter die Kulissen.</p>
+        <span class="go">@highqualityfoods.de <i class="ti ti-arrow-right"></i></span>
+      </a>
+      <a class="ok-card dark" href="ernaehrungsplan.html">
+        <i class="ti ti-notebook ico"></i>
+        <h3>Dein Ernährungsplan</h3>
+        <p>Ein 4-Wochen-Plan, den ich persönlich für dich schreibe, als Mappe per Post.</p>
+        <span class="go">Mehr erfahren <i class="ti ti-arrow-right"></i></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="rezepte.html">Rezepte</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+          <a href="ernaehrungsplan.html">Ernährungsplan</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

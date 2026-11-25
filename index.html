@@ -418,6 +418,7 @@
   <script src="/consent.js" defer></script>
   <script src="/social.js" defer></script>
   <script src="/nav.js" defer></script>
+  <script src="/newsletter.js" defer></script>
 </head>
 <body class="home">
 
@@ -476,6 +477,29 @@
   </div>
   <div class="wrap" style="margin-top:32px;">
     <a href="rezepte.html" class="btn btn-dark">Alle Rezepte ansehen <i class="ti ti-arrow-right"></i></a>
+  </div>
+</section>
+
+<section id="newsletter" style="padding-top:0;">
+  <div class="wrap">
+    <div class="nl-box reveal">
+      <div>
+        <div class="kicker">HQF Newsletter</div>
+        <h2>Einmal pro Woche<br>neue Inspiration.</h2>
+        <p>Jede Woche ein frisches Rezept, Tipps für deinen Alltag &amp; exklusive Rabatte. Direkt in dein Postfach, kein Spam.</p>
+      </div>
+      <form class="hqf-nl-form" data-source="home" method="POST" action="https://43f1c560.sibforms.com/serve/MUIFAAKjwWws1BduO3Q0io_Eps5tbEMic8koIqJdPiS1JraQJ_squCUlaS33m2ztMG-2smj3Hg8GV-8Dj8n6DhmtesI4gFcHvXxpHPG-uISXbdQSjVWNY86gzgSNO-Whq2jVT3Q-eImsfgqpKRp0-uRcPLzcjlEP9MSMwl-Ux9P8DzNfpLkuT7gDi25S2JbQZr_x9T6HIIJjVXyaKQ==">
+        <div class="nl-row">
+          <label for="nl-email-home" class="sr-only" style="position:absolute;left:-9999px;">Deine E-Mail-Adresse</label>
+          <input type="email" id="nl-email-home" name="EMAIL" placeholder="Deine E-Mail-Adresse" autocomplete="email" required>
+          <button type="submit" class="btn btn-accent">Eintragen <i class="ti ti-arrow-right"></i></button>
+        </div>
+        <input type="text" name="email_address_check" value="" class="nl-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="locale" value="de">
+        <p class="nl-legal">Mit der Anmeldung willigst du ein, den HQF Newsletter zu erhalten. Abmeldung jederzeit über den Link in jeder Mail. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>.</p>
+        <div class="hqf-nl-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
   </div>
 </section>
 
