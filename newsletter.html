@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter: Einmal pro Woche neue Inspiration | HighQualityFoods</title>
+  <meta name="description" content="Der HQF Newsletter: einmal pro Woche ein neues Rezept, Tipps für deinen Alltag und exklusive Rabatte. Kostenlos und jederzeit abbestellbar.">
+  <link rel="canonical" href="https://highqualityfoods.de/newsletter.html">
+  <meta property="og:title" content="HQF Newsletter: Einmal pro Woche neue Inspiration">
+  <meta property="og:description" content="Jede Woche ein neues Rezept, Tipps & exklusive Rabatte. Kostenlos.">
+  <meta property="og:url" content="https://highqualityfoods.de/newsletter.html">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f2ec; color: #1a2332; min-height: 100vh; }
+    nav { background: #f5f2ec; padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+    .logo { font-family: 'Inter Tight', 'Inter', sans-serif; font-size: 20px; color: #1a2332; text-decoration: none; }
+  </style>
+  <script src="/consent.js" defer></script>
+  <script src="/social.js" defer></script>
+  <script src="/nav.js" defer></script>
+  <script src="/newsletter.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    .nlp { max-width: 1100px; margin: 0 auto; padding: 40px 32px 0; }
+
+    /* Kopf mit Formular */
+    .nlp-hero { background: var(--ink); color: #fff; border-radius: var(--radius); padding: 64px 56px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; position: relative; overflow: hidden; }
+    .nlp-hero::after { content: ''; position: absolute; right: -140px; top: -140px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(143,168,184,.35), transparent 70%); pointer-events: none; }
+    .nlp-hero .kicker { color: var(--accent-light); margin-bottom: 16px; }
+    .nlp-hero h1 { font: 700 clamp(44px, 6.6vw, 84px)/1 var(--head); letter-spacing: -.045em; }
+    .nlp-hero h1 span { color: var(--accent-light); }
+    .nlp-hero .lead { margin-top: 20px; font-size: 18px; line-height: 1.6; opacity: .78; max-width: 460px; }
+    .nlp-proof { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .nlp-proof span { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.08); border-radius: 999px; padding: 8px 14px; font-size: 14px; }
+    .nlp-hero .hqf-nl-form { position: relative; z-index: 1; }
+    .nlp-hero .nl-legal { opacity: .6; }
+
+    /* Was drin ist */
+    .nlp-sec { margin-top: 64px; }
+    .nlp-sec > .kicker { margin-bottom: 12px; }
+    .nlp-sec > h2 { font: 700 clamp(32px, 4.2vw, 52px)/1.02 var(--head); letter-spacing: -.04em; margin-bottom: 28px; max-width: 700px; }
+    .nlp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .nlp-card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+    .nlp-card .ico { width: 48px; height: 48px; border-radius: 14px; background: var(--bg); display: grid; place-items: center; font-size: 24px; margin-bottom: 16px; }
+    .nlp-card h3 { font: 700 22px/1.15 var(--head); letter-spacing: -.02em; margin-bottom: 8px; }
+    .nlp-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.6; }
+    .nlp-card.hi { background: var(--accent); border-color: transparent; }
+    .nlp-card.hi .ico { background: rgba(255,255,255,.45); }
+    .nlp-card.hi p { color: var(--ink); opacity: .75; }
+
+    /* Fragen */
+    .nlp-faq { display: grid; gap: 10px; max-width: 760px; }
+    .nlp-faq details { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 22px; }
+    .nlp-faq summary { cursor: pointer; font-weight: 600; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    .nlp-faq summary::-webkit-details-marker { display: none; }
+    .nlp-faq summary::after { content: '+'; font-size: 22px; line-height: 1; color: var(--ink-soft); }
+    .nlp-faq details[open] summary::after { content: '–'; }
+    .nlp-faq p { margin-top: 10px; color: var(--ink-soft); line-height: 1.6; }
+
+    .nlp-again { margin-top: 64px; }
+
+    @media (max-width: 860px) {
+      .nlp { padding: 12px 16px 0; }
+      .nlp-hero { grid-template-columns: 1fr; padding: 40px 22px 32px; gap: 28px; border-radius: 26px; }
+      .nlp-hero .lead { font-size: 17px; }
+      .nlp-grid { grid-template-columns: 1fr; }
+      .nlp-sec { margin-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">HighQualityFoods</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="rezepte.html">Rezepte</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="ernaehrungsplan.html">Ernährungsplan</a>
+  </div>
+  <div class="nav-end">
+    <div class="nav-right" id="nav-right"><span class="nav-tag"></span></div>
+    <a href="ernaehrungsplan.html" class="btn btn-accent nav-cta">Plan anfragen</a>
+  </div>
+</nav>
+
+<main class="nlp">
+  <section class="nlp-hero">
+    <div>
+      <div class="kicker">HQF Newsletter</div>
+      <h1>Einmal pro Woche<br><span>neue Inspiration.</span></h1>
+      <p class="lead">Jede Woche ein frisches Rezept, Tipps für deinen Alltag und exklusive Rabatte. Direkt in dein Postfach, kostenlos und ohne Spam.</p>
+      <div class="nlp-proof">
+        <span><i class="ti ti-calendar-week"></i> 1 Mail pro Woche</span>
+        <span><i class="ti ti-gift"></i> Kostenlos</span>
+        <span><i class="ti ti-x"></i> Jederzeit abmeldbar</span>
+      </div>
+    </div>
+    <form class="hqf-nl-form" data-source="newsletter-seite" method="POST" action="https://43f1c560.sibforms.com/serve/MUIFAAKjwWws1BduO3Q0io_Eps5tbEMic8koIqJdPiS1JraQJ_squCUlaS33m2ztMG-2smj3Hg8GV-8Dj8n6DhmtesI4gFcHvXxpHPG-uISXbdQSjVWNY86gzgSNO-Whq2jVT3Q-eImsfgqpKRp0-uRcPLzcjlEP9MSMwl-Ux9P8DzNfpLkuT7gDi25S2JbQZr_x9T6HIIJjVXyaKQ==">
+      <div class="nl-row">
+        <label for="nl-email-page" style="position:absolute;left:-9999px;">Deine E-Mail-Adresse</label>
+        <input type="email" id="nl-email-page" name="EMAIL" placeholder="Deine E-Mail-Adresse" autocomplete="email" required>
+        <button type="submit" class="btn btn-accent">Eintragen <i class="ti ti-arrow-right"></i></button>
+      </div>
+      <input type="text" name="email_address_check" value="" class="nl-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="locale" value="de">
+      <p class="nl-legal">Mit der Anmeldung willigst du ein, den HQF Newsletter zu erhalten. Abmeldung jederzeit über den Link in jeder Mail. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>.</p>
+      <div class="hqf-nl-msg" role="status" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <section class="nlp-sec">
+    <div class="kicker">Das steckt drin</div>
+    <h2>Kurz, persönlich und zum Nachkochen.</h2>
+    <div class="nlp-grid">
+      <div class="nlp-card">
+        <div class="ico"><i class="ti ti-tools-kitchen-2"></i></div>
+        <h3>Rezept der Woche</h3>
+        <p>Ein neues Gericht mit echten Zutaten, in 5 bis 30 Minuten gekocht, mit allen Nährwerten.</p>
+      </div>
+      <div class="nlp-card">
+        <div class="ico"><i class="ti ti-bulb"></i></div>
+        <h3>Tipp der Woche</h3>
+        <p>Kleine Tricks für den Alltag: Mealprep, Einkaufen, Essen unterwegs und vor dem Training.</p>
+      </div>
+      <div class="nlp-card hi">
+        <div class="ico"><i class="ti ti-discount"></i></div>
+        <h3>Exklusive Rabatte</h3>
+        <p>Ab und zu Aktionen, die es nur im Newsletter gibt, zum Beispiel auf deinen Ernährungsplan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="nlp-sec">
+    <div class="kicker">Fragen</div>
+    <h2>Gut zu wissen.</h2>
+    <div class="nlp-faq">
+      <details>
+        <summary>Wie oft bekomme ich Mails?</summary>
+        <p>Einmal pro Woche. Dazu kommt nach der Anmeldung eine Bestätigungsmail und eine kurze Willkommensmail.</p>
+      </details>
+      <details>
+        <summary>Kostet der Newsletter etwas?</summary>
+        <p>Nein, der Newsletter ist komplett kostenlos.</p>
+      </details>
+      <details>
+        <summary>Warum muss ich meine Anmeldung bestätigen?</summary>
+        <p>Damit niemand fremde Adressen eintragen kann. Nach dem Eintragen bekommst du eine Mail mit einem Button. Erst wenn du draufklickst, bist du dabei. Schau auch im Spam-Ordner nach, falls sie nicht ankommt.</p>
+      </details>
+      <details>
+        <summary>Wie melde ich mich wieder ab?</summary>
+        <p>In jeder Mail steht unten ein Abmeldelink. Ein Klick, und du bekommst nichts mehr. Alternativ schreib mir an <a href="mailto:kontakt@highqualityfoods.de" style="color:inherit;">kontakt@highqualityfoods.de</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="nlp-again">
+    <div class="nl-box">
+      <div>
+        <div class="kicker">Bereit?</div>
+        <h2>Ab nächster Woche<br>in deinem Postfach.</h2>
+      </div>
+      <form class="hqf-nl-form" data-source="newsletter-seite-unten" method="POST" action="https://43f1c560.sibforms.com/serve/MUIFAAKjwWws1BduO3Q0io_Eps5tbEMic8koIqJdPiS1JraQJ_squCUlaS33m2ztMG-2smj3Hg8GV-8Dj8n6DhmtesI4gFcHvXxpHPG-uISXbdQSjVWNY86gzgSNO-Whq2jVT3Q-eImsfgqpKRp0-uRcPLzcjlEP9MSMwl-Ux9P8DzNfpLkuT7gDi25S2JbQZr_x9T6HIIJjVXyaKQ==">
+        <div class="nl-row">
+          <label for="nl-email-page2" style="position:absolute;left:-9999px;">Deine E-Mail-Adresse</label>
+          <input type="email" id="nl-email-page2" name="EMAIL" placeholder="Deine E-Mail-Adresse" autocomplete="email" required>
+          <button type="submit" class="btn btn-accent">Eintragen <i class="ti ti-arrow-right"></i></button>
+        </div>
+        <input type="text" name="email_address_check" value="" class="nl-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="locale" value="de">
+        <p class="nl-legal">Mit der Anmeldung willigst du ein, den HQF Newsletter zu erhalten. Abmeldung jederzeit über den Link in jeder Mail. Mehr in der <a href="impressum.html#datenschutz">Datenschutzerklärung</a>.</p>
+        <div class="hqf-nl-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <p class="foot-tag">Gesunde, alltagstaugliche Rezepte mit echten Zutaten — einfach erklärt und mit Liebe gemacht.</p>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Entdecken</h4>
+          <a href="rezepte.html">Rezepte</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+          <a href="ernaehrungsplan.html">Ernährungsplan</a>
+          <a href="newsletter.html">Newsletter</a>
+        </div>
+        <div class="foot-col">
+          <h4>Folgen</h4>
+          <a href="https://www.instagram.com/highqualityfoods.de/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@highqualityfoods" target="_blank" rel="noopener">TikTok</a>
+          <a href="mailto:kontakt@highqualityfoods.de">E-Mail</a>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark">High<span>Quality</span>Foods</div>
+    <div class="foot-bottom">
+      <span>© 2026 HighQualityFoods — Mit Liebe gemacht. &nbsp;·&nbsp; <a href="impressum.html">Impressum &amp; Datenschutz</a> &nbsp;·&nbsp; <a href="agb.html">AGB &amp; Widerruf</a> &nbsp;·&nbsp; <a href="#" onclick="hqfCookieSettings();return false;">Cookie-Einstellungen</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
